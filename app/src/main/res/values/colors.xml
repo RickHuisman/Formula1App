@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1B1B1B</color>
+    <color name="colorPrimaryDark">#171717</color>
+    <color name="colorPrimaryLight">#282828</color>
+    <color name="colorAccent">#67e680</color>
+
+    <!-- Team colors -->
+    <color name="colorMercedes">#00D2BE</color>
+    <color name="colorFerrari">#DC0000</color>
+    <color name="colorRedBull">#00327D</color>
+    <color name="colorForceIndia">#F596C8</color>
+    <color name="colorWilliams">#ffffff</color>
+    <color name="colorRenault">#FFF500</color>
+    <color name="colorToroRosso">#0032FF</color>
+    <color name="colorHaas">#5A5A5A</color>
+    <color name="colorMcLaren">#FF8700</color>
+    <color name="colorSauber">#9B0000</color>
+</resources>

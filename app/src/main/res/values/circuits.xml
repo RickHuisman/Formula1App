@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="round_1">@drawable/ci_circuit_albert_park</drawable>
+    <drawable name="round_2">@drawable/ci_bahrein_international_circuit</drawable>
+    <drawable name="round_3">@drawable/ci_shanghai_international_circuit</drawable>
+    <drawable name="round_4">@drawable/ci_circuit_baku</drawable>
+    <drawable name="round_5">@drawable/ci_circuit_de_barcelona_catalunya</drawable>
+    <drawable name="round_6">@drawable/ci_circuit_de_monaco</drawable>
+    <drawable name="round_7">@drawable/ci_circuit_gilles_villeneuve</drawable>
+    <drawable name="round_8">@drawable/ci_paul_ricard</drawable>
+    <drawable name="round_9">@drawable/ci_red_bull_ring</drawable>
+    <drawable name="round_10">@drawable/ci_silverstone_circuit</drawable>
+    <drawable name="round_11">@drawable/ci_circuit_hockenheimring</drawable>
+    <drawable name="round_12">@drawable/ci_hungaroring</drawable>
+    <drawable name="round_13">@drawable/ci_circuit_spa_francorchamps</drawable>
+    <drawable name="round_14">@drawable/ci_autodromo_nazionale_monza</drawable>
+    <drawable name="round_15">@drawable/ci_marina_bay_circuit</drawable>
+    <drawable name="round_16">@drawable/ci_circuit_sochi</drawable>
+    <drawable name="round_17">@drawable/ci_suzuka_international_racing_course</drawable>
+    <drawable name="round_18">@drawable/ci_austin_circuit</drawable>
+    <drawable name="round_19">@drawable/ci_autodromo_hermanos_rodriguez</drawable>
+    <drawable name="round_20">@drawable/ci_circuit_interlagos</drawable>
+    <drawable name="round_21">@drawable/ci_yas_marina_circuit</drawable>
+</resources>

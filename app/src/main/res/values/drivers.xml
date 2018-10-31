@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lewis_hamilton">@color/colorMercedes</color>
+    <color name="valtteri_bottas">@color/colorMercedes</color>
+    <color name="sebastian_vettel">@color/colorFerrari</color>
+    <color name="kimi_räikkönen">@color/colorFerrari</color>
+    <color name="max_verstappen">@color/colorRedBull</color>
+    <color name="daniel_ricciardo">@color/colorRedBull</color>
+    <color name="nico_hülkenberg">@color/colorRenault</color>
+    <color name="carlos_sainz">@color/colorRenault</color>
+    <color name="kevin_magnussen">@color/colorHaas</color>
+    <color name="romain_grosjean">@color/colorHaas</color>
+    <color name="sergio_pérez">@color/colorForceIndia</color>
+    <color name="esteban_ocon">@color/colorForceIndia</color>
+    <color name="charles_leclerc">@color/colorSauber</color>
+    <color name="marcus_ericsson">@color/colorSauber</color>
+    <color name="fernando_alonso">@color/colorMcLaren</color>
+    <color name="stoffel_vandoorne">@color/colorMcLaren</color>
+    <color name="pierre_gasly">@color/colorToroRosso</color>
+    <color name="brendon_hartley">@color/colorToroRosso</color>
+    <color name="lance_stroll">@color/colorWilliams</color>
+    <color name="sergey_sirotkin">@color/colorWilliams</color>
+</resources>
