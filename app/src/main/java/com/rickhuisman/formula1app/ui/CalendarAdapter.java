@@ -16,13 +16,11 @@ import android.widget.TextView;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Races;
 
-import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,7 +28,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
     private List<Races> mRaceSchedule = new ArrayList<>();
     private int mResultCount;
-    private int mNextRace;
 
     public CalendarAdapter(Context context) {
         this.mContext = context;
@@ -40,7 +37,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int position) {
         int view = 0;
 
-        if ((mNextRace - 1) == position)
+        if ((getNextRound() - 1) == position)
             view = 1;
 
         return view;
@@ -49,95 +46,95 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            return new CalendarHolder(
-                    LayoutInflater.from(parent.getContext())
-                            .inflate(R.layout.item_test, parent, false));
-        } else {
-            return new Calendar2Holder(
-                    LayoutInflater.from(parent.getContext())
+        RecyclerView.ViewHolder viewHolder = new CalendarHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_race, parent, false));
+
+        if (viewType == 1) {
+            viewHolder = new NextRaceHolder(LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.item_next_race, parent, false));
         }
+
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Races race = mRaceSchedule.get(position);
-
         switch (holder.getItemViewType()) {
             case 0:
-                CalendarHolder calendarHolder = (CalendarHolder) holder;
-
-                calendarHolder.textViewRaceName.setText(race.getRaceName());
-                calendarHolder.textViewCircuitName.setText(race.getCircuit().getCircuitName());
-                calendarHolder.imageViewCircuitMap.setImageDrawable(mContext.getDrawable(
-                        getResourceId(
-                                "round_",
-                                "4",
-                                "drawable")));
-
-                calendarHolder.textViewRaceDate.setText(getTime(position));
-
-                // Past race
-                if (position < mResultCount)
-                    pastRace(calendarHolder, position);
-
-
+                pastRace((CalendarHolder) holder);
                 break;
-
             case 1:
-                Calendar2Holder calendar2Holder = (Calendar2Holder) holder;
-                calendar2Holder.textViewRaceName.setText(race.getRaceName());
-                calendar2Holder.textViewRaceName.setText(race.getRaceName());
-                calendar2Holder.textViewCircuitName.setText(race.getCircuit().getCircuitName());
-                calendar2Holder.imageViewCircuitMap.setImageDrawable(mContext.getDrawable(
-                        getResourceId(
-                                "round_",
-                                "4",
-                                "drawable")));
-
-                calendar2Holder.textViewRaceDate.setText(getTime(position));
+                nextRace((NextRaceHolder) holder);
                 break;
         }
     }
 
-    private String getTime(int position) {
-        String date = "";
-        Calendar raceDate = Calendar.getInstance();
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-            raceDate.setTime(sdf.parse(
-                    mRaceSchedule.get(position).getDate() + " " +
-                            mRaceSchedule.get(position).getTime()));
+    private void pastRace(CalendarHolder holder) {
+        int position = holder.getAdapterPosition();
+        Races race = mRaceSchedule.get(position);
 
+        holder.textViewRaceName.setText(race.getRaceName());
+        holder.textViewCircuitName.setText(race.getCircuit().getCircuitName());
+        holder.textViewRaceDate.setText(getRaceDate(position));
+        holder.imageViewCircuitMap.setImageDrawable(mContext.getDrawable(
+                getResourceId(
+                        "circuit_",
+                        "4",
+                        "drawable")));
+
+        // Get colored background
+        if (position < mResultCount)
+            setColoredBackground(holder);
+
+        int teamColorId = getResourceId(
+                "color",
+                "Mercedes",
+                "color");
+
+        setTextColors(holder, teamColorId);
+    }
+
+    private void nextRace(NextRaceHolder holder) {
+        int position = holder.getAdapterPosition();
+        Races race = mRaceSchedule.get(position);
+
+        holder.textViewRaceName.setText(race.getRaceName());
+        holder.textViewCircuitName.setText(race.getCircuit().getCircuitName());
+        holder.textViewRaceDate.setText(getRaceDate(position));
+        holder.imageViewCircuitMap.setImageDrawable(mContext.getDrawable(
+                getResourceId("circuit_","4","drawable")));
+    }
+
+    private String getRaceDate(int round) {
+        String raceDate;
+        Calendar calendar = Calendar.getInstance();
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+            calendar.setTime(dateFormat.parse(
+                    mRaceSchedule.get(round).getDate() + " " +
+                            mRaceSchedule.get(round).getTime()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        date = raceDate.get(Calendar.DAY_OF_MONTH) + " " +
-                raceDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH) + " " +
-                raceDate.get(Calendar.HOUR_OF_DAY) + ":" + raceDate.get(Calendar.MINUTE);
+        raceDate = calendar.get(Calendar.DAY_OF_MONTH) + " " +
+                calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH) + " " +
+                calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
 
-        return date.toLowerCase();
+        return raceDate.toLowerCase();
     }
 
-    private void pastRace(CalendarHolder holder, int pos) {
+    private void setColoredBackground(CalendarHolder holder) {
+        String team = mRaceSchedule.get(holder.getAdapterPosition()).getResults()
+                .get(0).getConstructor().getName().replace(" ", "");
+
         GradientDrawable background = (GradientDrawable) holder.itemHolder.getBackground().mutate();
-
-        String constructor = mRaceSchedule.get(pos).getResults().get(0).getConstructor().getName().replace(" ", "");
-        int teamColorId = getResourceId(
-                "color",
-                constructor,
-                "color"
-        );
-
-        background.setColor(
-                ColorStateList.valueOf(mContext.getColor(teamColorId)));
-
-        test(holder, teamColorId);
+        background.setColor(ColorStateList.valueOf(
+                mContext.getColor(getTeamColorId(team))));
     }
 
-    private void test(CalendarHolder holder, int teamColorId) {
+    private void setTextColors(CalendarHolder holder, int teamColorId) {
         String colorResource = "#" + Integer.toHexString(ContextCompat.getColor(mContext, teamColorId))
                 .substring(2, 8);
 
@@ -147,20 +144,26 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.imageViewCircuitMap.setColorFilter(blackOrWhiteText(colorResource));
     }
 
-    private int blackOrWhiteText(String colorId) {
-        // Base white color
-        int textColor = mContext.getColor(R.color.colorWilliams);
+    private int getTeamColorId(String team) {
+        return getResourceId(
+                "color",
+                team,
+                "color");
+    }
 
-        int redInt = Integer.parseInt(
+    private int blackOrWhiteText(String colorId) {
+        int textColor;
+
+        int red = Integer.parseInt(
                 colorId.substring(1, 3), 16);
-        int greenInt = Integer.parseInt(
+        int green = Integer.parseInt(
                 colorId.substring(3, 5), 16);
-        int blueInt = Integer.parseInt(
+        int blue = Integer.parseInt(
                 colorId.substring(5, 7), 16);
 
-        double test = (redInt * 0.299) + (greenInt * 0.587) + (blueInt * 0.114);
+        double test = (red * 0.299) + (green * 0.587) + (blue * 0.114);
 
-        if (test > 186) {
+        if (test > 140) {
             textColor = mContext.getColor(R.color.colorPrimaryDark);
         } else {
             textColor = mContext.getColor(R.color.colorWilliams);
@@ -189,8 +192,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 mResultCount += 1;
         }
 
-        mNextRace = getNextRound();
-
         notifyDataSetChanged();
     }
 
@@ -198,7 +199,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int nextRound = 0;
         try {
             for (int i = 0; i < mRaceSchedule.size(); i++) {
-
                 Date raceDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(
                         mRaceSchedule.get(i).getDate() + " " + mRaceSchedule.get(i).getTime());
 
@@ -235,13 +235,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    class Calendar2Holder extends RecyclerView.ViewHolder {
+    class NextRaceHolder extends RecyclerView.ViewHolder {
         private TextView textViewRaceName;
         private TextView textViewCircuitName;
         private TextView textViewRaceDate;
         private ImageView imageViewCircuitMap;
 
-        public Calendar2Holder(View itemView) {
+        public NextRaceHolder(View itemView) {
             super(itemView);
             textViewRaceName = itemView.findViewById(R.id.race_name_text_view);
             textViewCircuitName = itemView.findViewById(R.id.circuit_name_text_view);

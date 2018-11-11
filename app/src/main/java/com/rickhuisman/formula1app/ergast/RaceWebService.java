@@ -16,6 +16,6 @@ public interface RaceWebService {
 
     // Race Results
     @Headers("Content-Type: application/json")
-    @GET("api/f1/2018/results/{round}.json")
-    Observable<Feed> getRaceResults(@Path("round") String grid);
+    @GET("api/f1/2018/results.json?limit=500")
+    Observable<Feed> getRaceResults();
 }

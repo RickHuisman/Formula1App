@@ -11,7 +11,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="BottomNavigationBar">
+    <style name="BottomNavigation">
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="itemIconTint">@drawable/navigation_bar_icon</item>
     </style>
@@ -27,29 +27,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="TextRegularBodyItalic" parent="TextRegularBody">
-        <item name="android:fontFamily">@font/chivo_italic</item>
-    </style>
-
-    <style name="TextRegularBody2">
-        <item name="android:fontFamily">@font/chivo_regular</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <!--<style name="TextHeader">-->
-        <!--<item name="android:fontFamily">@font/chivo_bold</item>-->
-        <!--<item name="android:textSize">18sp</item>-->
-    <!--</style>-->
-
     <style name="TextHeader">
         <item name="android:fontFamily">@font/raleway_medium</item>
         <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="TextBodyBold">
-        <item name="android:fontFamily">@font/chivo_bold</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:letterSpacing">0.05</item>
     </style>
 
 </resources>

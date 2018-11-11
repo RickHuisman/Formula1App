@@ -20,31 +20,31 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class CalendarViewModel extends AndroidViewModel {
-    private static final String TAG = "CalendarViewModel";
+public class ScheduleViewModel extends AndroidViewModel {
+    private static final String TAG = "ScheduleViewModel";
 
     private LiveData<Feed> mRaceSchedule = new MutableLiveData<>();
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
-    public CalendarViewModel(@NonNull Application application) {
+    public ScheduleViewModel(@NonNull Application application) {
         super(application);
         ErgastRepository ergastRepository = new ErgastRepository();
 
         // Zip Race Schedule and Race Winner Observables
         Observable<Feed> getFeedObservable = Observable.zip(
                 ergastRepository.getRaceSchedule(),
-                ergastRepository.getRaceResults("1"),
+                ergastRepository.getRaceResults(),
                 new BiFunction<Feed, Feed, Feed>() {
                     @Override
-                    public Feed apply(Feed mainFeed, Feed raceWinnerFeed) {
-                        ArrayList<Races> races = mainFeed.getMrData().getRaceTable().getRaces();
-                        int raceWinnerFeedSize = raceWinnerFeed.getMrData().getRaceTable().getRaces().size();
+                    public Feed apply(Feed scheduleFeed, Feed resultFeed) {
+                        ArrayList<Races> races = scheduleFeed.getMrData().getRaceTable().getRaces();
+                        int resultFeedSize = resultFeed.getMrData().getRaceTable().getRaces().size();
 
-                        for (int i = 0; i < raceWinnerFeedSize; i++) {
-                            races.get(i).setResults(raceWinnerFeed.getMrData().getRaceTable()
+                        for (int i = 0; i < resultFeedSize; i++) {
+                            races.get(i).setResults(resultFeed.getMrData().getRaceTable()
                                     .getRaces().get(i).getResults());
                         }
-                        return mainFeed;
+                        return scheduleFeed;
                     }
                 });
 
@@ -61,7 +61,6 @@ public class CalendarViewModel extends AndroidViewModel {
                     @Override
                     public void accept(Throwable throwable) {
                         Log.e(TAG, "Error: " + throwable.getMessage(), throwable);
-
                     }
                 }));
     }

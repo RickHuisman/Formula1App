@@ -8,7 +8,7 @@
     android:layout_marginStart="12dp"
     android:layout_marginTop="12dp"
     android:layout_marginEnd="12dp"
-    android:background="@drawable/test_item_corners"
+    android:background="@drawable/item_race_corners"
     android:paddingTop="20dp"
     android:paddingBottom="16dp">
 
@@ -17,22 +17,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="Race name"
         android:textAppearance="@style/TextHeader"
         android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Race name" />
 
     <TextView
         android:id="@+id/circuit_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Circuit name"
         android:textAppearance="@style/TextRegularBody"
         android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="@+id/race_name_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/race_name_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/race_name_text_view"
+        tools:text="Circuit name" />
 
     <TextView
         android:id="@+id/race_date_text_view"
@@ -41,11 +41,11 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/raleway_medium"
         android:letterSpacing="0.15"
-        android:text="20 sept - 15:10"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/circuit_name_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/circuit_name_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/circuit_name_text_view"
+        tools:text="00 jan - 00:00" />
 
     <ImageView
         android:id="@+id/circuit_map_image_view"

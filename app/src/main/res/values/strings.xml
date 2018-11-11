@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Formula1App</string>
-    <string name="nav_calendar">Calendar</string>
+    <string name="nav_schedule">Calendar</string>
     <string name="nav_standings">Standings</string>
     <string name="nav_drivers">Drivers</string>
     <string name="nav_stats">Stats</string>
+    <string name="race_starts_in">Race starts in</string>
 </resources>

@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
+        // Start fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new CalendarFragment()).commit();
     }
@@ -31,22 +32,15 @@ public class MainActivity extends AppCompatActivity {
                     Fragment selectedFragment = null;
 
                     switch (item.getItemId()) {
-                        case R.id.nav_calendar:
+                        case R.id.nav_schedule:
                             selectedFragment = new CalendarFragment();
                             break;
-//                        case R.id.nav_standings:
-//                            selectedFragment = new StandingsFragment();
-//                            break;
-//                        case R.id.nav_drivers:
-//                            selectedFragment = new DriverResultFragment();
-//                            break;
-//                        case R.id.nav_stats:
-//                            selectedFragment = new DriverResultFragment();
-//                            break;
                     }
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    if (selectedFragment != null)
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
+
                     return true;
                 }
             };

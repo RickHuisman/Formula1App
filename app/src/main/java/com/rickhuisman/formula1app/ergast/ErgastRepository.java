@@ -25,7 +25,7 @@ public class ErgastRepository {
         return raceApi.getRaceSchedule();
     }
 
-    public Observable<Feed> getRaceResults(String grid) {
-        return raceApi.getRaceResults(grid);
+    public Observable<Feed> getRaceResults() {
+        return raceApi.getRaceResults();
     }
 }
