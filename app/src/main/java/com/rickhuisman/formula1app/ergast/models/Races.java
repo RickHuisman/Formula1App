@@ -1,10 +1,13 @@
 package com.rickhuisman.formula1app.ergast.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Races {
+public class Races implements Parcelable {
 
     @SerializedName("season")
     private String season;
@@ -81,5 +84,15 @@ public class Races {
 
     public void setResults(ArrayList<Results> results) {
         this.results = results;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }
