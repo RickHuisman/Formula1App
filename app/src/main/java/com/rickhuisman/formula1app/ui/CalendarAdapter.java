@@ -86,9 +86,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (position < mResultCount)
             setColoredBackground(holder);
 
+        String team = race.getResults().get(0).getConstructor().getName().replaceAll(" ", "");
+
         int teamColorId = getResourceId(
                 "color",
-                "Mercedes",
+                team,
                 "color");
 
         setTextColors(holder, teamColorId);
@@ -161,9 +163,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int blue = Integer.parseInt(
                 colorId.substring(5, 7), 16);
 
-        double test = (red * 0.299) + (green * 0.587) + (blue * 0.114);
+        double color = (red * 0.299) + (green * 0.587) + (blue * 0.114);
 
-        if (test > 140) {
+        if (color > 140) {
             textColor = mContext.getColor(R.color.colorPrimaryDark);
         } else {
             textColor = mContext.getColor(R.color.colorWilliams);

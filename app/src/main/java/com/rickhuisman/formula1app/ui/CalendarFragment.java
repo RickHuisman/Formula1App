@@ -16,11 +16,8 @@ import android.view.ViewGroup;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.ergast.models.Races;
-import com.rickhuisman.formula1app.ui.testadapter.TestAdapter;
-import com.rickhuisman.formula1app.ui.testadapter.TopDrivers;
 import com.rickhuisman.formula1app.viewmodels.ScheduleViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarFragment extends Fragment {
@@ -37,11 +34,8 @@ public class CalendarFragment extends Fragment {
         Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.setTitle("SCHEDULE");
 
-//        mRecyclerView = mView.findViewById(R.id.recycler_view);
-//        setUpRecyclerView();
-
         mRecyclerView = mView.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        setUpRecyclerView();
 
         mScheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
         mScheduleViewModel.getRaceSchedule().observe(this, scheduleDataObserver);
@@ -59,7 +53,6 @@ public class CalendarFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         mAdapter = new CalendarAdapter(getContext());
-
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -68,18 +61,7 @@ public class CalendarFragment extends Fragment {
         public void onChanged(@Nullable Feed feed) {
             List<Races> races = feed.getMrData().getRaceTable().getRaces();
 
-            ArrayList<TopDrivers> topDrivers = new ArrayList<>();
-
-            for (int i = 0; i < races.size(); i++) {
-                ArrayList test = new ArrayList();
-                test.add(races.get(i));
-                topDrivers.add(new TopDrivers("Microsoft", test));
-            }
-
-            TestAdapter adapter = new TestAdapter(topDrivers);
-            mRecyclerView.setAdapter(adapter);
-
-//            mAdapter.setCalendar(races);
+            mAdapter.setCalendar(races);
         }
     };
 }
