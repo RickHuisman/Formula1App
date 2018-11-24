@@ -3,6 +3,8 @@ package com.rickhuisman.formula1app.ui;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -23,11 +25,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Races> mRaceSchedule = new ArrayList<>();
     private int mResultCount;
+    private long mNextRoundMilliSec;
 
     public CalendarAdapter(Context context) {
         this.mContext = context;
@@ -75,11 +81,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         holder.textViewRaceName.setText(race.getRaceName());
         holder.textViewCircuitName.setText(race.getCircuit().getCircuitName());
-        holder.textViewRaceDate.setText(getRaceDate(position));
+        holder.textViewRaceDate.setText(getRaceDateString(position));
         holder.imageViewCircuitMap.setImageDrawable(mContext.getDrawable(
                 getResourceId(
                         "circuit_",
-                        "4",
+                        String.valueOf(position + 1),
                         "drawable")));
 
         // Get colored background
@@ -96,19 +102,54 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         setTextColors(holder, teamColorId);
     }
 
-    private void nextRace(NextRaceHolder holder) {
+    private void nextRace(final NextRaceHolder holder) {
         int position = holder.getAdapterPosition();
         Races race = mRaceSchedule.get(position);
 
+        timer(holder);
+
         holder.textViewRaceName.setText(race.getRaceName());
         holder.textViewCircuitName.setText(race.getCircuit().getCircuitName());
-        holder.textViewRaceDate.setText(getRaceDate(position));
+        holder.textViewRaceDate.setText(getRaceDateString(position));
         holder.imageViewCircuitMap.setImageDrawable(mContext.getDrawable(
-                getResourceId("circuit_","4","drawable")));
+                getResourceId(
+                        "circuit_",
+                        String.valueOf(position + 1),
+                        "drawable")));
     }
 
-    private String getRaceDate(int round) {
-        String raceDate;
+    private void timer(final NextRaceHolder holder) {
+        mNextRoundMilliSec = getDateDifference();
+
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mNextRoundMilliSec > 0) {
+                    holder.textViewRaceCountDown.setText(
+                            String.format("%02dd %02dh %02dm %02ds",
+                                    TimeUnit.MILLISECONDS.toDays(mNextRoundMilliSec),
+                                    TimeUnit.MILLISECONDS.toHours(mNextRoundMilliSec)- TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(mNextRoundMilliSec)),
+                                    TimeUnit.MILLISECONDS.toMinutes(mNextRoundMilliSec) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(mNextRoundMilliSec)),
+                                    TimeUnit.MILLISECONDS.toSeconds(mNextRoundMilliSec) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(mNextRoundMilliSec))));
+
+                    mNextRoundMilliSec -= 1000;
+                    handler.postDelayed(this, 1000);
+                } else {
+                    holder.textViewRaceCountDown.setText("Race is live!");
+                }
+            }
+        });
+    }
+
+    private long getDateDifference() {
+        Calendar currentDate = Calendar.getInstance();
+        Calendar raceDate = getRaceDate(20); // TODO change hardcoded round
+
+        return raceDate.getTimeInMillis() - currentDate.getTimeInMillis();
+    }
+
+    private Calendar getRaceDate(int round) {
         Calendar calendar = Calendar.getInstance();
 
         try {
@@ -120,11 +161,15 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             e.printStackTrace();
         }
 
-        raceDate = calendar.get(Calendar.DAY_OF_MONTH) + " " +
-                calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH) + " " +
-                calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+        return calendar;
+    }
 
-        return raceDate.toLowerCase();
+    private String getRaceDateString(int round) {
+        Calendar calendar = getRaceDate(round);
+
+        return calendar.get(Calendar.DAY_OF_MONTH) + " " +
+                calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH).toLowerCase() + " - " +
+                calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
     }
 
     private void setColoredBackground(CalendarHolder holder) {
@@ -241,6 +286,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView textViewRaceName;
         private TextView textViewCircuitName;
         private TextView textViewRaceDate;
+        private TextView textViewRaceCountDown;
         private ImageView imageViewCircuitMap;
 
         public NextRaceHolder(View itemView) {
@@ -248,6 +294,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             textViewRaceName = itemView.findViewById(R.id.race_name_text_view);
             textViewCircuitName = itemView.findViewById(R.id.circuit_name_text_view);
             textViewRaceDate = itemView.findViewById(R.id.race_date_text_view);
+            textViewRaceCountDown = itemView.findViewById(R.id.race_countdown_text_view);
             imageViewCircuitMap = itemView.findViewById(R.id.circuit_map_image_view);
         }
     }
