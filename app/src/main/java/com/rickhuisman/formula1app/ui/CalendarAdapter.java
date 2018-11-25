@@ -2,6 +2,7 @@ package com.rickhuisman.formula1app.ui;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -92,14 +93,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (position < mResultCount)
             setColoredBackground(holder);
 
-        String team = race.getResults().get(0).getConstructor().getName().replaceAll(" ", "");
+        if (race.getResults() != null) {
+            String team = race.getResults().get(0).getConstructor().getName().replaceAll(" ", "");
 
-        int teamColorId = getResourceId(
-                "color",
-                team,
-                "color");
+            int teamColorId = getResourceId(
+                    "color",
+                    team,
+                    "color");
 
-        setTextColors(holder, teamColorId);
+            setTextColors(holder, teamColorId);
+        }
     }
 
     private void nextRace(final NextRaceHolder holder) {
@@ -157,10 +160,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             calendar.setTime(dateFormat.parse(
                     mRaceSchedule.get(round).getDate() + " " +
                             mRaceSchedule.get(round).getTime()));
+            System.out.println(mRaceSchedule.get(round).getDate() + " " +
+                    mRaceSchedule.get(round).getTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return calendar;
     }
 
@@ -186,7 +190,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 .substring(2, 8);
 
         holder.textViewRaceName.setTextColor(blackOrWhiteText(colorResource));
-        holder.textViewCircuitName.setTextColor(blackOrWhiteText(colorResource));
+        holder.textViewCircuitName.setTextColor(getCircuitTextColor(colorResource));
         holder.textViewRaceDate.setTextColor(blackOrWhiteText(colorResource));
         holder.imageViewCircuitMap.setColorFilter(blackOrWhiteText(colorResource));
     }
@@ -216,6 +220,17 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             textColor = mContext.getColor(R.color.colorWilliams);
         }
 
+        return textColor;
+    }
+
+    private int getCircuitTextColor(String colorId) {
+        int textColor;
+
+        if (blackOrWhiteText(colorId) == mContext.getColor(R.color.colorPrimaryDark)) {
+            textColor = Color.argb(153, 0, 0, 0);
+        } else {
+            textColor = Color.argb(153, 255, 255, 255);
+        }
         return textColor;
     }
 
