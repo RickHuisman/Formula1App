@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -19,15 +18,15 @@ import android.widget.TextView;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Races;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -146,34 +145,25 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private long getDateDifference() {
-        Calendar currentDate = Calendar.getInstance();
-        Calendar raceDate = getRaceDate(20); // TODO change hardcoded round
+        DateTime currentDateTime = new DateTime();
+        DateTime raceDate = getRaceDateTime(20); // TODO change hardcoded round
 
-        return raceDate.getTimeInMillis() - currentDate.getTimeInMillis();
+        return raceDate.getMillis() - currentDateTime.getMillis();
     }
 
-    private Calendar getRaceDate(int round) {
-        Calendar calendar = Calendar.getInstance();
+    private DateTime getRaceDateTime(int round) {
+        String dateTime = mRaceSchedule.get(round).getDate() + " " +
+                mRaceSchedule.get(round).getTime();
 
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-            calendar.setTime(dateFormat.parse(
-                    mRaceSchedule.get(round).getDate() + " " +
-                            mRaceSchedule.get(round).getTime()));
-            System.out.println(mRaceSchedule.get(round).getDate() + " " +
-                    mRaceSchedule.get(round).getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return calendar;
+        DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ssZ");
+        DateTime raceDateTime = format.parseDateTime(dateTime);
+
+        return raceDateTime;
     }
 
     private String getRaceDateString(int round) {
-        Calendar calendar = getRaceDate(round);
-
-        return calendar.get(Calendar.DAY_OF_MONTH) + " " +
-                calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH).toLowerCase() + " - " +
-                calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+        DateTime raceDateTime = getRaceDateTime(round);
+        return raceDateTime.toString("dd MMM - HH:mm", Locale.ENGLISH).toLowerCase();
     }
 
     private void setColoredBackground(CalendarHolder holder) {
@@ -259,23 +249,15 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private int getNextRound() {
         int nextRound = 0;
-        try {
-            for (int i = 0; i < mRaceSchedule.size(); i++) {
-                Date raceDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(
-                        mRaceSchedule.get(i).getDate() + " " + mRaceSchedule.get(i).getTime());
+        for (int i = 0; i < mRaceSchedule.size(); i++) {
+            DateTime raceDateTime = getRaceDateTime(i);
+            DateTime currentDateTime = new DateTime();
 
-                java.util.Calendar cal = java.util.Calendar.getInstance();
-                Date currentDate = cal.getTime();
-
-                int result = raceDate.compareTo(currentDate);
-
-                if (result > 0) {
-                    nextRound = Integer.valueOf(mRaceSchedule.get(i).getRound());
-                    break;
-                }
+            int result = raceDateTime.compareTo(currentDateTime);
+            if (result > 0) {
+                nextRound = Integer.valueOf(mRaceSchedule.get(i).getRound());
+                break;
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
         return nextRound;
     }
