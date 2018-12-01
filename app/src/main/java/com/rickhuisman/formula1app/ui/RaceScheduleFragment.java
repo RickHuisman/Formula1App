@@ -20,12 +20,10 @@ import com.rickhuisman.formula1app.viewmodels.ScheduleViewModel;
 
 import java.util.List;
 
-public class CalendarFragment extends Fragment {
-    private View mView;
+public class RaceScheduleFragment extends Fragment {
 
-    private ScheduleViewModel mScheduleViewModel;
+    private View mView;
     private CalendarAdapter mAdapter;
-    private RecyclerView mRecyclerView;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -34,26 +32,23 @@ public class CalendarFragment extends Fragment {
         Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.setTitle("SCHEDULE");
 
-        mRecyclerView = mView.findViewById(R.id.recycler_view);
-        setUpRecyclerView();
+        RecyclerView raceList = mView.findViewById(R.id.recycler_view);
+        raceList.setLayoutManager(new LinearLayoutManager(getContext()));
+        raceList.setHasFixedSize(true);
 
-        mScheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
-        mScheduleViewModel.getRaceSchedule().observe(this, scheduleDataObserver);
+        mAdapter = new CalendarAdapter(getContext());
+        raceList.setAdapter(mAdapter);
+
+        ScheduleViewModel mRaceScheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
+        mRaceScheduleViewModel.getRaceSchedule().observe(this, scheduleDataObserver);
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_schedule, container, false);
         return mView;
-    }
-
-    private void setUpRecyclerView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setHasFixedSize(true);
-
-        mAdapter = new CalendarAdapter(getContext());
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     private Observer<Feed> scheduleDataObserver = new Observer<Feed>() {

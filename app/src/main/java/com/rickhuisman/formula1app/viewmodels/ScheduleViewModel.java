@@ -10,6 +10,7 @@ import android.util.Log;
 import com.rickhuisman.formula1app.ergast.ErgastRepository;
 import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.ergast.models.Races;
+import com.rickhuisman.formula1app.ergast.models.Results;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class ScheduleViewModel extends AndroidViewModel {
+
     private static final String TAG = "ScheduleViewModel";
 
     private LiveData<Feed> mRaceSchedule = new MutableLiveData<>();
@@ -30,7 +32,7 @@ public class ScheduleViewModel extends AndroidViewModel {
         super(application);
         ErgastRepository ergastRepository = new ErgastRepository();
 
-        // Zip Race Schedule and Race Winner Observables
+        // Merge Race Schedule and Race Winner Observables
         Observable<Feed> getFeedObservable = Observable.zip(
                 ergastRepository.getRaceSchedule(),
                 ergastRepository.getRaceResults(),
@@ -38,17 +40,18 @@ public class ScheduleViewModel extends AndroidViewModel {
                     @Override
                     public Feed apply(Feed scheduleFeed, Feed resultFeed) {
                         ArrayList<Races> races = scheduleFeed.getMrData().getRaceTable().getRaces();
-                        int resultFeedSize = resultFeed.getMrData().getRaceTable().getRaces().size();
+                        int amountOfRaceWinners = resultFeed.getMrData().getRaceTable().getRaces().size();
 
-                        for (int i = 0; i < resultFeedSize; i++) {
-                            races.get(i).setResults(resultFeed.getMrData().getRaceTable()
-                                    .getRaces().get(i).getResults());
+                        for (int i = 0; i < amountOfRaceWinners; i++) {
+                            ArrayList<Results> raceResults =
+                                    resultFeed.getMrData().getRaceTable().getRaces().get(i).getResults();
+
+                            races.get(i).setResults(raceResults);
                         }
                         return scheduleFeed;
                     }
                 });
 
-        // Get data from zip Observable
         mDisposable.add(getFeedObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

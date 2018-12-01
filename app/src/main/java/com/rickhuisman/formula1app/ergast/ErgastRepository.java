@@ -9,8 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ErgastRepository {
     private static final String BASE_URL = "https://ergast.com/";
-
-    private RaceWebService raceApi;
+    private ErgastWebService ergastApi;
 
     public ErgastRepository() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -18,14 +17,14 @@ public class ErgastRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        raceApi = retrofit.create(RaceWebService.class);
+        ergastApi = retrofit.create(ErgastWebService.class);
     }
 
     public Observable<Feed> getRaceSchedule() {
-        return raceApi.getRaceSchedule();
+        return ergastApi.getRaceSchedule();
     }
 
     public Observable<Feed> getRaceResults() {
-        return raceApi.getRaceResults();
+        return ergastApi.getRaceResults();
     }
 }

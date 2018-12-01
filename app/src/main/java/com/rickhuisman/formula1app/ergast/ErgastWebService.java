@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 
-public interface RaceWebService {
+public interface ErgastWebService {
 
     // Race Schedule
     @Headers("Content-Type: application/json")

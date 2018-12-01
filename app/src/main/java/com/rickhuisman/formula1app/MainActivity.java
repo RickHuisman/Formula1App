@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.rickhuisman.formula1app.ui.CalendarFragment;
+import com.rickhuisman.formula1app.ui.RaceScheduleFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Start fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new CalendarFragment()).commit();
+                new RaceScheduleFragment()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -33,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.nav_schedule:
-                            selectedFragment = new CalendarFragment();
+                            selectedFragment = new RaceScheduleFragment();
                             break;
                     }
 
-                    if (selectedFragment != null)
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
-
+                    if (selectedFragment != null) {
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, selectedFragment).commit();
+                    }
                     return true;
                 }
             };
