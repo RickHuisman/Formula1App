@@ -1,6 +1,5 @@
 package com.rickhuisman.formula1app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,35 +14,32 @@ import android.view.MenuItem;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ui.RacePager.RaceOverviewTabFragment;
 import com.rickhuisman.formula1app.ui.RacePager.ResultTabFragment;
-import com.rickhuisman.formula1app.viewmodels.RaceDetailViewModel;
 
 public class RaceDetailActivity extends AppCompatActivity {
-
-    private RacePagerAdapter mRacePagerAdapter;
-    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race_detail);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("BELGIAN GP");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String raceName = getIntent().getExtras().getString("raceName");
+        raceName = raceName.replaceAll("Grand Prix","GP").toUpperCase();
 
         int round = getIntent().getExtras().getInt("round");
 
-        mRacePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), round);
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mRacePagerAdapter);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(raceName);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), round);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager.setAdapter(racePagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.container_tab_layout);
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        RaceDetailViewModel raceDetailViewModel = ViewModelProviders.of(this).get(RaceDetailViewModel.class);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
     }
 
     @Override

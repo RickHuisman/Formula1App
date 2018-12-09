@@ -93,6 +93,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, RaceDetailActivity.class);
+                intent.putExtra("raceName", race.getRaceName());
                 intent.putExtra("round", position + 1);
                 mContext.startActivity(intent);
             }
