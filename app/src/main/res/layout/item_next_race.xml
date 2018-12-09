@@ -6,7 +6,10 @@
     android:layout_marginStart="12dp"
     android:layout_marginTop="12dp"
     android:layout_marginEnd="12dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -45,10 +48,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/raleway_medium"
-            android:letterSpacing="0.15"
+            android:letterSpacing="0.10"
             android:textColor="@android:color/white"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/circuit_name_text_view"
             app:layout_constraintTop_toBottomOf="@+id/circuit_name_text_view"
             tools:text="00 jan - 00:00" />
@@ -58,6 +63,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginEnd="20dp"
+            android:tint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -86,13 +92,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/race_countdown_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="14dp"
             android:fontFamily="@font/raleway_semi_bold"
-            android:textAlignment="viewEnd"
+            android:textAlignment="viewStart"
             android:textColor="@color/colorAccent"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
