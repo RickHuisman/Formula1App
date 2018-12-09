@@ -1,6 +1,7 @@
 package com.rickhuisman.formula1app.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -28,13 +29,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Races> mRaceSchedule = new ArrayList<>();
     private int mResultCount;
     private long mNextRoundMilliSec;
 
-    public CalendarAdapter(Context context) {
+    public ScheduleAdapter(Context context) {
         this.mContext = context;
     }
 
@@ -62,8 +63,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Races race = mRaceSchedule.get(position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        final Races race = mRaceSchedule.get(position);
 
         TextView raceName = holder.itemView.findViewById(R.id.race_name_text_view);
         TextView circuitName = holder.itemView.findViewById(R.id.circuit_name_text_view);
@@ -87,6 +88,15 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 nextRace((NextRaceHolder) holder);
                 break;
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, RaceDetailActivity.class);
+                intent.putExtra("round", position + 1);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     private void pastRace(PastRaceHolder holder) {

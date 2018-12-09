@@ -23,7 +23,7 @@ import java.util.List;
 public class RaceScheduleFragment extends Fragment {
 
     private View mView;
-    private CalendarAdapter mAdapter;
+    private ScheduleAdapter mAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -36,11 +36,11 @@ public class RaceScheduleFragment extends Fragment {
         raceList.setLayoutManager(new LinearLayoutManager(getContext()));
         raceList.setHasFixedSize(true);
 
-        mAdapter = new CalendarAdapter(getContext());
+        mAdapter = new ScheduleAdapter(getContext());
         raceList.setAdapter(mAdapter);
 
-        ScheduleViewModel mRaceScheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
-        mRaceScheduleViewModel.getRaceSchedule().observe(this, scheduleDataObserver);
+        ScheduleViewModel raceScheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
+        raceScheduleViewModel.getRaceSchedule().observe(this, scheduleDataObserver);
     }
 
     @Nullable

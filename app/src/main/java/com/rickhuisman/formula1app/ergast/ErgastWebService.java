@@ -18,4 +18,14 @@ public interface ErgastWebService {
     @Headers("Content-Type: application/json")
     @GET("api/f1/2018/results.json?limit=500")
     Observable<Feed> getRaceResults();
+
+    // Race Results
+    @Headers("Content-Type: application/json")
+    @GET("api/f1/2018/{round}/results.json?limit=500")
+    Observable<Feed> getRaceResultsTest(@Path("round") int round); // TODO change
+
+    // Qualifying Results
+    @Headers("Content-Type: application/json")
+    @GET("api/f1/2018/{round}/qualifying.json")
+    Observable<Feed> getQualifyingResults(@Path("round") int round);
 }

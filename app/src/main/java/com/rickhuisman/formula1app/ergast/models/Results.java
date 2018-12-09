@@ -37,6 +37,15 @@ public class Results {
     @SerializedName("FastestLap")
     private FastestLap fastestLap;
 
+    @SerializedName("Q1")
+    private String qualifyingOne;
+
+    @SerializedName("Q2")
+    private String qualifyingTwo;
+
+    @SerializedName("Q3")
+    private String qualifyingThree;
+
     public String getNumber() {
         return number;
     }
@@ -123,5 +132,29 @@ public class Results {
 
     public void setFastestLap(FastestLap fastestLap) {
         this.fastestLap = fastestLap;
+    }
+
+    public String getQualifyingOne() {
+        return qualifyingOne;
+    }
+
+    public void setQualifyingOne(String qualifyingOne) {
+        this.qualifyingOne = qualifyingOne;
+    }
+
+    public String getQualifyingTwo() {
+        return qualifyingTwo;
+    }
+
+    public void setQualifyingTwo(String qualifyingTwo) {
+        this.qualifyingTwo = qualifyingTwo;
+    }
+
+    public String getQualifyingThree() {
+        return qualifyingThree;
+    }
+
+    public void setQualifyingThree(String qualifyingThree) {
+        this.qualifyingThree = qualifyingThree;
     }
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/position_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="14dp"
+        android:fontFamily="@font/raleway_regular"
+        android:textAlignment="viewEnd"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/team_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1" />
+
+    <ImageView
+        android:id="@+id/team_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:backgroundTint="@color/colorMercedes"
+        android:src="@drawable/circle"
+        app:layout_constraintBottom_toBottomOf="@+id/position_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/position_text_view" />
+
+    <TextView
+        android:id="@+id/driver_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/raleway_bold"
+        android:letterSpacing="0.15"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/team_image_view"
+        app:layout_constraintStart_toEndOf="@+id/team_image_view"
+        app:layout_constraintTop_toTopOf="@+id/team_image_view"
+        tools:text="HAM" />
+
+    <TextView
+        android:id="@+id/q1_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:fontFamily="@font/raleway_medium"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/driver_text_view"
+        app:layout_constraintStart_toEndOf="@+id/team_image_view"
+        app:layout_constraintTop_toTopOf="@+id/driver_text_view"
+        tools:text="1:23.476" />
+
+    <TextView
+        android:id="@+id/q2_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:fontFamily="@font/raleway_medium"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/driver_text_view"
+        app:layout_constraintStart_toEndOf="@+id/q1_time_text_view"
+        app:layout_constraintTop_toTopOf="@+id/driver_text_view"
+        tools:text="1:23.476" />
+
+    <TextView
+        android:id="@+id/q3_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:fontFamily="@font/raleway_medium"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/driver_text_view"
+        app:layout_constraintStart_toEndOf="@+id/q2_time_text_view"
+        app:layout_constraintTop_toTopOf="@+id/driver_text_view"
+        tools:text="1:23.476" />
+</android.support.constraint.ConstraintLayout>

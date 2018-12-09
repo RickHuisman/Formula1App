@@ -27,4 +27,12 @@ public class ErgastRepository {
     public Observable<Feed> getRaceResults() {
         return ergastApi.getRaceResults();
     }
+
+    public Observable<Feed> getRaceResultsTest(int round) {
+        return ergastApi.getRaceResultsTest(round);
+    }
+
+    public Observable<Feed> getQualifyingResults(int round) {
+        return ergastApi.getQualifyingResults(round);
+    }
 }
