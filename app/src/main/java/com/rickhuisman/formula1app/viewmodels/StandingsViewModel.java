@@ -15,29 +15,29 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class RaceDetailViewModel extends AndroidViewModel {
+public class StandingsViewModel extends AndroidViewModel {
 
-    private static final String TAG = "RaceDetailViewModel";
+    private static final String TAG = "StandingsViewModel";
 
-    private ErgastRepository mErgastRepository;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
+    private ErgastRepository mErgastRepository;
 
-    private LiveData<Feed> mRaceResults = new MutableLiveData<>();
-    private LiveData<Feed> mQualifyingResults = new MutableLiveData<>();
+    private LiveData<Feed> mDriverStandings = new MutableLiveData<>();
+    private LiveData<Feed> mConstructorStandings = new MutableLiveData<>();
 
-    public RaceDetailViewModel(@NonNull Application application) {
+    public StandingsViewModel(@NonNull Application application) {
         super(application);
         mErgastRepository = new ErgastRepository();
     }
 
-    public LiveData<Feed> getRaceResultsByRound(int round) {
-        mDisposable.add(mErgastRepository.getRaceResultsByRound(round)
+    public LiveData<Feed> getDriverStandings() {
+        mDisposable.add(mErgastRepository.getDriverStandings()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Feed>() {
                     @Override
                     public void accept(Feed feed) {
-                        ((MutableLiveData<Feed>) mRaceResults).setValue(feed);
+                        ((MutableLiveData<Feed>) mDriverStandings).setValue(feed);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -45,17 +45,17 @@ public class RaceDetailViewModel extends AndroidViewModel {
                         Log.e(TAG, "Error: " + throwable.getMessage(), throwable);
                     }
                 }));
-        return mRaceResults;
+        return mDriverStandings;
     }
 
-    public LiveData<Feed> getQualifyingResultsByRound(int round) {
-        mDisposable.add(mErgastRepository.getQualifyingResultsByRound(round)
+    public LiveData<Feed> getConstuctorStandings() {
+        mDisposable.add(mErgastRepository.getConstructorStandings()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Feed>() {
                     @Override
                     public void accept(Feed feed) {
-                        ((MutableLiveData<Feed>) mQualifyingResults).setValue(feed);
+                        ((MutableLiveData<Feed>) mConstructorStandings).setValue(feed);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -63,7 +63,7 @@ public class RaceDetailViewModel extends AndroidViewModel {
                         Log.e(TAG, "Error: " + throwable.getMessage(), throwable);
                     }
                 }));
-        return mQualifyingResults;
+        return mConstructorStandings;
     }
 
     @Override

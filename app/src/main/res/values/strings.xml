@@ -9,4 +9,6 @@
     <string name="tab_overview">OVERVIEW</string>
     <string name="tab_qualifying">QUALIFYING</string>
     <string name="tab_race">RACE</string>
+    <string name="drivers">DRIVERS</string>
+    <string name="constructors">CONSTRUCTORS</string>
 </resources>

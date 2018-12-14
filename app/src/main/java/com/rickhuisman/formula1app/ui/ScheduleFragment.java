@@ -20,7 +20,7 @@ import com.rickhuisman.formula1app.viewmodels.ScheduleViewModel;
 
 import java.util.List;
 
-public class RaceScheduleFragment extends Fragment {
+public class ScheduleFragment extends Fragment {
 
     private View mView;
     private ScheduleAdapter mAdapter;

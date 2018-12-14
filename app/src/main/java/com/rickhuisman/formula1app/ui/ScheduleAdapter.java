@@ -150,11 +150,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private DateTime getRaceDateTime(int round) {
         String dateTime = mRaceSchedule.get(round).getDate() + " " +
                 mRaceSchedule.get(round).getTime();
-
         DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ssZ");
-        DateTime raceDateTime = format.parseDateTime(dateTime);
 
-        return raceDateTime;
+        return format.parseDateTime(dateTime);
     }
 
     private String getRaceDateString(int round) {

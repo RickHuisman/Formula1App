@@ -28,11 +28,19 @@ public class ErgastRepository {
         return ergastApi.getRaceResults();
     }
 
-    public Observable<Feed> getRaceResultsTest(int round) {
-        return ergastApi.getRaceResultsTest(round);
+    public Observable<Feed> getRaceResultsByRound(int round) {
+        return ergastApi.getRaceResultsByRound(round);
     }
 
-    public Observable<Feed> getQualifyingResults(int round) {
-        return ergastApi.getQualifyingResults(round);
+    public Observable<Feed> getQualifyingResultsByRound(int round) {
+        return ergastApi.getQualifyingResultsByRound(round);
+    }
+
+    public Observable<Feed> getDriverStandings() {
+        return ergastApi.getDriverStandings();
+    }
+
+    public Observable<Feed> getConstructorStandings() {
+        return ergastApi.getConstructorStandings();
     }
 }

@@ -30,8 +30,8 @@ public class ResultTabFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        int round = getArguments().getInt("round");
         int resultType = getArguments().getInt("resultType");
+        int round = getArguments().getInt("round");
 
         RecyclerView resultList = mView.findViewById(R.id.race_result_recycler_view);
         resultList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -42,13 +42,13 @@ public class ResultTabFragment extends Fragment {
             mResultAdapter = new ResultAdapter(getContext(), QUALIFYING_RESULT_FRAGMENT);
             resultList.setAdapter(mResultAdapter);
 
-            raceDetailViewModel.getQualifyingResults(round).observe(this, qualifyingResultDataObserver);
+            raceDetailViewModel.getQualifyingResultsByRound(round).observe(this, qualifyingResultDataObserver);
 
         } else if (resultType == RACE_RESULT_FRAGMENT) {
             mResultAdapter = new ResultAdapter(getContext(), RACE_RESULT_FRAGMENT);
             resultList.setAdapter(mResultAdapter);
 
-            raceDetailViewModel.getRaceResults(round).observe(this, raceResultDataObserver);
+            raceDetailViewModel.getRaceResultsByRound(round).observe(this, raceResultDataObserver);
         }
     }
 
