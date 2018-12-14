@@ -1,4 +1,4 @@
-package com.rickhuisman.formula1app.ui;
+package com.rickhuisman.formula1app.ui.standings;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -29,13 +28,11 @@ public class StandingsFragment extends Fragment {
         Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.setTitle("STANDINGS");
 
-        ScheduleViewModel raceScheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
-
         StandingsPagerAdapter resultsPagerAdapter = new StandingsPagerAdapter(getActivity().getSupportFragmentManager());
-        ViewPager viewPager = (ViewPager) mView.findViewById(R.id.container);
+        ViewPager viewPager = mView.findViewById(R.id.container);
         viewPager.setAdapter(resultsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) mView.findViewById(R.id.container_tab_layout);
+        TabLayout tabLayout = mView.findViewById(R.id.container_tab_layout);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));

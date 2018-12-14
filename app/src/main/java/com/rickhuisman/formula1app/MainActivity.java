@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.rickhuisman.formula1app.ui.ScheduleFragment;
-import com.rickhuisman.formula1app.ui.StandingsFragment;
+import com.rickhuisman.formula1app.ui.schedule.ScheduleFragment;
+import com.rickhuisman.formula1app.ui.standings.StandingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 

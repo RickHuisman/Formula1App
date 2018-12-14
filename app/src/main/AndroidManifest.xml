@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.RaceDetailActivity"
+            android:name=".ui.racedetail.RaceDetailActivity"
             android:label="@string/title_activity_race_detail"
             android:theme="@style/AppTheme.NoActionbar" />
 

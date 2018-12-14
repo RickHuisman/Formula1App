@@ -1,4 +1,4 @@
-package com.rickhuisman.formula1app.ui;
+package com.rickhuisman.formula1app.ui.standings;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.models.ConstructorStandings;
-import com.rickhuisman.formula1app.ergast.models.DriverStandings;
 import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.ergast.models.StandingsLists;
 import com.rickhuisman.formula1app.viewmodels.StandingsViewModel;

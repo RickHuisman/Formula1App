@@ -1,4 +1,4 @@
-package com.rickhuisman.formula1app.ui;
+package com.rickhuisman.formula1app.ui.racedetail;
 
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +12,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ui.RacePager.RaceOverviewTabFragment;
-import com.rickhuisman.formula1app.ui.RacePager.ResultTabFragment;
+import com.rickhuisman.formula1app.ui.racedetail.RaceOverviewTabFragment;
+import com.rickhuisman.formula1app.ui.racedetail.ResultTabFragment;
 
 public class RaceDetailActivity extends AppCompatActivity {
 
@@ -27,16 +27,16 @@ public class RaceDetailActivity extends AppCompatActivity {
 
         int round = getIntent().getExtras().getInt("round");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(raceName);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), round);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
+        ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(racePagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.container_tab_layout);
+        TabLayout tabLayout = findViewById(R.id.container_tab_layout);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));

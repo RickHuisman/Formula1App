@@ -1,4 +1,4 @@
-package com.rickhuisman.formula1app.ui;
+package com.rickhuisman.formula1app.ui.schedule;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Constructor;
 import com.rickhuisman.formula1app.ergast.models.Races;
+import com.rickhuisman.formula1app.ui.racedetail.RaceDetailActivity;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -30,6 +31,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     private Context mContext;
     private List<Races> mRaceSchedule = new ArrayList<>();
     private int mResultCount;
@@ -242,7 +244,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mRaceSchedule.size();
     }
 
-    public void setCalendar(List<Races> races) {
+    public void setSchedule(List<Races> races) {
         this.mRaceSchedule = races;
 
         for (int i = 0; i < mRaceSchedule.size(); i++) {

@@ -1,4 +1,4 @@
-package com.rickhuisman.formula1app.ui;
+package com.rickhuisman.formula1app.ui.schedule;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -56,7 +56,7 @@ public class ScheduleFragment extends Fragment {
         public void onChanged(@Nullable Feed feed) {
             List<Races> races = feed.getMrData().getRaceTable().getRaces();
 
-            mAdapter.setCalendar(races);
+            mAdapter.setSchedule(races);
         }
     };
 }

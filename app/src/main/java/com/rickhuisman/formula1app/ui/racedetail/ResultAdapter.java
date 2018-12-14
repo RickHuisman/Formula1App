@@ -1,4 +1,4 @@
-package com.rickhuisman.formula1app.ui.RacePager;
+package com.rickhuisman.formula1app.ui.racedetail;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
