@@ -1,15 +1,14 @@
 package com.rickhuisman.formula1app.ergast.test.db.dao;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
-
 import com.rickhuisman.formula1app.ergast.test.db.entities.Races;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Results;
 
 import java.util.List;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
 
 @Dao
 public interface Formula1Dao {
@@ -33,5 +32,5 @@ public interface Formula1Dao {
     }
 
     @Query("SELECT * FROM races R JOIN results S ON S.raceId = R.raceId WHERE R.raceId >= 989 AND position = 1")
-    public RaceAndWinner[] getRacesAndWinners();
+    RaceAndWinner[] getRacesAndWinners();
 }

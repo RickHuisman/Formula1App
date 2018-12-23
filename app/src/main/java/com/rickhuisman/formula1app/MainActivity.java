@@ -1,23 +1,21 @@
 package com.rickhuisman.formula1app;
 
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.rickhuisman.formula1app.ergast.test.db.Formula1Database;
 import com.rickhuisman.formula1app.ergast.test.db.dao.Formula1Dao;
-import com.rickhuisman.formula1app.ergast.test.db.entities.Races;
-import com.rickhuisman.formula1app.ergast.test.db.entities.Results;
 import com.rickhuisman.formula1app.ui.schedule.ScheduleFragment;
 import com.rickhuisman.formula1app.ui.standings.StandingsFragment;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity {
 

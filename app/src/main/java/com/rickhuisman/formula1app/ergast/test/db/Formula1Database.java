@@ -1,12 +1,7 @@
 package com.rickhuisman.formula1app.ergast.test.db;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import com.rickhuisman.formula1app.ergast.test.DatabaseAccess;
 import com.rickhuisman.formula1app.ergast.test.db.dao.Formula1Dao;
@@ -14,6 +9,12 @@ import com.rickhuisman.formula1app.ergast.test.db.entities.Races;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Results;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(entities = {Races.class, Results.class}, version = 1, exportSchema = false)
 public abstract class Formula1Database extends RoomDatabase {

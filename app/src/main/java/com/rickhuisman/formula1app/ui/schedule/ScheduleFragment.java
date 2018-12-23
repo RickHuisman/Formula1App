@@ -1,14 +1,6 @@
 package com.rickhuisman.formula1app.ui.schedule;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +11,15 @@ import com.rickhuisman.formula1app.ergast.models.Races;
 import com.rickhuisman.formula1app.viewmodels.ScheduleViewModel;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ScheduleFragment extends Fragment {
 
@@ -31,7 +32,6 @@ public class ScheduleFragment extends Fragment {
 
         Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.setTitle("SCHEDULE");
-
 
         RecyclerView raceList = mView.findViewById(R.id.recycler_view);
         raceList.setLayoutManager(new LinearLayoutManager(getContext()));

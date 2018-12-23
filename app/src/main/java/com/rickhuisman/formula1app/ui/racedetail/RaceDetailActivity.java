@@ -1,19 +1,17 @@
 package com.rickhuisman.formula1app.ui.racedetail;
 
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.tabs.TabLayout;
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ui.racedetail.RaceOverviewTabFragment;
-import com.rickhuisman.formula1app.ui.racedetail.ResultTabFragment;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 public class RaceDetailActivity extends AppCompatActivity {
 
