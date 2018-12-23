@@ -32,6 +32,7 @@ public class ScheduleFragment extends Fragment {
         Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.setTitle("SCHEDULE");
 
+
         RecyclerView raceList = mView.findViewById(R.id.recycler_view);
         raceList.setLayoutManager(new LinearLayoutManager(getContext()));
         raceList.setHasFixedSize(true);
