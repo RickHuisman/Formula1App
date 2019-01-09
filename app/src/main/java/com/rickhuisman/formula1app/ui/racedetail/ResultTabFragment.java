@@ -6,8 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.models.Feed;
-import com.rickhuisman.formula1app.ergast.models.Results;
+import com.rickhuisman.formula1app.ergast.test.db.entities.Qualifying;
+import com.rickhuisman.formula1app.ergast.test.db.entities.QualifyingWithDriver;
+import com.rickhuisman.formula1app.ergast.test.db.entities.RaceResultWithDriver;
 import com.rickhuisman.formula1app.viewmodels.RaceDetailViewModel;
 
 import java.util.List;
@@ -21,35 +22,37 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ResultTabFragment extends Fragment {
-    public static final int QUALIFYING_RESULT_FRAGMENT = 0;
-    public static final int RACE_RESULT_FRAGMENT = 1;
+    private static final int QUALIFYING_RESULT_FRAGMENT = 0;
+    private static final int RACE_RESULT_FRAGMENT = 1;
 
     private View mView;
     private ResultAdapter mResultAdapter;
+    private QualifyingAdapter mQualifyingAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         int resultType = getArguments().getInt("resultType");
-        int round = getArguments().getInt("round");
+        int raceId = getArguments().getInt("raceId");
 
         RecyclerView resultList = mView.findViewById(R.id.race_result_recycler_view);
         resultList.setLayoutManager(new LinearLayoutManager(getContext()));
         resultList.setHasFixedSize(true);
+
         RaceDetailViewModel raceDetailViewModel = ViewModelProviders.of(this).get(RaceDetailViewModel.class);
 
         if (resultType == QUALIFYING_RESULT_FRAGMENT) {
-            mResultAdapter = new ResultAdapter(getContext(), QUALIFYING_RESULT_FRAGMENT);
+            mQualifyingAdapter = new QualifyingAdapter();
+            resultList.setAdapter(mQualifyingAdapter);
+
+            raceDetailViewModel.getQualifyingWithDriver(raceId).observe(this, QualifyingWithDriverObserver);
+        }
+        else if (resultType == RACE_RESULT_FRAGMENT) {
+            mResultAdapter = new ResultAdapter();
             resultList.setAdapter(mResultAdapter);
 
-            raceDetailViewModel.getQualifyingResultsByRound(round).observe(this, qualifyingResultDataObserver);
-
-        } else if (resultType == RACE_RESULT_FRAGMENT) {
-            mResultAdapter = new ResultAdapter(getContext(), RACE_RESULT_FRAGMENT);
-            resultList.setAdapter(mResultAdapter);
-
-            raceDetailViewModel.getRaceResultsByRound(round).observe(this, raceResultDataObserver);
+            raceDetailViewModel.getRaceResultWithDriver(raceId).observe(this, RaceResultWithDriverObserver);
         }
     }
 
@@ -61,21 +64,17 @@ public class ResultTabFragment extends Fragment {
         return mView;
     }
 
-    private Observer<Feed> raceResultDataObserver = new Observer<Feed>() {
+    private Observer<List<QualifyingWithDriver>> QualifyingWithDriverObserver = new Observer<List<QualifyingWithDriver>>() {
         @Override
-        public void onChanged(@Nullable Feed feed) {
-            List<Results> results = feed.getMrData().getRaceTable().getRaces().get(0).getResults();
-
-            mResultAdapter.setRaceResults(results);
+        public void onChanged(List<QualifyingWithDriver> qualifyingWithDrivers) {
+            mQualifyingAdapter.setQualifyingResults(qualifyingWithDrivers);
         }
     };
 
-    private Observer<Feed> qualifyingResultDataObserver = new Observer<Feed>() {
+    private Observer<List<RaceResultWithDriver>> RaceResultWithDriverObserver = new Observer<List<RaceResultWithDriver>>() {
         @Override
-        public void onChanged(@Nullable Feed feed) {
-            List<Results> results = feed.getMrData().getRaceTable().getRaces().get(0).getQualifyingResults();
-
-            mResultAdapter.setRaceResults(results);
+        public void onChanged(List<RaceResultWithDriver> raceResultWithDriver) {
+            mResultAdapter.setRaceResultsWithDriver(raceResultWithDriver);
         }
     };
 }

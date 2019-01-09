@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.models.Results;
+import com.rickhuisman.formula1app.ergast.test.db.entities.RaceResultWithDriver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,41 +21,22 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private int mResultType;
-    private List<Results> mResults = new ArrayList<>();
-
-    public ResultAdapter(Context context, int resultType) {
-        this.mContext = context;
-        this.mResultType = resultType;
-    }
+    private List<RaceResultWithDriver> mResults = new ArrayList<>();
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
 
         RecyclerView.ViewHolder viewHolder;
-        if (mResultType == 0) {
-            View header = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.header_qualifying_result, parent, false);
-            viewHolder = new HeaderHolder(header);
-        } else {
-            View header = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.header_race_result, parent, false);
-            viewHolder = new HeaderHolder(header);
-        }
+        View header = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.header_race_result, parent, false);
+        viewHolder = new HeaderHolder(header);
 
         if (viewType == 1) {
-            if (mResultType == 0) {
-                View itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_qualifying_result, parent, false);
-
-                return new QualifyingResultHolder(itemView);
-            } else if (mResultType == 1) {
-                View itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_race_result, parent, false);
-
-                return new RaceResultHolder(itemView);
-            }
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_race_result, parent, false);
+            return new RaceResultHolder(itemView);
         }
         return viewHolder;
     }
@@ -63,53 +44,35 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (position != 0) {
-            Results result = mResults.get(position - 1);
-            String driver = result.getDriver().getFamilyName();
-            String team = result.getConstructor().getName().replaceAll(" ", "");
+            RaceResultHolder resultHolder = (RaceResultHolder) holder;
+            RaceResultWithDriver result = mResults.get(position - 1);
 
-            if (holder instanceof QualifyingResultHolder) {
+            String driver = result.getDriver().getSurName();
+            int constructorId = 1;
 
-                QualifyingResultHolder resultHolder = (QualifyingResultHolder) holder;
+            resultHolder.positionTextView.setText(result.getResult().getPositionText());
+            resultHolder.driverTextView.setText(driver.substring(0, 3).toUpperCase());
 
-                resultHolder.positionTextView.setText(result.getPosition());
-                resultHolder.driverTextView.setText(driver.substring(0, 3).toUpperCase());
-                resultHolder.q1TimeTextView.setText(result.getQualifyingOne());
-                resultHolder.q2TimeTextView.setText(result.getQualifyingTwo());
-                resultHolder.q3TimeTextView.setText(result.getQualifyingThree());
+            int points = (int) result.getResult().getPoints();
+            resultHolder.pointsTextView.setText(String.valueOf(points));
 
-                DrawableCompat.setTint(resultHolder.teamImageView.getDrawable(),
-                        ContextCompat.getColor(mContext, getTeamColor(team)));
-
-            } else if (holder instanceof RaceResultHolder) {
-
-                RaceResultHolder resultHolder = (RaceResultHolder) holder;
-
-                resultHolder.positionTextView.setText(result.getPosition());
-                resultHolder.driverTextView.setText(driver.substring(0, 3).toUpperCase());
-                resultHolder.pointsTextView.setText(result.getPoints());
-
-                if (result.getTime() != null) {
-                    resultHolder.timeTextView.setText(result.getTime().getTime());
-                } else {
-                    if (result.getStatus().contains("Lap")) {
-                        resultHolder.timeTextView.setText(result.getStatus());
-                    } else {
-                        resultHolder.timeTextView.setText("DNF");
-                    }
-                }
-
-                DrawableCompat.setTint(resultHolder.teamImageView.getDrawable(),
-                        ContextCompat.getColor(mContext, getTeamColor(team)));
+            if (result.getResult().getTime() != null) {
+                resultHolder.timeTextView.setText(result.getResult().getTime());
+            } else {
+                resultHolder.timeTextView.setText(String.valueOf(result.getResult().getStatusId()));
             }
+
+            DrawableCompat.setTint(resultHolder.teamImageView.getDrawable(),
+                    ContextCompat.getColor(mContext, getTeamColor(constructorId)));
         }
     }
 
-    private int getTeamColor(String team) {
+    private int getTeamColor(int constructorId) {
         return mContext.getResources().getIdentifier(
-                "color" + team, "color", mContext.getPackageName());
+                "constructor_" + constructorId, "color", mContext.getPackageName());
     }
 
-    public void setRaceResults(List<Results> results) {
+    public void setRaceResultsWithDriver(List<RaceResultWithDriver> results) {
         this.mResults = results;
         notifyDataSetChanged();
     }
@@ -130,26 +93,6 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         private HeaderHolder(@NonNull View itemView) {
             super(itemView);
-        }
-    }
-
-    private class QualifyingResultHolder extends RecyclerView.ViewHolder {
-        private TextView positionTextView;
-        private TextView driverTextView;
-        private TextView q1TimeTextView;
-        private TextView q2TimeTextView;
-        private TextView q3TimeTextView;
-        private ImageView teamImageView;
-
-        private QualifyingResultHolder(View itemView) {
-            super(itemView);
-            positionTextView = itemView.findViewById(R.id.position_text_view);
-            driverTextView = itemView.findViewById(R.id.driver_text_view);
-            q1TimeTextView = itemView.findViewById(R.id.q1_time_text_view);
-            q2TimeTextView = itemView.findViewById(R.id.q2_time_text_view);
-            q3TimeTextView = itemView.findViewById(R.id.q3_time_text_view);
-
-            teamImageView = itemView.findViewById(R.id.team_image_view);
         }
     }
 

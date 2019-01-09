@@ -5,6 +5,10 @@ import android.util.Log;
 
 import com.rickhuisman.formula1app.ergast.ErgastRepository;
 import com.rickhuisman.formula1app.ergast.models.Feed;
+import com.rickhuisman.formula1app.ergast.test.db.entities.QualifyingWithDriver;
+import com.rickhuisman.formula1app.ergast.test.db.entities.RaceResultWithDriver;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,53 +21,20 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RaceDetailViewModel extends AndroidViewModel {
 
-    private static final String TAG = "RaceDetailViewModel";
-
     private ErgastRepository mErgastRepository;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
-    private LiveData<Feed> mRaceResults = new MutableLiveData<>();
-    private LiveData<Feed> mQualifyingResults = new MutableLiveData<>();
-
     public RaceDetailViewModel(@NonNull Application application) {
         super(application);
-        mErgastRepository = new ErgastRepository();
+        mErgastRepository = new ErgastRepository(application);
     }
 
-    public LiveData<Feed> getRaceResultsByRound(int round) {
-        mDisposable.add(mErgastRepository.getRaceResultsByRound(round)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Feed>() {
-                    @Override
-                    public void accept(Feed feed) {
-                        ((MutableLiveData<Feed>) mRaceResults).setValue(feed);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Log.e(TAG, "Error: " + throwable.getMessage(), throwable);
-                    }
-                }));
-        return mRaceResults;
+    public LiveData<List<RaceResultWithDriver>> getRaceResultWithDriver(int raceId) {
+        return mErgastRepository.getRaceResultWithDriver(raceId);
     }
 
-    public LiveData<Feed> getQualifyingResultsByRound(int round) {
-        mDisposable.add(mErgastRepository.getQualifyingResultsByRound(round)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Feed>() {
-                    @Override
-                    public void accept(Feed feed) {
-                        ((MutableLiveData<Feed>) mQualifyingResults).setValue(feed);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Log.e(TAG, "Error: " + throwable.getMessage(), throwable);
-                    }
-                }));
-        return mQualifyingResults;
+    public LiveData<List<QualifyingWithDriver>> getQualifyingWithDriver(int raceId) {
+        return mErgastRepository.getQualifyingWithDriver(raceId);
     }
 
     @Override

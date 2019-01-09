@@ -20,17 +20,18 @@ public class RaceDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race_detail);
 
+        int raceId = getIntent().getExtras().getInt("raceId");
+
         String raceName = getIntent().getExtras().getString("raceName");
         raceName = raceName.replaceAll("Grand Prix","GP").toUpperCase();
 
-        int round = getIntent().getExtras().getInt("round");
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(raceName);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), round);
+        RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), raceId);
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(racePagerAdapter);
 
@@ -49,17 +50,17 @@ public class RaceDetailActivity extends AppCompatActivity {
     }
 
     public class RacePagerAdapter extends FragmentPagerAdapter {
-        int round;
+        int raceId;
 
-        public RacePagerAdapter(FragmentManager fm, int round) {
+        public RacePagerAdapter(FragmentManager fm, int raceId) {
             super(fm);
-            this.round = round;
+            this.raceId = raceId;
         }
 
         @Override
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
-            bundle.putInt("round", round);
+            bundle.putInt("raceId", raceId);
             ResultTabFragment resultTabFragment = new ResultTabFragment();
 
             switch (position) {

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.ergast.models.StandingsLists;
+import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
 import com.rickhuisman.formula1app.viewmodels.StandingsViewModel;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class StandingsTabFragment extends Fragment {
     public static final int CONSTRUCTORS_STANDING_FRAGMENT = 1;
 
     private View mView;
-    private StandingsAdapter mStandingsAdapter;
+    private DriverStandingsAdapter mStandingsAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -38,13 +39,13 @@ public class StandingsTabFragment extends Fragment {
         standingsList.setHasFixedSize(true);
         StandingsViewModel standingsViewModel = ViewModelProviders.of(this).get(StandingsViewModel.class);
 
-        mStandingsAdapter = new StandingsAdapter(resultType);
+        mStandingsAdapter = new DriverStandingsAdapter();
         standingsList.setAdapter(mStandingsAdapter);
 
         if (resultType == DRIVERS_STANDING_FRAGMENT) {
-            standingsViewModel.getDriverStandings().observe(this, driverStandingsDataObserver);
+            standingsViewModel.getDriverStandings(1009).observe(this, driverStandingsDataObserver);
         } else if (resultType == CONSTRUCTORS_STANDING_FRAGMENT) {
-            standingsViewModel.getConstuctorStandings().observe(this, constructorStandingsDataObserver);
+//            standingsViewModel.getConstuctorStandings().observe(this, constructorStandingsDataObserver);
         }
     }
 
@@ -56,21 +57,10 @@ public class StandingsTabFragment extends Fragment {
         return mView;
     }
 
-    private Observer<Feed> driverStandingsDataObserver = new Observer<Feed>() {
+    private Observer<List<DriverStanding>> driverStandingsDataObserver = new Observer<List<DriverStanding>>() {
         @Override
-        public void onChanged(@Nullable Feed feed) {
-            List<StandingsLists> standings = feed.getMrData().getStandingsTable().getStandingsLists();
-
-            mStandingsAdapter.setStandings(standings);
-        }
-    };
-
-    private Observer<Feed> constructorStandingsDataObserver = new Observer<Feed>() {
-        @Override
-        public void onChanged(@Nullable Feed feed) {
-            List<StandingsLists> standings = feed.getMrData().getStandingsTable().getStandingsLists();
-
-            mStandingsAdapter.setStandings(standings);
+        public void onChanged(List<DriverStanding> driverStandings) {
+            mStandingsAdapter.setStandings(driverStandings);
         }
     };
 }

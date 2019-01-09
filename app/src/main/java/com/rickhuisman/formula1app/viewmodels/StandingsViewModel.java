@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.rickhuisman.formula1app.ergast.ErgastRepository;
 import com.rickhuisman.formula1app.ergast.models.Feed;
+import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,58 +20,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class StandingsViewModel extends AndroidViewModel {
 
-    private static final String TAG = "StandingsViewModel";
-
-    private final CompositeDisposable mDisposable = new CompositeDisposable();
     private ErgastRepository mErgastRepository;
-
-    private LiveData<Feed> mDriverStandings = new MutableLiveData<>();
-    private LiveData<Feed> mConstructorStandings = new MutableLiveData<>();
 
     public StandingsViewModel(@NonNull Application application) {
         super(application);
-        mErgastRepository = new ErgastRepository();
+        mErgastRepository = new ErgastRepository(application);
     }
 
-    public LiveData<Feed> getDriverStandings() {
-        mDisposable.add(mErgastRepository.getDriverStandings()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Feed>() {
-                    @Override
-                    public void accept(Feed feed) {
-                        ((MutableLiveData<Feed>) mDriverStandings).setValue(feed);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Log.e(TAG, "Error: " + throwable.getMessage(), throwable);
-                    }
-                }));
-        return mDriverStandings;
-    }
-
-    public LiveData<Feed> getConstuctorStandings() {
-        mDisposable.add(mErgastRepository.getConstructorStandings()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Feed>() {
-                    @Override
-                    public void accept(Feed feed) {
-                        ((MutableLiveData<Feed>) mConstructorStandings).setValue(feed);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Log.e(TAG, "Error: " + throwable.getMessage(), throwable);
-                    }
-                }));
-        return mConstructorStandings;
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mDisposable.dispose();
+    public LiveData<List<DriverStanding>> getDriverStandings(int raceId) {
+        return mErgastRepository.getDriverStandings(raceId);
     }
 }

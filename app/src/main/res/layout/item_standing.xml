@@ -29,7 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
-        android:backgroundTint="@color/colorMercedes"
         android:src="@drawable/circle"
         app:layout_constraintBottom_toBottomOf="@+id/position_text_view"
         app:layout_constraintStart_toStartOf="parent"

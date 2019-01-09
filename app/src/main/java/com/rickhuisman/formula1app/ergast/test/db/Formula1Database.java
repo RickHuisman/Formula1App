@@ -5,6 +5,11 @@ import android.os.AsyncTask;
 
 import com.rickhuisman.formula1app.ergast.test.DatabaseAccess;
 import com.rickhuisman.formula1app.ergast.test.db.dao.Formula1Dao;
+import com.rickhuisman.formula1app.ergast.test.db.entities.Circuits;
+import com.rickhuisman.formula1app.ergast.test.db.entities.Constructor;
+import com.rickhuisman.formula1app.ergast.test.db.entities.Driver;
+import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
+import com.rickhuisman.formula1app.ergast.test.db.entities.Qualifying;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Races;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Results;
 
@@ -16,7 +21,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Races.class, Results.class}, version = 1, exportSchema = false)
+@Database(entities = {
+        Races.class,
+        Results.class,
+        Circuits.class,
+        Constructor.class,
+        Driver.class,
+        Qualifying.class,
+        DriverStanding.class}, version = 1, exportSchema = false)
 public abstract class Formula1Database extends RoomDatabase {
 
     private static Formula1Database instance;
@@ -68,6 +80,31 @@ public abstract class Formula1Database extends RoomDatabase {
             ArrayList<Results> results = databaseAccess.getResults();
             for (int i = 0; i < results.size(); i++) {
                 noteDao.insertResults(results.get(i));
+            }
+            // Circuits
+            ArrayList<Circuits> circuits = databaseAccess.getCircuits();
+            for (int i = 0; i < circuits.size(); i++) {
+                noteDao.insertCircuits(circuits.get(i));
+            }
+            // Constructors
+            ArrayList<Constructor> constructors = databaseAccess.getConstructors();
+            for (int i = 0; i < constructors.size(); i++) {
+                noteDao.insertConstructors(constructors.get(i));
+            }
+            // Drivers
+            ArrayList<Driver> drivers = databaseAccess.getDrivers();
+            for (int i = 0; i < drivers.size(); i++) {
+                noteDao.insertDrivers(drivers.get(i));
+            }
+            // Qualifying
+            ArrayList<Qualifying> qualifying = databaseAccess.getQualifying();
+            for (int i = 0; i < qualifying.size(); i++) {
+                noteDao.insertQualifying(qualifying.get(i));
+            }
+            // DriverStandings
+            ArrayList<DriverStanding> driverStandings = databaseAccess.getDriverStandings();
+            for (int i = 0; i < driverStandings.size(); i++) {
+                noteDao.insertDriverStandings(driverStandings.get(i));
             }
 
             databaseAccess.close();

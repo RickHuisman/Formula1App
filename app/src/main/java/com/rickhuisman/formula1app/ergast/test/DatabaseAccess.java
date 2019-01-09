@@ -5,6 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.rickhuisman.formula1app.ergast.test.db.entities.Circuits;
+import com.rickhuisman.formula1app.ergast.test.db.entities.Constructor;
+import com.rickhuisman.formula1app.ergast.test.db.entities.Driver;
+import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
+import com.rickhuisman.formula1app.ergast.test.db.entities.Qualifying;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Races;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Results;
 
@@ -14,7 +19,6 @@ public class DatabaseAccess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase db;
     private static DatabaseAccess instance;
-    Cursor c = null;
 
     private DatabaseAccess(Context context) {
         this.openHelper = new DatabaseOpenHelper(context);
@@ -83,5 +87,99 @@ public class DatabaseAccess {
         }
         test.close();
         return results;
+    }
+
+    public ArrayList<Circuits> getCircuits() {
+        Cursor test = db.rawQuery("SELECT * FROM circuits", new String[]{});
+
+        ArrayList<Circuits> circuits = new ArrayList<>();
+        while (test.moveToNext()) {
+            circuits.add(new Circuits(
+                    test.getInt(0),
+                    test.getString(1),
+                    test.getString(2),
+                    test.getString(3),
+                    test.getString(4),
+                    test.getFloat(5),
+                    test.getFloat(6),
+                    test.getInt(7),
+                    test.getString(8)));
+        }
+        test.close();
+        return circuits;
+    }
+
+    public ArrayList<Constructor> getConstructors() {
+        Cursor test = db.rawQuery("SELECT * FROM constructors", new String[]{});
+
+        ArrayList<Constructor> constructors = new ArrayList<>();
+        while (test.moveToNext()) {
+            constructors.add(new Constructor(
+                    test.getInt(0),
+                    test.getString(1),
+                    test.getString(2),
+                    test.getString(3),
+                    test.getString(4)));
+        }
+        test.close();
+        return constructors;
+    }
+
+    public ArrayList<Driver> getDrivers() {
+        Cursor test = db.rawQuery("SELECT * FROM drivers", new String[]{});
+
+        ArrayList<Driver> drivers = new ArrayList<>();
+        while (test.moveToNext()) {
+            drivers.add(new Driver(
+                    test.getInt(0),
+                    test.getString(1),
+                    test.getInt(2),
+                    test.getString(3),
+                    test.getString(4),
+                    test.getString(5),
+                    test.getString(6),
+                    test.getString(7),
+                    test.getString(8)));
+        }
+        test.close();
+        return drivers;
+    }
+
+    public ArrayList<Qualifying> getQualifying() {
+        Cursor test = db.rawQuery("SELECT * FROM qualifying", new String[]{});
+
+        ArrayList<Qualifying> qualifying = new ArrayList<>();
+        while (test.moveToNext()) {
+            qualifying.add(new Qualifying(
+                    test.getInt(0),
+                    test.getInt(1),
+                    test.getInt(2),
+                    test.getInt(3),
+                    test.getInt(4),
+                    test.getInt(5),
+                    test.getString(6),
+                    test.getString(7),
+                    test.getString(8)));
+        }
+        test.close();
+        return qualifying;
+    }
+
+    public ArrayList<DriverStanding> getDriverStandings() {
+        Cursor test = db.rawQuery("SELECT * FROM driverStandings", new String[]{});
+
+        ArrayList<DriverStanding> driverStandings = new ArrayList<>();
+        while (test.moveToNext()) {
+            driverStandings.add(new DriverStanding(
+                    test.getInt(0),
+                    test.getInt(1),
+                    test.getInt(2),
+                    test.getInt(3),
+                    test.getInt(4),
+                    test.getString(5),
+                    test.getInt(6)));
+        }
+        test.close();
+        return driverStandings;
     }
 }
