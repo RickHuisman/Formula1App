@@ -9,6 +9,7 @@ import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.ergast.models.StandingsLists;
 import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
+import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStandingsWithDriver;
 import com.rickhuisman.formula1app.viewmodels.StandingsViewModel;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class StandingsTabFragment extends Fragment {
         standingsList.setAdapter(mStandingsAdapter);
 
         if (resultType == DRIVERS_STANDING_FRAGMENT) {
-            standingsViewModel.getDriverStandings(1009).observe(this, driverStandingsDataObserver);
+            standingsViewModel.getDriverStandingsWithDriver(1009).observe(this, driverStandingsDataObserver);
         } else if (resultType == CONSTRUCTORS_STANDING_FRAGMENT) {
 //            standingsViewModel.getConstuctorStandings().observe(this, constructorStandingsDataObserver);
         }
@@ -57,10 +58,10 @@ public class StandingsTabFragment extends Fragment {
         return mView;
     }
 
-    private Observer<List<DriverStanding>> driverStandingsDataObserver = new Observer<List<DriverStanding>>() {
+    private Observer<List<DriverStandingsWithDriver>> driverStandingsDataObserver = new Observer<List<DriverStandingsWithDriver>>() {
         @Override
-        public void onChanged(List<DriverStanding> driverStandings) {
-            mStandingsAdapter.setStandings(driverStandings);
+        public void onChanged(List<DriverStandingsWithDriver> standings) {
+            mStandingsAdapter.setStandings(standings);
         }
     };
 }

@@ -4,6 +4,7 @@ import com.rickhuisman.formula1app.ergast.test.db.entities.Circuits;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Constructor;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Driver;
 import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
+import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStandingsWithDriver;
 import com.rickhuisman.formula1app.ergast.test.db.entities.Qualifying;
 import com.rickhuisman.formula1app.ergast.test.db.entities.QualifyingWithDriver;
 import com.rickhuisman.formula1app.ergast.test.db.entities.RaceResultWithDriver;
@@ -51,6 +52,6 @@ public interface Formula1Dao {
     @Query("SELECT qualifyId AS qualifying_qualifyId, raceId AS qualifying_raceId, Q.driverId AS qualifying_driverId, constructorId AS qualifying_constructorId, Q.number AS qualifying_number, position AS qualifying_position, q1 AS qualifying_q1, q2 AS qualifying_q2, q3 AS qualifying_q3, D.driverId AS driver_driverId, driverRef AS driver_driverRef, D.number AS driver_number, D.code AS driver_code, forename AS driver_forename, surname AS driver_surname, dob AS driver_dob, nationality AS driver_nationality, D.url AS driver_url FROM qualifying Q JOIN drivers D ON Q.driverId = D.driverId WHERE raceId = :raceId")
     LiveData<List<QualifyingWithDriver>> getQualifyingWithDriver(int raceId);
 
-    @Query("SELECT * FROM driverStandings WHERE raceId = :raceId ORDER BY points DESC")
-    LiveData<List<DriverStanding>> getDriverStandings(int raceId);
+    @Query("SELECT S.*, D.driverId AS driver_driverId, driverRef AS driver_driverRef, number AS driver_number, code AS driver_code, forename AS driver_forename, surname AS driver_surname, dob AS driver_dob, nationality AS driver_nationality, url AS driver_url FROM driverStandings S JOIN drivers D ON D.driverId = S.driverId WHERE raceId = :raceId ORDER BY points DESC")
+    LiveData<List<DriverStandingsWithDriver>> getDriverStandingsWithDriver(int raceId);
 }

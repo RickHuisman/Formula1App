@@ -7,6 +7,7 @@ import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.ergast.test.db.Formula1Database;
 import com.rickhuisman.formula1app.ergast.test.db.dao.Formula1Dao;
 import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
+import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStandingsWithDriver;
 import com.rickhuisman.formula1app.ergast.test.db.entities.QualifyingWithDriver;
 import com.rickhuisman.formula1app.ergast.test.db.entities.RaceResultWithDriver;
 import com.rickhuisman.formula1app.ergast.test.db.entities.RaceWithWinner;
@@ -47,8 +48,8 @@ public class ErgastRepository {
         return formula1Dao.getQualifyingWithDriver(raceId);
     }
 
-    public LiveData<List<DriverStanding>> getDriverStandings(int raceId) {
-        return formula1Dao.getDriverStandings(raceId);
+    public LiveData<List<DriverStandingsWithDriver>> getDriverStandingsWithDriver(int raceId) {
+        return formula1Dao.getDriverStandingsWithDriver(raceId);
     }
 
     public Observable<Feed> getConstructorStandings() {
