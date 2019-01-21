@@ -1,5 +1,6 @@
 package com.rickhuisman.formula1app.ui.schedule;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.test.db.entities.RaceWithWinner;
+import com.rickhuisman.formula1app.ergast.db.entities.RaceWithWinner;
 import com.rickhuisman.formula1app.viewmodels.ScheduleViewModel;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -73,18 +75,30 @@ public class ScheduleFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        int seasons = 2018 - 1950;
-        for (int i = 0; i <= seasons; i++) {
-            menu.add(Menu.NONE, 1950 + i, Menu.NONE, "Season " + String.valueOf(1950 + i));
-        }
         inflater.inflate(R.menu.menu_schedule, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int season = item.getItemId();
-
-        mRaceScheduleViewModel.getRaceAndWinners(season).observe(this, raceScheduleWithWinners);
+        if (item.getItemId() == R.id.item_select_season) {
+            selectSeasonDialog();
+        }
         return true;
+    }
+
+    private void selectSeasonDialog() {
+        final String[] seasons = {"2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+        builder
+                .setTitle("Select Season")
+                .setSingleChoiceItems(seasons, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        int season = Integer.valueOf(seasons[which]);
+                        mRaceScheduleViewModel.getRaceAndWinners(season).observe(getViewLifecycleOwner(), raceScheduleWithWinners);
+                        dialogInterface.dismiss();
+                    }
+                }).show();
     }
 }

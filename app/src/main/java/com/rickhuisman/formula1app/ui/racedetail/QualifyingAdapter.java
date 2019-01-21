@@ -1,6 +1,7 @@
 package com.rickhuisman.formula1app.ui.racedetail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.test.db.entities.QualifyingWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.QualifyingWithDriver;
+import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +45,9 @@ public class QualifyingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (position != 0) {
-
             QualifyingResultHolder qualifyingHolder = (QualifyingResultHolder) holder;
-
             QualifyingWithDriver result = mQualifyingResults.get(position - 1);
 
             qualifyingHolder.positionTextView.setText(
@@ -57,9 +57,21 @@ public class QualifyingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             qualifyingHolder.q2TimeTextView.setText(result.getQualifying().getQualifyingTwo());
             qualifyingHolder.q3TimeTextView.setText(result.getQualifying().getQualifyingThree());
 
-            int constructorId = 1;
+            int constructorId = result.getQualifying().getConstructorId();
             DrawableCompat.setTint(qualifyingHolder.teamImageView.getDrawable(),
                     ContextCompat.getColor(mContext, getTeamColor(constructorId)));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int driverId = mQualifyingResults.get(holder.getAdapterPosition() - 1).getDriver().getDriverId();
+
+                    Intent intent = new Intent(mContext, DriverActivity.class);
+                    intent.putExtra("driverId", driverId);
+
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

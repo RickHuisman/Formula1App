@@ -6,6 +6,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.rickhuisman.formula1app.ui.news.NewsFragment;
 import com.rickhuisman.formula1app.ui.schedule.ScheduleFragment;
 import com.rickhuisman.formula1app.ui.standings.StandingsFragment;
 
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.nav_standings:
                             selectedFragment = new StandingsFragment();
+                            break;
+                        case R.id.nav_news:
+                            selectedFragment = new NewsFragment();
                             break;
                     }
 

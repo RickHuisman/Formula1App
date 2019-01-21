@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_filter"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/item_filter"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/filter_new"
+                android:title="New"/>
+            <item
+                android:id="@+id/filter_populair"
+                android:title="Populair"/>
+            <item
+                android:id="@+id/filter_videos"
+                android:title="Videos"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/item_sources"
+        android:icon="@drawable/ic_language"
+        android:title="@string/item_sources"
+        app:showAsAction="ifRoom"/>
+</menu>

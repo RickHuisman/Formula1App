@@ -12,8 +12,14 @@
     </style>
 
     <style name="BottomNavigation">
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorPrimary</item>
         <item name="itemIconTint">@drawable/navigation_bar_icon</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="textColorAlertDialogListItem">#DEFFFFFF</item>
+        <item name="android:titleTextAppearance">@font/raleway_bold</item>
     </style>
 
     <style name="TextTitle">

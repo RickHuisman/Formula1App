@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1B1B1B</color>
+    <color name="colorPrimary">#202124</color>
+    <!--<color name="colorPrimary">#1B1B1B</color>-->
     <color name="colorPrimaryDark">#171717</color>
     <color name="colorPrimaryLight">#282828</color>
-    <color name="colorAccent">#67e680</color>
+    <color name="colorAccent">#67E680</color>
 
     <!-- Team colors -->
     <color name="constructor_131">#00D2BE</color>
@@ -17,7 +18,7 @@
     <color name="constructor_1">#FF8700</color>
     <color name="constructor_15">#9B0000</color>
 
-    <color name="constructor_2">#ff00fb</color>"
+    <color name="constructor_2">#FF00FB</color>"
     <color name="constructor_7">#ff00fb</color>"
     <color name="constructor_8">#ff00fb</color>"
     <color name="constructor_11">#ff00fb</color>"

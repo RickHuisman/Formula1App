@@ -6,9 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.test.db.entities.Qualifying;
-import com.rickhuisman.formula1app.ergast.test.db.entities.QualifyingWithDriver;
-import com.rickhuisman.formula1app.ergast.test.db.entities.RaceResultWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.QualifyingWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.RaceResultWithDriverAndStatus;
 import com.rickhuisman.formula1app.viewmodels.RaceDetailViewModel;
 
 import java.util.List;
@@ -52,7 +51,7 @@ public class ResultTabFragment extends Fragment {
             mResultAdapter = new ResultAdapter();
             resultList.setAdapter(mResultAdapter);
 
-            raceDetailViewModel.getRaceResultWithDriver(raceId).observe(this, RaceResultWithDriverObserver);
+            raceDetailViewModel.getRaceResultWithDriverAndStatus(raceId).observe(this, RaceResultWithDriverAndStatusObserver);
         }
     }
 
@@ -71,10 +70,10 @@ public class ResultTabFragment extends Fragment {
         }
     };
 
-    private Observer<List<RaceResultWithDriver>> RaceResultWithDriverObserver = new Observer<List<RaceResultWithDriver>>() {
+    private Observer<List<RaceResultWithDriverAndStatus>> RaceResultWithDriverAndStatusObserver = new Observer<List<RaceResultWithDriverAndStatus>>() {
         @Override
-        public void onChanged(List<RaceResultWithDriver> raceResultWithDriver) {
-            mResultAdapter.setRaceResultsWithDriver(raceResultWithDriver);
+        public void onChanged(List<RaceResultWithDriverAndStatus> result) {
+            mResultAdapter.setRaceResultsWithDriver(result);
         }
     };
 }

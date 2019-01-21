@@ -27,6 +27,12 @@
             android:name=".ui.racedetail.RaceDetailActivity"
             android:label="@string/title_activity_race_detail"
             android:theme="@style/AppTheme.NoActionbar" />
+        <activity
+            android:name=".ui.news.NewsWebView"
+            android:theme="@style/AppTheme.NoActionbar" />
+        <activity
+            android:name=".ui.driverdetail.DriverActivity"
+            android:theme="@style/AppTheme.NoActionbar" />
 
         <meta-data
             android:name="preloaded_fonts"

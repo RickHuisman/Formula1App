@@ -8,9 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.test.db.entities.Driver;
-import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
-import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStandingsWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.Driver;
+import com.rickhuisman.formula1app.ergast.db.entities.DriverStanding;
+import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +109,7 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private TextView pointsTextView;
         private ImageView teamImageView;
 
-        public StandingsHolder(View itemView) {
+        private StandingsHolder(View itemView) {
             super(itemView);
             positionTextView = itemView.findViewById(R.id.position_text_view);
             driverTextView = itemView.findViewById(R.id.driver_text_view);

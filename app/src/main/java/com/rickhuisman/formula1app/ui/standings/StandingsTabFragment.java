@@ -6,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.models.Feed;
-import com.rickhuisman.formula1app.ergast.models.StandingsLists;
-import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStanding;
-import com.rickhuisman.formula1app.ergast.test.db.entities.DriverStandingsWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructor;
+import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriver;
 import com.rickhuisman.formula1app.viewmodels.StandingsViewModel;
 
 import java.util.List;
@@ -27,7 +25,8 @@ public class StandingsTabFragment extends Fragment {
     public static final int CONSTRUCTORS_STANDING_FRAGMENT = 1;
 
     private View mView;
-    private DriverStandingsAdapter mStandingsAdapter;
+    private DriverStandingsAdapter mDriversStandingsAdapter;
+    private ConstructorStandingsAdapter mConstructorStandingsAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -40,13 +39,17 @@ public class StandingsTabFragment extends Fragment {
         standingsList.setHasFixedSize(true);
         StandingsViewModel standingsViewModel = ViewModelProviders.of(this).get(StandingsViewModel.class);
 
-        mStandingsAdapter = new DriverStandingsAdapter();
-        standingsList.setAdapter(mStandingsAdapter);
-
         if (resultType == DRIVERS_STANDING_FRAGMENT) {
+            mDriversStandingsAdapter = new DriverStandingsAdapter();
+            standingsList.setAdapter(mDriversStandingsAdapter);
+
             standingsViewModel.getDriverStandingsWithDriver(1009).observe(this, driverStandingsDataObserver);
         } else if (resultType == CONSTRUCTORS_STANDING_FRAGMENT) {
-//            standingsViewModel.getConstuctorStandings().observe(this, constructorStandingsDataObserver);
+            mConstructorStandingsAdapter = new ConstructorStandingsAdapter();
+            standingsList.setAdapter(mConstructorStandingsAdapter);
+
+            standingsViewModel.getConstructorStandingsWithConstructor(1009)
+                    .observe(this, constructorStandingsDataObserver);
         }
     }
 
@@ -61,7 +64,14 @@ public class StandingsTabFragment extends Fragment {
     private Observer<List<DriverStandingsWithDriver>> driverStandingsDataObserver = new Observer<List<DriverStandingsWithDriver>>() {
         @Override
         public void onChanged(List<DriverStandingsWithDriver> standings) {
-            mStandingsAdapter.setStandings(standings);
+            mDriversStandingsAdapter.setStandings(standings);
+        }
+    };
+
+    private Observer<List<ConstructorStandingsWithConstructor>> constructorStandingsDataObserver = new Observer<List<ConstructorStandingsWithConstructor>>() {
+        @Override
+        public void onChanged(List<ConstructorStandingsWithConstructor> standings) {
+            mConstructorStandingsAdapter.setStandings(standings);
         }
     };
 }

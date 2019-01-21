@@ -2,7 +2,7 @@
     <string name="app_name">Formula1App</string>
     <string name="nav_schedule">Schedule</string>
     <string name="nav_standings">Standings</string>
-    <string name="nav_drivers">Drivers</string>
+    <string name="nav_news">News</string>
     <string name="nav_stats">Stats</string>
     <string name="race_starts_in">Race starts in</string>
     <string name="title_activity_race_detail">RaceDetailActivity</string>
@@ -11,4 +11,6 @@
     <string name="tab_race">RACE</string>
     <string name="drivers">DRIVERS</string>
     <string name="constructors">CONSTRUCTORS</string>
+    <string name="item_filter">Filter</string>
+    <string name="item_sources">Filter</string>
 </resources>

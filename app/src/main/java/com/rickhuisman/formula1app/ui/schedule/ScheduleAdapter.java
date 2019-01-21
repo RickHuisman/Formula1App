@@ -2,6 +2,7 @@ package com.rickhuisman.formula1app.ui.schedule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -11,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.test.db.entities.Circuits;
-import com.rickhuisman.formula1app.ergast.test.db.entities.Constructor;
-import com.rickhuisman.formula1app.ergast.test.db.entities.RaceWithWinner;
-import com.rickhuisman.formula1app.ergast.test.db.entities.Races;
+import com.rickhuisman.formula1app.ergast.db.entities.Circuits;
+import com.rickhuisman.formula1app.ergast.db.entities.Constructor;
+import com.rickhuisman.formula1app.ergast.db.entities.RaceWithWinner;
+import com.rickhuisman.formula1app.ergast.db.entities.Races;
 import com.rickhuisman.formula1app.ui.racedetail.RaceDetailActivity;
 
 import org.joda.time.DateTime;
@@ -119,10 +120,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int color = getContrastWithTeamColorId(teamColorId);
 
         holder.textViewRaceName.setTextColor(color);
-        holder.textViewRaceName.setTextColor(color);
         holder.textViewRaceDate.setTextColor(color);
-        holder.textViewCircuitName.setTextColor(color);
         holder.imageViewCircuit.setColorFilter(color);
+
+        // Convert color integer to hex
+        String hexColor = String.format("%06X", (0xFFFFFF & color));
+        String colorWithTransparency = "#B3".concat(hexColor);
+        holder.textViewCircuitName.setTextColor(Color.parseColor(colorWithTransparency));
     }
 
     private int getTeamColorId(int constructorId) {
