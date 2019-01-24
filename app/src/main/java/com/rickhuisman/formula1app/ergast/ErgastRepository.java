@@ -4,11 +4,12 @@ import android.app.Application;
 
 import com.rickhuisman.formula1app.ergast.db.Formula1Database;
 import com.rickhuisman.formula1app.ergast.db.dao.Formula1Dao;
-import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructor;
-import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructorAndDrivers;
+import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriverAndConstructor;
 import com.rickhuisman.formula1app.ergast.db.entities.QualifyingWithDriver;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResultWithDriverAndStatus;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceWithWinner;
+import com.rickhuisman.formula1app.ergast.db.entities.Results;
 
 import java.util.List;
 
@@ -34,11 +35,15 @@ public class ErgastRepository {
         return formula1Dao.getQualifyingWithDriver(raceId);
     }
 
-    public LiveData<List<DriverStandingsWithDriver>> getDriverStandingsWithDriver(int raceId) {
-        return formula1Dao.getDriverStandingsWithDriver(raceId);
+    public LiveData<List<DriverStandingsWithDriverAndConstructor>> getDriverStandingsWithDriverAndConstructor(int raceId) {
+        return formula1Dao.getDriverStandingsWithDriverAndConstructor(raceId);
     }
 
-    public LiveData<List<ConstructorStandingsWithConstructor>> getConstructorStandingsWithConstructor(int raceId) {
-        return formula1Dao.getConstructorStandingsWithConstructor(raceId);
+    public LiveData<List<ConstructorStandingsWithConstructorAndDrivers>> getConstructorStandingsWithConstructorAndDrivers(int constructorId, int raceId) {
+        return formula1Dao.getConstructorStandingsWithConstructorAndDrivers(constructorId, raceId);
+    }
+
+    public LiveData<List<Results>> getResultsForDriverId(int driverId, int year) {
+        return formula1Dao.getResultsForDriverId(driverId, year);
     }
 }

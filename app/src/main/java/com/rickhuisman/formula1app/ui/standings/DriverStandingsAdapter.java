@@ -11,6 +11,7 @@ import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.Driver;
 import com.rickhuisman.formula1app.ergast.db.entities.DriverStanding;
 import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriverAndConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
-    private List<DriverStandingsWithDriver> standings = new ArrayList<>();
+    private List<DriverStandingsWithDriverAndConstructor> standings = new ArrayList<>();
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
-
         RecyclerView.ViewHolder viewHolder;
         View header = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.header_standing, parent, false);
@@ -37,7 +35,7 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if (viewType == 1) {
             View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_standing, parent, false);
+                    .inflate(R.layout.item_test, parent, false);
             return new StandingsHolder(itemView);
         }
         return viewHolder;
@@ -46,38 +44,21 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (position != 0) {
-            StandingsHolder standingHolder = (StandingsHolder) holder;
+            StandingsHolder holderView = (StandingsHolder) holder;
 
-            DriverStanding driverStanding = standings.get(position - 1).getDriverStanding();
-            Driver driver = standings.get(position - 1).getDriver();
+            String driver = standings.get(position - 1).getDriver().getForeName() + " " + standings.get(position - 1).getDriver().getSurName();
 
-            String driverName = driver.getForeName() + " " + driver.getSurName();
-
-            standingHolder.driverTextView.setText(driverName.toUpperCase());
-            standingHolder.teamTextView.setText("Ferrari");
-
-            int points = (int) driverStanding.getPoints();
-            standingHolder.pointsTextView.setText(String.valueOf(points));
-
-            standingHolder.positionTextView.setText(
-                    String.valueOf(driverStanding.getPosition()));
-
-            int constructorId = 6;
-            setTeamImageColor(standingHolder.teamImageView, constructorId);
+            holderView.titleTextView.setText(driver.toUpperCase());
+            holderView.subtitleTextView.setText(standings.get(position - 1).getConstructor().getName());
+            holderView.positionTextView.setText(standings.get(position - 1).getDriverStanding().getPositionText());
+            holderView.winsTextView.setText(
+                    String.valueOf(standings.get(position - 1).getDriverStanding().getWins()));
+            holderView.pointsTextView.setText(
+                    String.valueOf((int) standings.get(position - 1).getDriverStanding().getPoints()));
         }
     }
 
-    private void setTeamImageColor(ImageView imageView, int constructorId) {
-        DrawableCompat.setTint(imageView.getDrawable(),
-                ContextCompat.getColor(mContext, getTeamColor(constructorId)));
-    }
-
-    private int getTeamColor(int constructorId) {
-        return mContext.getResources().getIdentifier(
-                "constructor_" + constructorId, "color", mContext.getPackageName());
-    }
-
-    public void setStandings(List<DriverStandingsWithDriver> driverStandings) {
+    public void setStandings(List<DriverStandingsWithDriverAndConstructor> driverStandings) {
         this.standings = driverStandings;
 
         notifyDataSetChanged();
@@ -103,20 +84,19 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private class StandingsHolder extends RecyclerView.ViewHolder {
+        private TextView titleTextView;
+        private TextView subtitleTextView;
         private TextView positionTextView;
-        private TextView driverTextView;
-        private TextView teamTextView;
+        private TextView winsTextView;
         private TextView pointsTextView;
-        private ImageView teamImageView;
 
         private StandingsHolder(View itemView) {
             super(itemView);
+            titleTextView = itemView.findViewById(R.id.title_text_view);
+            subtitleTextView = itemView.findViewById(R.id.subtitle_text_view);
             positionTextView = itemView.findViewById(R.id.position_text_view);
-            driverTextView = itemView.findViewById(R.id.driver_text_view);
-            teamTextView = itemView.findViewById(R.id.team_text_view);
+            winsTextView = itemView.findViewById(R.id.wins_text_view);
             pointsTextView = itemView.findViewById(R.id.points_text_view);
-
-            teamImageView = itemView.findViewById(R.id.team_image_view);
         }
     }
 }

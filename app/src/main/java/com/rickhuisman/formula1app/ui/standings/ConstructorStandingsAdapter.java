@@ -8,9 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Constructor;
-import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandings;
-import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructor;
+import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructorAndDrivers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ConstructorStandingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<ConstructorStandingsWithConstructor> mStandingsList = new ArrayList<>();
+    private List<ConstructorStandingsWithConstructorAndDrivers> mStandingsList = new ArrayList<>();
 
     @NonNull
     @Override
@@ -46,22 +44,22 @@ public class ConstructorStandingsAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (position != 0) {
-            StandingsHolder standingHolder = (StandingsHolder) holder;
-
-            ConstructorStandings constructorStanding = mStandingsList.get(position - 1).getConstructorStandings();
-            Constructor constructor = mStandingsList.get(position - 1).getConstructor();
-
-            standingHolder.driverTextView.setText(constructor.getName());
-
-            standingHolder.teamTextView.setText("Hamilton - Bottas");
-
-            int points = (int) constructorStanding.getPoints();
-            standingHolder.pointsTextView.setText(String.valueOf(points));
-
-            standingHolder.positionTextView.setText(String.valueOf(constructorStanding.getPosition()));
-
-            int constructorId = 6;
-            setTeamImageColor(standingHolder.teamImageView, constructorId);
+//            StandingsHolder standingHolder = (StandingsHolder) holder;
+//
+//            ConstructorStandings constructorStanding = mStandingsList.get(position - 1).getConstructorStandings();
+//            Constructor constructor = mStandingsList.get(position - 1).getConstructor();
+//
+//            standingHolder.driverTextView.setText(constructor.getName());
+//
+//            standingHolder.teamTextView.setText("Hamilton - Bottas");
+//
+//            int points = (int) constructorStanding.getPoints();
+//            standingHolder.pointsTextView.setText(String.valueOf(points));
+//
+//            standingHolder.positionTextView.setText(String.valueOf(constructorStanding.getPosition()));
+//
+//            int constructorId = 6;
+//            setTeamImageColor(standingHolder.teamImageView, constructorId);
         }
     }
 
@@ -75,7 +73,7 @@ public class ConstructorStandingsAdapter extends RecyclerView.Adapter<RecyclerVi
                 "constructor_" + constructorId, "color", mContext.getPackageName());
     }
 
-    public void setStandings(List<ConstructorStandingsWithConstructor> constructorStandings) {
+    public void setStandings(List<ConstructorStandingsWithConstructorAndDrivers> constructorStandings) {
         this.mStandingsList = constructorStandings;
 
         notifyDataSetChanged();
