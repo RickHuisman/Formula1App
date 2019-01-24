@@ -3,8 +3,8 @@ package com.rickhuisman.formula1app.viewmodels;
 import android.app.Application;
 
 import com.rickhuisman.formula1app.ergast.ErgastRepository;
-import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructor;
-import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructorAndDrivers;
+import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriverAndConstructor;
 
 import java.util.List;
 
@@ -21,11 +21,11 @@ public class StandingsViewModel extends AndroidViewModel {
         mErgastRepository = new ErgastRepository(application);
     }
 
-    public LiveData<List<DriverStandingsWithDriver>> getDriverStandingsWithDriver(int raceId) {
-        return mErgastRepository.getDriverStandingsWithDriver(raceId);
+    public LiveData<List<DriverStandingsWithDriverAndConstructor>> getDriverStandingsWithDriverAndConstructor(int raceId) {
+        return mErgastRepository.getDriverStandingsWithDriverAndConstructor(raceId);
     }
 
-    public LiveData<List<ConstructorStandingsWithConstructor>> getConstructorStandingsWithConstructor(int raceId) {
-        return mErgastRepository.getConstructorStandingsWithConstructor(raceId);
+    public LiveData<List<ConstructorStandingsWithConstructorAndDrivers>> getConstructorStandingsWithConstructor(int constructorId, int raceId) {
+        return mErgastRepository.getConstructorStandingsWithConstructorAndDrivers(constructorId, raceId);
     }
 }

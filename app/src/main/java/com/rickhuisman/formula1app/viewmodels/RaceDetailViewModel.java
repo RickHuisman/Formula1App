@@ -16,7 +16,6 @@ import io.reactivex.disposables.CompositeDisposable;
 public class RaceDetailViewModel extends AndroidViewModel {
 
     private ErgastRepository mErgastRepository;
-    private final CompositeDisposable mDisposable = new CompositeDisposable();
 
     public RaceDetailViewModel(@NonNull Application application) {
         super(application);
@@ -29,11 +28,5 @@ public class RaceDetailViewModel extends AndroidViewModel {
 
     public LiveData<List<QualifyingWithDriver>> getQualifyingWithDriver(int raceId) {
         return mErgastRepository.getQualifyingWithDriver(raceId);
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mDisposable.dispose();
     }
 }
