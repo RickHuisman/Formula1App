@@ -5,7 +5,7 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 
 @Entity
-public class QualifyingWithDriver {
+public class QualifyingResult {
 
     @NonNull
     @Embedded(prefix = "qualifying_")
@@ -15,7 +15,7 @@ public class QualifyingWithDriver {
     @Embedded(prefix = "driver_")
     private Driver driver;
 
-    public QualifyingWithDriver(@NonNull Qualifying qualifying, @NonNull Driver driver) {
+    public QualifyingResult(@NonNull Qualifying qualifying, @NonNull Driver driver) {
         this.qualifying = qualifying;
         this.driver = driver;
     }

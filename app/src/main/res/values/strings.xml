@@ -6,7 +6,7 @@
     <string name="nav_stats">Stats</string>
     <string name="race_starts_in">Race starts in</string>
     <string name="title_activity_race_detail">RaceDetailActivity</string>
-    <string name="tab_overview">OVERVIEW</string>
+    <string name="tab_info">INFO</string>
     <string name="tab_qualifying">QUALIFYING</string>
     <string name="tab_race">RACE</string>
     <string name="drivers">DRIVERS</string>

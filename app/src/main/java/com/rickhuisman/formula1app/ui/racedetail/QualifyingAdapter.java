@@ -9,7 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.QualifyingWithDriver;
+import com.rickhuisman.formula1app.ergast.db.entities.Qualifying;
+import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
 import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;
 
 import java.util.ArrayList;
@@ -23,52 +24,50 @@ import androidx.recyclerview.widget.RecyclerView;
 public class QualifyingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<QualifyingWithDriver> mQualifyingResults = new ArrayList<>();
+    private List<QualifyingResult> mQualifyingResults = new ArrayList<>();
+
+    public QualifyingAdapter(Context context) {
+        this.mContext = context;
+    }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
-
-        RecyclerView.ViewHolder viewHolder;
-        View header = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.header_qualifying_result, parent, false);
-        viewHolder = new HeaderHolder(header);
-
-        if (viewType == 1) {
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_qualifying_result, parent, false);
-            return new QualifyingResultHolder(itemView);
+        if (viewType == 0) {
+            return new HeaderHolder(LayoutInflater.from(mContext)
+                    .inflate(R.layout.header_qualifying_result, parent, false));
+        } else {
+            return new QualifyingResultHolder(LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_qualifying_result, parent, false));
         }
-
-        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (position != 0) {
             QualifyingResultHolder qualifyingHolder = (QualifyingResultHolder) holder;
-            QualifyingWithDriver result = mQualifyingResults.get(position - 1);
 
-            qualifyingHolder.positionTextView.setText(
-                    String.valueOf(result.getQualifying().getPosition()));
-            qualifyingHolder.driverTextView.setText(result.getDriver().getSurName().substring(0, 3).toUpperCase());
-            qualifyingHolder.q1TimeTextView.setText(result.getQualifying().getQualifyingOne());
-            qualifyingHolder.q2TimeTextView.setText(result.getQualifying().getQualifyingTwo());
-            qualifyingHolder.q3TimeTextView.setText(result.getQualifying().getQualifyingThree());
+            final QualifyingResult result = mQualifyingResults.get(position - 1);
+            Qualifying qualifying = result.getQualifying();
 
-            int constructorId = result.getQualifying().getConstructorId();
+            qualifyingHolder.textViewPosition.setText(String.valueOf(qualifying.getPosition()));
+
+            String driverName = result.getDriver().getSurName().substring(0, 3).toUpperCase();
+            qualifyingHolder.textViewDriver.setText(driverName);
+
+            qualifyingHolder.textViewTimeQ1.setText(qualifying.getQualifyingOne());
+            qualifyingHolder.textViewTimeQ2.setText(qualifying.getQualifyingTwo());
+            qualifyingHolder.textViewTimeQ3.setText(qualifying.getQualifyingThree());
+
+            final int constructorId = qualifying.getConstructorId();
             DrawableCompat.setTint(qualifyingHolder.teamImageView.getDrawable(),
                     ContextCompat.getColor(mContext, getTeamColor(constructorId)));
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int driverId = mQualifyingResults.get(holder.getAdapterPosition() - 1).getDriver().getDriverId();
-
                     Intent intent = new Intent(mContext, DriverActivity.class);
-                    intent.putExtra("driverId", driverId);
-
+                    intent.putExtra("driverId", result.getDriver().getDriverId());
                     mContext.startActivity(intent);
                 }
             });
@@ -85,19 +84,17 @@ public class QualifyingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return mQualifyingResults.size() + 1;
     }
 
-    public void setQualifyingResults(List<QualifyingWithDriver> qualifyings) {
-        this.mQualifyingResults = qualifyings;
+    public void setQualifying(List<QualifyingResult> qualifying) {
+        this.mQualifyingResults = qualifying;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0)
-            return 0;
-        return 1;
+        return position == 0 ? 0 : 1;
     }
 
-    private class HeaderHolder extends RecyclerView.ViewHolder {
+    public class HeaderHolder extends RecyclerView.ViewHolder {
 
         private HeaderHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,23 +102,18 @@ public class QualifyingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public class QualifyingResultHolder extends RecyclerView.ViewHolder {
-        private TextView positionTextView;
-        private TextView driverTextView;
-        private TextView q1TimeTextView;
-        private TextView q2TimeTextView;
-        private TextView q3TimeTextView;
+        private TextView textViewPosition, textViewDriver, textViewTimeQ1, textViewTimeQ2, textViewTimeQ3;
         private ImageView teamImageView;
 
         public QualifyingResultHolder(View itemView) {
             super(itemView);
 
-            positionTextView = itemView.findViewById(R.id.position_text_view);
-            driverTextView = itemView.findViewById(R.id.driver_text_view);
-            q1TimeTextView = itemView.findViewById(R.id.q1_time_text_view);
-            q2TimeTextView = itemView.findViewById(R.id.q2_time_text_view);
-            q3TimeTextView = itemView.findViewById(R.id.q3_time_text_view);
-
-            teamImageView = itemView.findViewById(R.id.team_image_view);
+            textViewPosition = itemView.findViewById(R.id.year);
+            textViewDriver = itemView.findViewById(R.id.driver);
+            textViewTimeQ1 = itemView.findViewById(R.id.time_q1);
+            textViewTimeQ2 = itemView.findViewById(R.id.time_q2);
+            textViewTimeQ3 = itemView.findViewById(R.id.time_q3);
+            teamImageView = itemView.findViewById(R.id.constructor);
         }
     }
 }

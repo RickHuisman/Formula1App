@@ -4,7 +4,7 @@ package com.rickhuisman.formula1app.ergast.db.entities;
 import androidx.annotation.NonNull;
 import androidx.room.Embedded;
 
-public class DriverStandingsWithDriverAndConstructor {
+public class DriverStandings {
 
     @NonNull
     @Embedded()
@@ -12,7 +12,7 @@ public class DriverStandingsWithDriverAndConstructor {
 
     @NonNull
     @Embedded(prefix = "result_")
-    private Results results;
+    private Result result;
 
     @NonNull
     @Embedded(prefix = "driver_")
@@ -22,9 +22,9 @@ public class DriverStandingsWithDriverAndConstructor {
     @Embedded(prefix = "constructor_")
     private Constructor constructor;
 
-    public DriverStandingsWithDriverAndConstructor(@NonNull DriverStanding driverStanding, @NonNull Results results, @NonNull Driver driver, @NonNull Constructor constructor) {
+    public DriverStandings(@NonNull DriverStanding driverStanding, @NonNull Result result, @NonNull Driver driver, @NonNull Constructor constructor) {
         this.driverStanding = driverStanding;
-        this.results = results;
+        this.result = result;
         this.driver = driver;
         this.constructor = constructor;
     }
@@ -39,12 +39,12 @@ public class DriverStandingsWithDriverAndConstructor {
     }
 
     @NonNull
-    public Results getResults() {
-        return results;
+    public Result getResult() {
+        return result;
     }
 
-    public void setResults(@NonNull Results results) {
-        this.results = results;
+    public void setResult(@NonNull Result result) {
+        this.result = result;
     }
 
     @NonNull
@@ -67,9 +67,9 @@ public class DriverStandingsWithDriverAndConstructor {
 
     @Override
     public String toString() {
-        return "DriverStandingsWithDriverAndConstructor{" +
+        return "DriverStandings{" +
                 "driverStanding=" + driverStanding +
-                ", results=" + results +
+                ", result=" + result +
                 ", driver=" + driver +
                 ", constructor=" + constructor +
                 '}';

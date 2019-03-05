@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "circuits")
-public class Circuits {
+public class Circuit {
 
     @PrimaryKey()
     @ColumnInfo(name = "circuitId")
@@ -39,7 +39,7 @@ public class Circuits {
     @ColumnInfo(name = "url")
     private String url;
 
-    public Circuits(int circuitId, @NonNull String circuitRef, @NonNull String name, String location, String country, float date, float lng, int alt, @NonNull String url) {
+    public Circuit(int circuitId, @NonNull String circuitRef, @NonNull String name, String location, String country, float date, float lng, int alt, @NonNull String url) {
         this.circuitId = circuitId;
         this.circuitRef = circuitRef;
         this.name = name;

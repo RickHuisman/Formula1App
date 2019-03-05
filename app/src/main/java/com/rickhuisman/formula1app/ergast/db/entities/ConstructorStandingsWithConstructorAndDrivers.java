@@ -11,7 +11,7 @@ public class ConstructorStandingsWithConstructorAndDrivers {
 
     @NonNull
     @Embedded(prefix = "result_")
-    private Results results;
+    private Result result;
 
     @NonNull
     @Embedded(prefix = "constructor_")
@@ -21,9 +21,9 @@ public class ConstructorStandingsWithConstructorAndDrivers {
     @Embedded(prefix = "driver_")
     private Driver driver;
 
-    public ConstructorStandingsWithConstructorAndDrivers(@NonNull ConstructorStandings constructorStandings, @NonNull Results results, @NonNull Constructor constructor, @NonNull Driver driver) {
+    public ConstructorStandingsWithConstructorAndDrivers(@NonNull ConstructorStandings constructorStandings, @NonNull Result result, @NonNull Constructor constructor, @NonNull Driver driver) {
         this.constructorStandings = constructorStandings;
-        this.results = results;
+        this.result = result;
         this.constructor = constructor;
         this.driver = driver;
     }
@@ -38,12 +38,12 @@ public class ConstructorStandingsWithConstructorAndDrivers {
     }
 
     @NonNull
-    public Results getResults() {
-        return results;
+    public Result getResult() {
+        return result;
     }
 
-    public void setResults(@NonNull Results results) {
-        this.results = results;
+    public void setResult(@NonNull Result result) {
+        this.result = result;
     }
 
     @NonNull

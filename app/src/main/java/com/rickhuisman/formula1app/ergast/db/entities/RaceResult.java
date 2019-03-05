@@ -5,11 +5,11 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 
 @Entity
-public class RaceResultWithDriverAndStatus {
+public class RaceResult {
 
     @NonNull
     @Embedded(prefix = "result_")
-    private Results result;
+    private Result result;
 
     @NonNull
     @Embedded(prefix = "driver_")
@@ -19,18 +19,18 @@ public class RaceResultWithDriverAndStatus {
     @Embedded(prefix = "status_")
     private Status status;
 
-    public RaceResultWithDriverAndStatus(@NonNull Results result, @NonNull Driver driver, @NonNull Status status) {
+    public RaceResult(@NonNull Result result, @NonNull Driver driver, @NonNull Status status) {
         this.result = result;
         this.driver = driver;
         this.status = status;
     }
 
     @NonNull
-    public Results getResult() {
+    public Result getResult() {
         return result;
     }
 
-    public void setResult(@NonNull Results result) {
+    public void setResult(@NonNull Result result) {
         this.result = result;
     }
 

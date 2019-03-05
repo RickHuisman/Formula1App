@@ -10,7 +10,7 @@ public class ConstructorStandings {
 
     @PrimaryKey
     @ColumnInfo(name = "constructorStandingsId")
-    private int driverStandingsId;
+    private int constructorStandingsId;
 
     @NonNull
     @ColumnInfo(name = "raceId")
@@ -34,8 +34,8 @@ public class ConstructorStandings {
     @ColumnInfo(name = "wins")
     private int wins;
 
-    public ConstructorStandings(int driverStandingsId, @NonNull int raceId, @NonNull int constructorId, @NonNull float points, int position, String positionText, @NonNull int wins) {
-        this.driverStandingsId = driverStandingsId;
+    public ConstructorStandings(int constructorStandingsId, @NonNull int raceId, @NonNull int constructorId, @NonNull float points, int position, String positionText, @NonNull int wins) {
+        this.constructorStandingsId = constructorStandingsId;
         this.raceId = raceId;
         this.constructorId = constructorId;
         this.points = points;
@@ -44,12 +44,12 @@ public class ConstructorStandings {
         this.wins = wins;
     }
 
-    public int getDriverStandingsId() {
-        return driverStandingsId;
+    public int getConstructorStandingsId() {
+        return constructorStandingsId;
     }
 
-    public void setDriverStandingsId(int driverStandingsId) {
-        this.driverStandingsId = driverStandingsId;
+    public void setConstructorStandingsId(int constructorStandingsId) {
+        this.constructorStandingsId = constructorStandingsId;
     }
 
     @NonNull

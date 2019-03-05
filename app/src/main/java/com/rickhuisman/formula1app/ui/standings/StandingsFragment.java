@@ -10,9 +10,7 @@ import com.rickhuisman.formula1app.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -24,14 +22,10 @@ public class StandingsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Toolbar toolbar = mView.findViewById(R.id.toolbar);
-        toolbar.setTitle("STANDINGS");
-
-        StandingsPagerAdapter resultsPagerAdapter = new StandingsPagerAdapter(getActivity().getSupportFragmentManager());
-        ViewPager viewPager = mView.findViewById(R.id.container);
-        viewPager.setAdapter(resultsPagerAdapter);
-
         TabLayout tabLayout = mView.findViewById(R.id.container_tab_layout);
+
+        ViewPager viewPager = mView.findViewById(R.id.container);
+        viewPager.setAdapter(new StandingsPagerAdapter());
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
@@ -47,8 +41,11 @@ public class StandingsFragment extends Fragment {
 
     public class StandingsPagerAdapter extends FragmentStatePagerAdapter {
 
-        public StandingsPagerAdapter(FragmentManager fm) {
-            super(fm);
+        private static final int DRIVER_STANDINGS = 0;
+        private static final int CONSTRUCTOR_STANDINGS = 1;
+
+        public StandingsPagerAdapter() {
+            super(getActivity().getSupportFragmentManager());
         }
 
         @Override
@@ -56,20 +53,12 @@ public class StandingsFragment extends Fragment {
             StandingsTabFragment standingsTabFragment = new StandingsTabFragment();
             Bundle bundle = new Bundle();
 
-            switch (position) {
-                case 0:
-                    bundle.putInt("resultType", 0);
-                    standingsTabFragment.setArguments(bundle);
+            int type = position == 0 ? DRIVER_STANDINGS : CONSTRUCTOR_STANDINGS;
 
-                    return standingsTabFragment;
-                case 1:
-                    bundle.putInt("resultType", 1);
-                    standingsTabFragment.setArguments(bundle);
+            bundle.putInt("standingsType", type);
+            standingsTabFragment.setArguments(bundle);
 
-                    return standingsTabFragment;
-                default:
-                    return standingsTabFragment;
-            }
+            return standingsTabFragment;
         }
 
         @Override

@@ -22,30 +22,30 @@
         <item name="android:titleTextAppearance">@font/raleway_bold</item>
     </style>
 
-    <style name="TextTitle">
-        <item name="android:fontFamily">@font/raleway_bold</item>
+    <style name="ToolbarTitle">
+        <item name="android:fontFamily">@font/libre_franklin_medium</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:letterSpacing">0.15</item>
+        <item name="android:letterSpacing">0.07</item>
     </style>
 
     <style name="TextRegularBody">
-        <item name="android:fontFamily">@font/raleway_medium</item>
+        <item name="android:fontFamily">@font/libre_franklin_regular</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="TextHeader">
-        <item name="android:fontFamily">@font/raleway_medium</item>
+        <item name="android:fontFamily">@font/libre_franklin_regular</item>
         <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/TabItem</item>
-        <item name="tabIndicatorFullWidth">false</item>
     </style>
 
     <style name="TabItem" parent="TextAppearance.Design.Tab">
-        <item name="android:fontFamily">@font/raleway_extra_bold</item>
+        <item name="android:fontFamily">@font/libre_franklin_bold</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.07</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -5,14 +5,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.rickhuisman.formula1app.ergast.db.entities.Circuits;
+import com.rickhuisman.formula1app.ergast.db.entities.Circuit;
 import com.rickhuisman.formula1app.ergast.db.entities.Constructor;
+import com.rickhuisman.formula1app.ergast.db.entities.ConstructorResult;
 import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandings;
 import com.rickhuisman.formula1app.ergast.db.entities.Driver;
 import com.rickhuisman.formula1app.ergast.db.entities.DriverStanding;
 import com.rickhuisman.formula1app.ergast.db.entities.Qualifying;
-import com.rickhuisman.formula1app.ergast.db.entities.Races;
-import com.rickhuisman.formula1app.ergast.db.entities.Results;
+import com.rickhuisman.formula1app.ergast.db.entities.Race;
+import com.rickhuisman.formula1app.ergast.db.entities.Result;
 import com.rickhuisman.formula1app.ergast.db.entities.Status;
 
 import java.util.ArrayList;
@@ -43,12 +44,12 @@ public class DatabaseAccess {
         }
     }
 
-    public ArrayList<Races> getRaces() {
+    public ArrayList<Race> getRaces() {
         Cursor test = db.rawQuery("SELECT * FROM races", new String[]{});
 
-        ArrayList<Races> races = new ArrayList<>();
+        ArrayList<Race> races = new ArrayList<>();
         while (test.moveToNext()) {
-            races.add(new Races(
+            races.add(new Race(
                     test.getInt(0),
                     test.getInt(1),
                     test.getInt(2),
@@ -62,12 +63,12 @@ public class DatabaseAccess {
         return races;
     }
 
-    public ArrayList<Results> getResults() {
+    public ArrayList<Result> getResults() {
         Cursor test = db.rawQuery("SELECT * FROM results", new String[]{});
 
-        ArrayList<Results> results = new ArrayList<>();
+        ArrayList<Result> results = new ArrayList<>();
         while (test.moveToNext()) {
-            results.add(new Results(
+            results.add(new Result(
                     test.getInt(0),
                     test.getInt(1),
                     test.getInt(2),
@@ -91,12 +92,12 @@ public class DatabaseAccess {
         return results;
     }
 
-    public ArrayList<Circuits> getCircuits() {
+    public ArrayList<Circuit> getCircuits() {
         Cursor test = db.rawQuery("SELECT * FROM circuits", new String[]{});
 
-        ArrayList<Circuits> circuits = new ArrayList<>();
+        ArrayList<Circuit> circuits = new ArrayList<>();
         while (test.moveToNext()) {
-            circuits.add(new Circuits(
+            circuits.add(new Circuit(
                     test.getInt(0),
                     test.getString(1),
                     test.getString(2),
@@ -201,6 +202,22 @@ public class DatabaseAccess {
         }
         test.close();
         return constructorStandings;
+    }
+
+    public ArrayList<ConstructorResult> getConstructorResults() {
+        Cursor test = db.rawQuery("SELECT * FROM constructorResults", new String[]{});
+
+        ArrayList<ConstructorResult> constructorResults = new ArrayList<>();
+        while (test.moveToNext()) {
+            constructorResults.add(new ConstructorResult(
+                    test.getInt(0),
+                    test.getInt(1),
+                    test.getInt(2),
+                    test.getInt(3),
+                    test.getString(4)));
+        }
+        test.close();
+        return constructorResults;
     }
 
     public ArrayList<Status> getStatus() {

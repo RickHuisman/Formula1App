@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "results")
-public class Results {
+public class Result {
 
     @PrimaryKey()
     @ColumnInfo(name = "resultId")
@@ -72,7 +72,7 @@ public class Results {
     @ColumnInfo(name = "statusId")
     private int statusId;
 
-    public Results(int resultId, @NonNull int raceId, @NonNull int driverId, @NonNull int constructorId, int number, @NonNull int grid, int position, @NonNull String positionText, @NonNull int positionOrder, @NonNull float points, @NonNull int laps, String time, int milliseconds, int fastestLap, int rank, String fastestLapTime, String fastestLapSpeed, @NonNull int statusId) {
+    public Result(int resultId, @NonNull int raceId, @NonNull int driverId, @NonNull int constructorId, int number, @NonNull int grid, int position, @NonNull String positionText, @NonNull int positionOrder, @NonNull float points, @NonNull int laps, String time, int milliseconds, int fastestLap, int rank, String fastestLapTime, String fastestLapSpeed, @NonNull int statusId) {
         this.resultId = resultId;
         this.raceId = raceId;
         this.driverId = driverId;
@@ -248,7 +248,7 @@ public class Results {
 
     @Override
     public String toString() {
-        return "Results{" +
+        return "Result{" +
                 "resultId=" + resultId +
                 ", raceId=" + raceId +
                 ", driverId=" + driverId +

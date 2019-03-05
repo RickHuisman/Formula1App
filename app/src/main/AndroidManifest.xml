@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.racedetail.RaceDetailActivity"
+            android:name=".ui.racedetail.RaceActivity"
             android:label="@string/title_activity_race_detail"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
@@ -32,6 +32,9 @@
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".ui.driverdetail.DriverActivity"
+            android:theme="@style/AppTheme.NoActionbar" />
+        <activity
+            android:name=".ui.constructor.ConstructorActivity"
             android:theme="@style/AppTheme.NoActionbar" />
 
         <meta-data

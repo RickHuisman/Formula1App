@@ -1,35 +1,57 @@
 package com.rickhuisman.formula1app.ui.driverdetail;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
+import com.rickhuisman.formula1app.ColorActivity;
 import com.rickhuisman.formula1app.R;
+import com.rickhuisman.formula1app.ergast.db.entities.Driver;
+import com.rickhuisman.formula1app.ergast.db.entities.Result;
+import com.rickhuisman.formula1app.viewmodels.DriverViewModel;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
-public class DriverActivity extends AppCompatActivity {
+public class DriverActivity extends ColorActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         int driverId = getIntent().getExtras().getInt("driverId");
 
-        SetUpPagerAdapter();
+        DriverViewModel driverViewModel = ViewModelProviders.of(this).get(DriverViewModel.class);
+        driverViewModel.getDriver(driverId).observe(this, new Observer<Driver>() {
+            @Override
+            public void onChanged(Driver driver) {
+                String driverName = driver.getForeName() + " " + driver.getSurName();
+                setToolbarTitle(driverName);
+            }
+        });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        driverViewModel.getResultForDriver(driverId).observe(this, new Observer<Result>() {
+            @Override
+            public void onChanged(Result result) {
+                setTopAppBarColors(result.getConstructorId());
+            }
+        });
+        setUpPagerAdapter(driverId);
     }
 
-    private void SetUpPagerAdapter() {
-        PagerAdapter racePagerAdapter = new PagerAdapter(getSupportFragmentManager());
+    private void setUpPagerAdapter(int driverId) {
+        PagerAdapter racePagerAdapter = new PagerAdapter(getSupportFragmentManager(), driverId);
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(racePagerAdapter);
 
@@ -39,20 +61,35 @@ public class DriverActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private class PagerAdapter extends FragmentPagerAdapter {
 
-        private PagerAdapter(FragmentManager fm) {
+        int driverId;
+
+        private PagerAdapter(FragmentManager fm, int driverId) {
             super(fm);
+            this.driverId = driverId;
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new DriverResultsFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("driverId", driverId);
+
+                    DriverInfoFragment driverInfoFragment = new DriverInfoFragment();
+                    driverInfoFragment.setArguments(bundle);
+
+                    return driverInfoFragment;
                 case 1:
-                    return new DriverResultsFragment();
-                case 2:
                     return new DriverResultsFragment();
                 default:
                     return null;
@@ -61,7 +98,7 @@ public class DriverActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
     }
 }

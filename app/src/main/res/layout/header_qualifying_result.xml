@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/raleway_bold"
         android:text="POS"
-        android:textColor="#80FFFFFF" />
+        android:textColor="#00FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,29 +26,42 @@
         android:layout_marginStart="38dp"
         android:fontFamily="@font/raleway_bold"
         android:text="DRIVER"
-        android:textColor="#80FFFFFF" />
+        android:textColor="#00FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:fontFamily="@font/raleway_bold"
+        android:fontFamily="@font/libre_franklin_regular"
+        android:textSize="14sp"
         android:text="Q1"
-        android:textColor="#80FFFFFF" />
+        android:textColor="@color/colorGrey" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:fontFamily="@font/raleway_bold"
+        android:layout_marginStart="12dp"
+        android:fontFamily="@font/libre_franklin_regular"
+        android:textSize="14sp"
         android:text="Q2"
-        android:textColor="#80FFFFFF" />
+        android:textColor="@color/colorGrey" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:fontFamily="@font/raleway_bold"
+        android:layout_marginEnd="37dp"
+        android:fontFamily="@font/libre_franklin_regular"
+        android:textSize="14sp"
         android:text="Q3"
-        android:textColor="#80FFFFFF" />
+        android:textColor="@color/colorGrey" />
 </LinearLayout>

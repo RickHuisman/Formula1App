@@ -42,7 +42,7 @@ public class NewsFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        mArticlesList = mView.findViewById(R.id.recycler_view);
+        mArticlesList = mView.findViewById(R.id.race_schedule);
         mArticlesList.setLayoutManager(new LinearLayoutManager(getContext()));
         mArticlesList.setHasFixedSize(true);
 

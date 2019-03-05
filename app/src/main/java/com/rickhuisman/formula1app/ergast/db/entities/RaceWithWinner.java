@@ -9,11 +9,11 @@ public class RaceWithWinner {
 
     @NonNull
     @Embedded(prefix = "race_")
-    private Races race;
+    private Race race;
 
     @NonNull
     @Embedded(prefix = "result_")
-    private Results result;
+    private Result result;
 
     @NonNull
     @Embedded(prefix = "constructor_")
@@ -21,9 +21,9 @@ public class RaceWithWinner {
 
     @NonNull
     @Embedded(prefix = "circuit_")
-    private Circuits circuit;
+    private Circuit circuit;
 
-    public RaceWithWinner(@NonNull Races race, @NonNull Results result, @NonNull Constructor constructor, @NonNull Circuits circuit) {
+    public RaceWithWinner(@NonNull Race race, @NonNull Result result, @NonNull Constructor constructor, @NonNull Circuit circuit) {
         this.race = race;
         this.result = result;
         this.constructor = constructor;
@@ -31,20 +31,20 @@ public class RaceWithWinner {
     }
 
     @NonNull
-    public Races getRace() {
+    public Race getRace() {
         return race;
     }
 
-    public void setRace(@NonNull Races race) {
+    public void setRace(@NonNull Race race) {
         this.race = race;
     }
 
     @NonNull
-    public Results getResult() {
+    public Result getResult() {
         return result;
     }
 
-    public void setResult(@NonNull Results result) {
+    public void setResult(@NonNull Result result) {
         this.result = result;
     }
 
@@ -58,11 +58,11 @@ public class RaceWithWinner {
     }
 
     @NonNull
-    public Circuits getCircuit() {
+    public Circuit getCircuit() {
         return circuit;
     }
 
-    public void setCircuit(@NonNull Circuits circuit) {
+    public void setCircuit(@NonNull Circuit circuit) {
         this.circuit = circuit;
     }
 }

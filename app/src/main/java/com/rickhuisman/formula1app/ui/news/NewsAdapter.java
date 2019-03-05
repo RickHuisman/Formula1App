@@ -35,7 +35,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Article> {
     @Override
     public void onBindViewHolder(@NonNull final Article holder, int position) {
         holder.textViewTitle.setText(mArticles.get(position).getTitle());
-        holder.textViewDate.setText("Autosport.com • " + mArticles.get(position).getPubDate());
+        holder.textViewDate.setText("AUTOSPORT.COM • 10-1-2019");
         Glide.with(mContext)
                 .load("https://d2d0b2rxqzh1q5.cloudfront.net/sv/1.67/dir/6a6/image/6a6886b3f39268e444ab859755b4bad4.jpg")
                 .apply(RequestOptions.circleCropTransform())

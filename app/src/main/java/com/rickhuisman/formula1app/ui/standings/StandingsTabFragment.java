@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructorAndDrivers;
-import com.rickhuisman.formula1app.ergast.db.entities.DriverStandingsWithDriverAndConstructor;
+import com.rickhuisman.formula1app.ergast.db.entities.DriverStandings;
 import com.rickhuisman.formula1app.viewmodels.StandingsViewModel;
 
 import java.util.List;
@@ -21,10 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class StandingsTabFragment extends Fragment {
-    public static final int DRIVERS_STANDING_FRAGMENT = 0;
-    public static final int CONSTRUCTORS_STANDING_FRAGMENT = 1;
+
+    private static final int DRIVER_STANDINGS = 0;
+    private static final int CONSTRUCTOR_STANDINGS = 1;
 
     private View mView;
+
     private DriverStandingsAdapter mDriversStandingsAdapter;
     private ConstructorStandingsAdapter mConstructorStandingsAdapter;
 
@@ -32,24 +34,25 @@ public class StandingsTabFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        int resultType = getArguments().getInt("resultType");
+        int standingsType = getArguments().getInt("standingsType");
 
-        RecyclerView standingsList = mView.findViewById(R.id.race_result_recycler_view);
+        RecyclerView standingsList = mView.findViewById(R.id.standings);
         standingsList.setLayoutManager(new LinearLayoutManager(getContext()));
         standingsList.setHasFixedSize(true);
+
         StandingsViewModel standingsViewModel = ViewModelProviders.of(this).get(StandingsViewModel.class);
 
-        if (resultType == DRIVERS_STANDING_FRAGMENT) {
-            mDriversStandingsAdapter = new DriverStandingsAdapter();
+        if (standingsType == DRIVER_STANDINGS) {
+            mDriversStandingsAdapter = new DriverStandingsAdapter(getContext());
             standingsList.setAdapter(mDriversStandingsAdapter);
 
-            standingsViewModel.getDriverStandingsWithDriverAndConstructor(1009).observe(this, driverStandingsDataObserver);
-        } else if (resultType == CONSTRUCTORS_STANDING_FRAGMENT) {
-            mConstructorStandingsAdapter = new ConstructorStandingsAdapter();
+            standingsViewModel.getDriverStandings(1009).observe(this, driverStandingsObserver);
+        } else if (standingsType == CONSTRUCTOR_STANDINGS) {
+            mConstructorStandingsAdapter = new ConstructorStandingsAdapter(getContext());
             standingsList.setAdapter(mConstructorStandingsAdapter);
 
-            standingsViewModel.getConstructorStandingsWithConstructor(131,1009)
-                    .observe(this, constructorStandingsDataObserver);
+            standingsViewModel.getConstructorStandings(1009)
+                    .observe(this, constructorStandingsObserver);
         }
     }
 
@@ -61,17 +64,17 @@ public class StandingsTabFragment extends Fragment {
         return mView;
     }
 
-    private Observer<List<DriverStandingsWithDriverAndConstructor>> driverStandingsDataObserver = new Observer<List<DriverStandingsWithDriverAndConstructor>>() {
+    private Observer<List<DriverStandings>> driverStandingsObserver = new Observer<List<DriverStandings>>() {
         @Override
-        public void onChanged(List<DriverStandingsWithDriverAndConstructor> standings) {
+        public void onChanged(List<DriverStandings> standings) {
             mDriversStandingsAdapter.setStandings(standings);
         }
     };
 
-    private Observer<List<ConstructorStandingsWithConstructorAndDrivers>> constructorStandingsDataObserver = new Observer<List<ConstructorStandingsWithConstructorAndDrivers>>() {
+    private Observer<List<ConstructorStandingsWithConstructorAndDrivers>> constructorStandingsObserver = new Observer<List<ConstructorStandingsWithConstructorAndDrivers>>() {
         @Override
         public void onChanged(List<ConstructorStandingsWithConstructorAndDrivers> standings) {
-//            mConstructorStandingsAdapter.setStandings(standings);
+            mConstructorStandingsAdapter.setStandings(standings);
         }
     };
 }

@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "races")
-public class Races {
+public class Race {
 
     @PrimaryKey()
     @ColumnInfo(name = "raceId")
@@ -32,7 +32,7 @@ public class Races {
     @ColumnInfo(name = "url")
     private String url;
 
-    public Races(int raceId, int year, int round, int circuitId, String name, String date, String time, String url) {
+    public Race(int raceId, int year, int round, int circuitId, String name, String date, String time, String url) {
         this.raceId = raceId;
         this.year = year;
         this.round = round;
@@ -109,7 +109,7 @@ public class Races {
 
     @Override
     public String toString() {
-        return "Races{" +
+        return "Race{" +
                 "raceId=" + raceId +
                 ", year=" + year +
                 ", round=" + round +
