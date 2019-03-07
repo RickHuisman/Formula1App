@@ -13,4 +13,5 @@
     <string name="constructors">CONSTRUCTORS</string>
     <string name="item_filter">Filter</string>
     <string name="item_sources">Filter</string>
+    <string name="select_history">Select History</string>
 </resources>
