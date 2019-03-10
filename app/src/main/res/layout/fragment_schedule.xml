@@ -11,10 +11,12 @@
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             app:title="SCHEDULE"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_scrollFlags="scroll|enterAlways"
             app:titleTextAppearance="@style/ToolbarTitle"
             app:titleTextColor="@android:color/white" />

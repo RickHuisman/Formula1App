@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-//      Start fragment
+        // Start fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new ScheduleFragment()).commit();
     }
