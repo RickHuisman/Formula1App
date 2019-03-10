@@ -37,7 +37,11 @@ public class RaceActivity extends AppCompatActivity {
         raceViewModel.getRaceResult(raceId).observe(this, new Observer<List<RaceResult>>() {
             @Override
             public void onChanged(List<RaceResult> raceResults) {
-                setTopAppBarColors(raceResults.get(0).getResult().getConstructorId());
+                if (raceResults.size() == 0) {
+                    setTopAppBarColors(111);
+                } else {
+                    setTopAppBarColors(raceResults.get(0).getResult().getConstructorId());
+                }
             }
         });
 

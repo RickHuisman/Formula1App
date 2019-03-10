@@ -11,6 +11,7 @@ import com.rickhuisman.formula1app.ergast.db.entities.ConstructorResult;
 import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandings;
 import com.rickhuisman.formula1app.ergast.db.entities.Driver;
 import com.rickhuisman.formula1app.ergast.db.entities.DriverStanding;
+import com.rickhuisman.formula1app.ergast.db.entities.LapTimes;
 import com.rickhuisman.formula1app.ergast.db.entities.Qualifying;
 import com.rickhuisman.formula1app.ergast.db.entities.Race;
 import com.rickhuisman.formula1app.ergast.db.entities.Result;
@@ -231,5 +232,22 @@ public class DatabaseAccess {
         }
         test.close();
         return statusList;
+    }
+
+    public ArrayList<LapTimes> getLapTimes() {
+        Cursor test = db.rawQuery("SELECT * FROM lapTimes", new String[]{});
+
+        ArrayList<LapTimes> lapTimes = new ArrayList<>();
+        while (test.moveToNext()) {
+            lapTimes.add(new LapTimes(
+                    test.getInt(0),
+                    test.getInt(1),
+                    test.getInt(2),
+                    test.getInt(3),
+                    test.getString(4),
+                    test.getInt(5)));
+        }
+        test.close();
+        return lapTimes;
     }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.CircuitAndFirstGP;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestClimb;
+import com.rickhuisman.formula1app.ergast.db.entities.LapRecord;
 import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
 import com.rickhuisman.formula1app.ergast.db.entities.Race;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResultDriver;
@@ -48,6 +49,7 @@ public class RaceInfoTabFragment extends Fragment {
 
                 raceViewModel.getCircuitAndFirstGP(circuitId).observe(getViewLifecycleOwner(), circuitAndFirstGPObserver);
                 raceViewModel.getRaceResultForCircuit(circuitId).observe(getViewLifecycleOwner(), raceResultDriverObserver);
+                raceViewModel.getLapRecordFor(circuitId).observe(getViewLifecycleOwner(), lapRecordObserver);
             }
         });
         raceViewModel.getRaceWinner(raceId).observe(this, raceWinnerObserver);
@@ -129,6 +131,17 @@ public class RaceInfoTabFragment extends Fragment {
             RaceWinnersAdapter adapter = new RaceWinnersAdapter(getContext());
             list.setAdapter(adapter);
             adapter.setResults(results);
+        }
+    };
+
+    private Observer<LapRecord> lapRecordObserver = new Observer<LapRecord>() {
+        @Override
+        public void onChanged(LapRecord lapRecord) {
+            TextView lapRecordTextView = mView.findViewById(R.id.lap_record);
+            lapRecordTextView.setText(lapRecord.getLapTime().getTime());
+
+            TextView recordHolderTextView = mView.findViewById(R.id.record_holder);
+            recordHolderTextView.setText(lapRecord.getDriver().getForeName() + " " + lapRecord.getDriver().getSurName());
         }
     };
 

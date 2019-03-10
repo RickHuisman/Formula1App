@@ -14,6 +14,8 @@ import com.rickhuisman.formula1app.ergast.db.entities.DriverStandings;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestClimb;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestGrid;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestRaceFinish;
+import com.rickhuisman.formula1app.ergast.db.entities.LapRecord;
+import com.rickhuisman.formula1app.ergast.db.entities.LapTimes;
 import com.rickhuisman.formula1app.ergast.db.entities.PodiumCount;
 import com.rickhuisman.formula1app.ergast.db.entities.Qualifying;
 import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
@@ -67,6 +69,9 @@ public interface ErgastDao {
 
     @Insert
     void insertStatus(Status status);
+
+    @Insert
+    void insertLapTimes(LapTimes lapTimes);
 
     @Query("SELECT R.raceId AS race_raceId, year AS race_year, round AS race_round, R.circuitId AS race_circuitId, R.name AS race_name, date AS race_date, R.time AS race_time, R.url AS race_url, resultId AS result_resultId, S.raceId AS result_raceId, driverId AS result_driverId, S.constructorId AS result_constructorId, number AS result_number, grid AS result_grid, position AS result_position, positionText AS result_positionText, positionOrder AS result_positionOrder, points AS result_points, laps AS result_laps, S.time AS result_time, milliseconds AS result_milliseconds, fastestLap As result_fastestLap, rank AS result_rank, fastestLapTime AS result_fastestLapTime, fastestLapSpeed AS result_fastestLapSpeed, statusId AS result_statusId, S.constructorId AS constructor_constructorId, constructorRef AS constructor_constructorRef, T.name AS constructor_name, nationality AS constructor_nationality, C.url AS constructor_url, C.circuitId AS circuit_circuitId, circuitRef AS circuit_circuitRef, C.name AS circuit_name, location AS circuit_location, country AS circuit_country, lat AS circuit_lat, lng AS circuit_lng, alt AS circuit_alt, C.url AS circuit_url FROM races R LEFT JOIN results S ON S.raceId = R.raceId LEFT JOIN constructors T ON T.constructorId = S.constructorId JOIN circuits C ON C.circuitId = R.circuitId WHERE year = :year")
     LiveData<List<RaceWithWinner>> getRaceSchedule(int year);
@@ -148,6 +153,9 @@ public interface ErgastDao {
 
     @Query("SELECT COUNT() AS count FROM constructorResults WHERE constructorId = :constructorId")
     LiveData<RaceCount> getRaceCountFor(int constructorId);
+
+    @Query("SELECT L.*, D.driverId AS driver_driverId, driverRef AS driver_driverRef, D.number AS driver_number, D.code AS driver_code, forename AS driver_forename, surname AS driver_surname, dob AS driver_dob, D.nationality AS driver_nationality, D.url AS driver_url FROM races R JOIN circuits C ON R.circuitId = C.circuitId JOIN lapTimes L ON R.raceId = L.raceId JOIN drivers D ON L.driverId = D.driverId WHERE C.circuitId = :circuitId ORDER BY milliseconds LIMIT 1")
+    LiveData<LapRecord> getLapRecordFor(int circuitId);
 
 //    @Query("SELECT * FROM results S JOIN races R ON R.raceId = S.raceId WHERE driverId = :driverId AND year = :year")
 //    LiveData<List<Result>> getResultsForDriverId(int driverId, int year);

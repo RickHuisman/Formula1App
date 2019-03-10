@@ -10,6 +10,7 @@ import com.rickhuisman.formula1app.ergast.db.entities.ConstructorResult;
 import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandings;
 import com.rickhuisman.formula1app.ergast.db.entities.Driver;
 import com.rickhuisman.formula1app.ergast.db.entities.DriverStanding;
+import com.rickhuisman.formula1app.ergast.db.entities.LapTimes;
 import com.rickhuisman.formula1app.ergast.db.entities.Qualifying;
 import com.rickhuisman.formula1app.ergast.db.entities.Race;
 import com.rickhuisman.formula1app.ergast.db.entities.Result;
@@ -33,7 +34,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
         DriverStanding.class,
         ConstructorStandings.class,
         ConstructorResult.class,
-        Status.class}, version = 1, exportSchema = false)
+        Status.class,
+        LapTimes.class}, version = 1, exportSchema = false)
 public abstract class ErgastDatabase extends RoomDatabase {
 
     private static ErgastDatabase sInstance;
@@ -120,12 +122,17 @@ public abstract class ErgastDatabase extends RoomDatabase {
             ArrayList<ConstructorResult> constructorResults = databaseAccess.getConstructorResults();
             for (int i = 0; i < constructorResults.size(); i++) {
                 mErgastDao.insertConstructorResults(constructorResults.get(i));
-                System.out.println("Test - " + i);
             }
             // Status
             ArrayList<com.rickhuisman.formula1app.ergast.db.entities.Status> status = databaseAccess.getStatus();
             for (int i = 0; i < status.size(); i++) {
                 mErgastDao.insertStatus(status.get(i));
+            }
+            // LapTimes
+            ArrayList<LapTimes> lapTimes = databaseAccess.getLapTimes();
+            for (int i = 0; i < lapTimes.size(); i++) {
+                mErgastDao.insertLapTimes(lapTimes.get(i));
+                System.out.println("Test - " + i);
             }
 
             databaseAccess.close();

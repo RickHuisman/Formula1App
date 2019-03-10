@@ -14,6 +14,8 @@ import com.rickhuisman.formula1app.ergast.db.entities.DriverStandings;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestClimb;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestGrid;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestRaceFinish;
+import com.rickhuisman.formula1app.ergast.db.entities.LapRecord;
+import com.rickhuisman.formula1app.ergast.db.entities.LapTimes;
 import com.rickhuisman.formula1app.ergast.db.entities.PodiumCount;
 import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
 import com.rickhuisman.formula1app.ergast.db.entities.Race;
@@ -140,6 +142,10 @@ public class ErgastRepository {
 
     public LiveData<RaceCount> getRaceCountFor(int constructorId) {
         return mErgastDao.getRaceCountFor(constructorId);
+    }
+
+    public LiveData<LapRecord> getLapRecordFor(int circuitId) {
+        return mErgastDao.getLapRecordFor(circuitId);
     }
 //
 //    public LiveData<List<Result>> getResultsForDriverId(int driverId, int year) {

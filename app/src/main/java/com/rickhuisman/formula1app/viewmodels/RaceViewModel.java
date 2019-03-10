@@ -5,6 +5,7 @@ import android.app.Application;
 import com.rickhuisman.formula1app.ergast.ErgastRepository;
 import com.rickhuisman.formula1app.ergast.db.entities.CircuitAndFirstGP;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestClimb;
+import com.rickhuisman.formula1app.ergast.db.entities.LapRecord;
 import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
 import com.rickhuisman.formula1app.ergast.db.entities.Race;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
@@ -60,5 +61,9 @@ public class RaceViewModel extends AndroidViewModel {
 
     public LiveData<Race> getRace(int raceId) {
         return mErgastRepository.getRace(raceId);
+    }
+
+    public LiveData<LapRecord> getLapRecordFor(int raceId) {
+        return mErgastRepository.getLapRecordFor(raceId);
     }
 }
