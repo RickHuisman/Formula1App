@@ -40,7 +40,7 @@ public class ConstructorActivity extends ColorActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setTopAppBarColors(constructorId);
+        setTopAppBarColorsForTeamId(constructorId);
         setUpPagerAdapter(constructorId);
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
@@ -45,6 +46,18 @@ public class RaceInfoTabFragment extends Fragment {
         raceViewModel.getRace(raceId).observe(this, new Observer<Race>() {
             @Override
             public void onChanged(Race race) {
+
+                DateTime test = getRaceDate(race);
+                DateTime now = DateTime.now();
+
+                if (test.compareTo(now) > 0) {
+                    setRaceSummaryGone();
+                } else {
+                    raceViewModel.getRaceWinner(race.getRaceId()).observe(getViewLifecycleOwner(), raceWinnerObserver);
+                    raceViewModel.getPolePosition(race.getRaceId()).observe(getViewLifecycleOwner(), qualifyingResultObserver);
+                    raceViewModel.getHighestClimb(race.getRaceId()).observe(getViewLifecycleOwner(), highestClimbObserver);
+                }
+
                 int circuitId = race.getCircuitId();
 
                 raceViewModel.getCircuitAndFirstGP(circuitId).observe(getViewLifecycleOwner(), circuitAndFirstGPObserver);
@@ -52,9 +65,6 @@ public class RaceInfoTabFragment extends Fragment {
                 raceViewModel.getLapRecordFor(circuitId).observe(getViewLifecycleOwner(), lapRecordObserver);
             }
         });
-        raceViewModel.getRaceWinner(raceId).observe(this, raceWinnerObserver);
-        raceViewModel.getPolePosition(raceId).observe(this, qualifyingResultObserver);
-        raceViewModel.getHighestClimb(raceId).observe(this, highestClimbObserver);
         raceViewModel.getRaceDate(raceId).observe(this, raceDateObserver);
     }
 
@@ -66,13 +76,41 @@ public class RaceInfoTabFragment extends Fragment {
         return mView;
     }
 
+    private DateTime getRaceDate(Race race) {
+        if (race.getTime() != null) {
+
+            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+            return format.parseDateTime(race.getDate() + " " + race.getTime());
+        } else {
+
+            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
+            return format.parseDateTime(race.getDate());
+        }
+    }
+
+    private void setRaceSummaryGone() {
+        TextView raceSummaryTextView = mView.findViewById(R.id.race_summary_text_view);
+        raceSummaryTextView.setVisibility(View.GONE);
+
+        LinearLayout raceWinnerLayout = mView.findViewById(R.id.race_winner_layout);
+        raceWinnerLayout.setVisibility(View.GONE);
+
+        LinearLayout polePositionLayout = mView.findViewById(R.id.pole_position_layout);
+        polePositionLayout.setVisibility(View.GONE);
+
+        LinearLayout fastestLapLayout = mView.findViewById(R.id.fastest_lap_layout);
+        fastestLapLayout.setVisibility(View.GONE);
+
+        LinearLayout highestClimberLayout = mView.findViewById(R.id.highest_climber_layout);
+        highestClimberLayout.setVisibility(View.GONE);
+    }
+
     private Observer<RaceWinner> raceWinnerObserver = new Observer<RaceWinner>() {
         @Override
         public void onChanged(RaceWinner result) {
             TextView raceWinner = mView.findViewById(R.id.date_of_birth);
 
-            String driver = result.getDriver().getForeName()
-                    + " " + result.getDriver().getSurName();
+            String driver = result.getDriver().getForeName() + " " + result.getDriver().getSurName();
             raceWinner.setText(driver);
         }
     };
@@ -80,11 +118,13 @@ public class RaceInfoTabFragment extends Fragment {
     private Observer<QualifyingResult> qualifyingResultObserver = new Observer<QualifyingResult>() {
         @Override
         public void onChanged(QualifyingResult qualifyingResult) {
-            TextView polePosition = mView.findViewById(R.id.nationality);
+            if (qualifyingResult != null) {
+                TextView polePosition = mView.findViewById(R.id.nationality);
 
-            String driver = qualifyingResult.getDriver().getForeName() + " " + qualifyingResult.getDriver().getSurName();
+                String driver = qualifyingResult.getDriver().getForeName() + " " + qualifyingResult.getDriver().getSurName();
 
-            polePosition.setText(driver);
+                polePosition.setText(driver);
+            }
         }
     };
 
@@ -106,7 +146,9 @@ public class RaceInfoTabFragment extends Fragment {
         public void onChanged(Race race) {
             TextView raceDateTime = mView.findViewById(R.id.race_date_time);
 
-            raceDateTime.setText(getRaceDate(race));
+            String test = getRaceDate(race).toString("dd MMM, HH:mm", Locale.ENGLISH).toLowerCase();
+
+            raceDateTime.setText(test);
         }
     };
 
@@ -144,20 +186,4 @@ public class RaceInfoTabFragment extends Fragment {
             recordHolderTextView.setText(lapRecord.getDriver().getForeName() + " " + lapRecord.getDriver().getSurName());
         }
     };
-
-    private String getRaceDate(Race race) {
-        if (race.getTime() != null) {
-
-            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-            DateTime formattedDateTime = format.parseDateTime(race.getDate() + " " + race.getTime());
-
-            return formattedDateTime.toString("dd MMM, HH:mm", Locale.ENGLISH).toLowerCase();
-        } else {
-
-            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
-            DateTime formattedDate = format.parseDateTime(race.getDate());
-
-            return formattedDate.toString("dd MMM", Locale.ENGLISH).toLowerCase();
-        }
-    }
 }

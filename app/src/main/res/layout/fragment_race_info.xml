@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/race_summary_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -22,15 +23,16 @@
             android:textSize="12sp" />
 
         <LinearLayout
+            android:id="@+id/race_winner_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="horizontal"
-            android:layout_marginTop="1dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp">
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,15 +58,16 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/pole_position_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="horizontal"
-            android:layout_marginTop="1dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp">
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,21 +93,22 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fastest_lap_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="horizontal"
-            android:layout_marginTop="1dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/libre_franklin_light"
-                android:text="Fastest lap"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:fontFamily="@font/libre_franklin_light"
+                android:text="Fastest lap"
                 android:textColor="@color/colorGrey"
                 android:textSize="16sp" />
 
@@ -121,40 +125,41 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/libre_franklin_regular"
                     android:text="Lewis Hamilton"
-                    android:layout_marginTop="10dp"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/libre_franklin_regular"
                     android:layout_gravity="end"
-                    android:text="1:22.497"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/libre_franklin_regular"
+                    android:text="1:22.497"
                     android:textColor="@color/colorGrey"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/highest_climber_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="horizontal"
-            android:layout_marginTop="1dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/libre_franklin_light"
-                android:text="Highest climber"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:fontFamily="@font/libre_franklin_light"
+                android:text="Highest climber"
                 android:textColor="@color/colorGrey"
                 android:textSize="16sp" />
 
@@ -172,9 +177,9 @@
                     android:id="@+id/highest_climber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/libre_franklin_regular"
                     android:text="Sergio Pérez"
-                    android:layout_marginTop="10dp"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -182,10 +187,10 @@
                     android:id="@+id/highest_climber_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/libre_franklin_regular"
                     android:layout_gravity="end"
-                    android:text="9 positions"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/libre_franklin_regular"
+                    android:text="9 positions"
                     android:textColor="@color/colorGrey"
                     android:textSize="14sp" />
             </LinearLayout>

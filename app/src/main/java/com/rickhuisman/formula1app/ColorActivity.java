@@ -1,5 +1,6 @@
 package com.rickhuisman.formula1app;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -9,6 +10,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+@SuppressLint("Registered")
 public class ColorActivity extends AppCompatActivity {
 
     public void setToolbarTitle(String title) {
@@ -16,22 +18,30 @@ public class ColorActivity extends AppCompatActivity {
         toolbar.setTitle(title.toUpperCase());
     }
 
-    public void setTopAppBarColors(int constructorId) {
-        int color = getTeamColorId(constructorId);
+    public void setTopAppBarColorsFor(int color) {
+        setColors(color);
+    }
 
+    public void setTopAppBarColorsForTeamId(int constructorId) {
+        int teamColorId = getResources().getIdentifier("constructor_" + constructorId, "color", getPackageName());
+
+        setColors(getColor(teamColorId));
+    }
+
+    private void setColors(int color) {
         // Status bar
-        getWindow().setStatusBarColor(getDarkerTeamColorId(constructorId));
+        getWindow().setStatusBarColor(getDarkerTeamColorId(color));
 
         // Toolbar
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(color)));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
 
         // TabLayout
         TabLayout tabLayout = findViewById(R.id.container_tab_layout);
-        tabLayout.setBackground(new ColorDrawable(getColor(color)));
+        tabLayout.setBackground(new ColorDrawable(color));
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
 
-        if (blackOrWhiteText(constructorId)) {
+        if (blackOrWhiteText(color)) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitleTextColor(Color.BLACK);
 
@@ -44,9 +54,8 @@ public class ColorActivity extends AppCompatActivity {
         }
     }
 
-    private boolean blackOrWhiteText(int constructorId) {
-        int teamColorId = getTeamColorId(constructorId);
-        String colorHex = "#" + Integer.toHexString(getColor(teamColorId)).substring(2, 8);
+    private boolean blackOrWhiteText(int teamColorId) {
+        String colorHex = "#" + Integer.toHexString(teamColorId).substring(2, 8);
 
         int red = Integer.parseInt(colorHex.substring(1, 3), 16);
         int green = Integer.parseInt(colorHex.substring(3, 5), 16);
@@ -57,16 +66,12 @@ public class ColorActivity extends AppCompatActivity {
         return color > 140;
     }
 
-    private int getDarkerTeamColorId(int constructorId) {
+    private int getDarkerTeamColorId(int teamColor) {
         float[] hsv = new float[3];
-        int color = getColor(getTeamColorId(constructorId));
+        int color = teamColor;
         Color.colorToHSV(color, hsv);
         hsv[2] *= 0.85f;
 
         return Color.HSVToColor(hsv);
-    }
-
-    private int getTeamColorId(int constructorId) {
-        return getResources().getIdentifier("constructor_" + constructorId, "color", getPackageName());
     }
 }
