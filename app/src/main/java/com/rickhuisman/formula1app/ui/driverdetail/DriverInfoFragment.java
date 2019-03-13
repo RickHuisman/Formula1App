@@ -16,6 +16,9 @@ import com.rickhuisman.formula1app.ergast.db.entities.Team;
 import com.rickhuisman.formula1app.ergast.db.entities.WorldChampionships;
 import com.rickhuisman.formula1app.viewmodels.DriverViewModel;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -41,7 +44,7 @@ public class DriverInfoFragment extends Fragment {
             @Override
             public void onChanged(Driver driver) {
                 TextView dateOfBirth = mView.findViewById(R.id.date_of_birth);
-                dateOfBirth.setText(driver.getDob());
+                dateOfBirth.setText(driver.getDob() + " (" + getAgeFor(driver) + ")");
 
                 TextView nationality = mView.findViewById(R.id.nationality);
                 nationality.setText(driver.getNationality());
@@ -109,5 +112,14 @@ public class DriverInfoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_driver_info, container, false);
         return mView;
+    }
+
+    private int getAgeFor(Driver driver) {
+        LocalDate birthDate = new LocalDate(driver.getDob());
+        LocalDate currentDate = LocalDate.now();
+
+        Years age = Years.yearsBetween(birthDate, currentDate);
+
+        return age.getYears();
     }
 }
