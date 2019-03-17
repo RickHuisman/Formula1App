@@ -2,6 +2,7 @@ package com.rickhuisman.formula1app.ergast;
 
 import android.app.Application;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.rickhuisman.formula1app.ergast.db.ErgastDatabase;
 import com.rickhuisman.formula1app.ergast.db.dao.ErgastDao;
 import com.rickhuisman.formula1app.ergast.db.entities.CircuitAndFirstGP;
@@ -15,7 +16,6 @@ import com.rickhuisman.formula1app.ergast.db.entities.HighestClimb;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestGrid;
 import com.rickhuisman.formula1app.ergast.db.entities.HighestRaceFinish;
 import com.rickhuisman.formula1app.ergast.db.entities.LapRecord;
-import com.rickhuisman.formula1app.ergast.db.entities.LapTimes;
 import com.rickhuisman.formula1app.ergast.db.entities.PodiumCount;
 import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
 import com.rickhuisman.formula1app.ergast.db.entities.Race;
@@ -23,25 +23,40 @@ import com.rickhuisman.formula1app.ergast.db.entities.RaceCount;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResultDriver;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceWinner;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceWithWinner;
 import com.rickhuisman.formula1app.ergast.db.entities.Result;
 import com.rickhuisman.formula1app.ergast.db.entities.Team;
 import com.rickhuisman.formula1app.ergast.db.entities.WorldChampionships;
+import com.rickhuisman.formula1app.ergast.models.Feed;
 
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import io.reactivex.Observable;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ErgastRepository {
 
+    private static final String BASE_URL = "http://188.166.27.87:8000/";
+    private ErgastWebService mErgastApi;
+
     private ErgastDao mErgastDao;
+
+    public ErgastRepository() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        mErgastApi = retrofit.create(ErgastWebService.class);
+    }
 
     public ErgastRepository(Application application) {
         mErgastDao = ErgastDatabase.getInstance(application).mErgastDao();
     }
 
-    public LiveData<List<RaceWithWinner>> getRaceSchedule(int year) {
-        return mErgastDao.getRaceSchedule(year);
+    public Observable<Feed> getRaceSchedule(int season) {
+        return mErgastApi.getRaceSchedule(season);
     }
 
     public LiveData<List<RaceResult>> getRaceResult(int raceId) {

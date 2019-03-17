@@ -13,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
+import com.rickhuisman.formula1app.ergast.db.entities.Race;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceWithWinner;
+import com.rickhuisman.formula1app.ergast.models.Feed;
+import com.rickhuisman.formula1app.ergast.models.Races;
 import com.rickhuisman.formula1app.viewmodels.RaceScheduleViewModel;
 
 import java.util.ArrayList;
@@ -53,7 +56,7 @@ public class ScheduleFragment extends Fragment {
         raceSchedule.setAdapter(mAdapter);
 
         mRaceScheduleViewModel = ViewModelProviders.of(this).get(RaceScheduleViewModel.class);
-        mRaceScheduleViewModel.getRaceSchedule(2017).observe(this, raceScheduleObserver);
+        mRaceScheduleViewModel.getRaceSchedule(2018).observe(this, raceScheduleObserver);
     }
 
     @Nullable
@@ -65,18 +68,10 @@ public class ScheduleFragment extends Fragment {
         return mView;
     }
 
-    private Observer<List<RaceWithWinner>> raceScheduleObserver = new Observer<List<RaceWithWinner>>() {
+    private Observer<Feed> raceScheduleObserver = new Observer<Feed>() {
         @Override
-        public void onChanged(List<RaceWithWinner> raceWithWinner) {
-            List<RaceWithWinner> list = new ArrayList<>();
-            for (RaceWithWinner test: raceWithWinner) {
-                if (test.getResult().getPosition() == 1) {
-                    list.add(test);
-                } else if (test.getResult().getResultId() == 0) {
-                    list.add(test);
-                }
-            }
-            mAdapter.setSchedule(list);
+        public void onChanged(@Nullable Feed feed) {
+            mAdapter.setSchedule(feed.getMrData().getRaceTable().getRaces());
         }
     };
 
