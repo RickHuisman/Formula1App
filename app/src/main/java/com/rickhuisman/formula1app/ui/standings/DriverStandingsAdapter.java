@@ -9,9 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Driver;
-import com.rickhuisman.formula1app.ergast.db.entities.DriverStanding;
-import com.rickhuisman.formula1app.ergast.db.entities.DriverStandings;
+import com.rickhuisman.formula1app.ergast.models.Driver;
+import com.rickhuisman.formula1app.ergast.models.DriverStandings;
 import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;
 
 import java.util.ArrayList;
@@ -48,18 +47,17 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             StandingsHolder standingsHolder = (StandingsHolder) holder;
 
             final Driver driver = mStandings.get(position - 1).getDriver();
-            DriverStanding driverStanding = mStandings.get(position - 1).getDriverStanding();
+            DriverStandings driverStanding = mStandings.get(position - 1);
 
-            String driverName = driver.getForeName() + " " + driver.getSurName();
+            String driverName = driver.getGivenName() + " " + driver.getFamilyName();
             standingsHolder.driver.setText(driverName.toUpperCase());
 
             standingsHolder.position.setText(driverStanding.getPositionText());
-            standingsHolder.wins.setText(String.valueOf(driverStanding.getWins()));
+            standingsHolder.wins.setText(driverStanding.getWins());
 
-            int points = (int) driverStanding.getPoints();
-            standingsHolder.points.setText(String.valueOf(points));
+            standingsHolder.points.setText(driverStanding.getPoints());
 
-            int constructorId = mStandings.get(position - 1).getConstructor().getConstructorId();
+            String constructorId = mStandings.get(position - 1).getConstructors().get(0).getConstructorId();
             DrawableCompat.setTint(standingsHolder.constructor.getDrawable(), mContext.getColor(getTeamColor(constructorId)));
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -73,13 +71,13 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private int getTeamColor(int constructorId) {
+    private int getTeamColor(String constructorId) {
         return mContext.getResources().getIdentifier(
                 "constructor_" + constructorId, "color", mContext.getPackageName());
     }
 
-    public void setStandings(List<DriverStandings> driverStandings) {
-        this.mStandings = driverStandings;
+    public void setStandings(List<DriverStandings> standings) {
+        this.mStandings = standings;
 
         notifyDataSetChanged();
     }

@@ -1,7 +1,6 @@
 package com.rickhuisman.formula1app.viewmodels;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.rickhuisman.formula1app.ergast.ErgastRepository;
 import com.rickhuisman.formula1app.ergast.models.Feed;

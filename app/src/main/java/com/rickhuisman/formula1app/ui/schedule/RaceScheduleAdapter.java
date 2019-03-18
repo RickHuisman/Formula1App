@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Race;
 import com.rickhuisman.formula1app.ergast.models.Circuit;
 import com.rickhuisman.formula1app.ergast.models.Constructor;
 import com.rickhuisman.formula1app.ergast.models.Races;

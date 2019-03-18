@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructorAndDrivers;
 import com.rickhuisman.formula1app.ergast.db.entities.DriverStandings;
+import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.viewmodels.StandingsViewModel;
 
 import java.util.List;
@@ -46,13 +47,12 @@ public class StandingsTabFragment extends Fragment {
             mDriversStandingsAdapter = new DriverStandingsAdapter(getContext());
             standingsList.setAdapter(mDriversStandingsAdapter);
 
-            standingsViewModel.getDriverStandings(1009).observe(this, driverStandingsObserver);
+            standingsViewModel.getDriverStandings().observe(this, driverStandingsObserver);
         } else if (standingsType == CONSTRUCTOR_STANDINGS) {
             mConstructorStandingsAdapter = new ConstructorStandingsAdapter(getContext());
             standingsList.setAdapter(mConstructorStandingsAdapter);
 
-            standingsViewModel.getConstructorStandings(1009)
-                    .observe(this, constructorStandingsObserver);
+            standingsViewModel.getConstructorStandings().observe(this, constructorStandingsObserver);
         }
     }
 
@@ -64,17 +64,19 @@ public class StandingsTabFragment extends Fragment {
         return mView;
     }
 
-    private Observer<List<DriverStandings>> driverStandingsObserver = new Observer<List<DriverStandings>>() {
+    private Observer<Feed> driverStandingsObserver = new Observer<Feed>() {
         @Override
-        public void onChanged(List<DriverStandings> standings) {
-            mDriversStandingsAdapter.setStandings(standings);
+        public void onChanged(Feed feed) {
+            mDriversStandingsAdapter.setStandings(
+                    feed.getMrData().getStandingsTable().getStandingsLists().get(0).getDriverStandings());
         }
     };
 
-    private Observer<List<ConstructorStandingsWithConstructorAndDrivers>> constructorStandingsObserver = new Observer<List<ConstructorStandingsWithConstructorAndDrivers>>() {
+    private Observer<Feed> constructorStandingsObserver = new Observer<Feed>() {
         @Override
-        public void onChanged(List<ConstructorStandingsWithConstructorAndDrivers> standings) {
-            mConstructorStandingsAdapter.setStandings(standings);
+        public void onChanged(Feed feed) {
+            mConstructorStandingsAdapter.setStandings(
+                    feed.getMrData().getStandingsTable().getStandingsLists().get(0).getConstructorStandings());
         }
     };
 }

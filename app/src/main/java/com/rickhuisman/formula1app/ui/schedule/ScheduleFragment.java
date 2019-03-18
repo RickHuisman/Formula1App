@@ -56,7 +56,7 @@ public class ScheduleFragment extends Fragment {
         raceSchedule.setAdapter(mAdapter);
 
         mRaceScheduleViewModel = ViewModelProviders.of(this).get(RaceScheduleViewModel.class);
-        mRaceScheduleViewModel.getRaceSchedule(2018).observe(this, raceScheduleObserver);
+        mRaceScheduleViewModel.getRaceSchedule(2019).observe(this, raceScheduleObserver);
     }
 
     @Nullable

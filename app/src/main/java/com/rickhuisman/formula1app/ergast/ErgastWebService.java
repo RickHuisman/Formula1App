@@ -12,4 +12,12 @@ public interface ErgastWebService {
     @Headers("Content-Type: application/json")
     @GET("api/f1/{season}/schedule.json")
     Observable<Feed> getRaceSchedule(@Path("season") int season);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/f1/current/driverstandings.json")
+    Observable<Feed> getDriverStandings();
+
+    @Headers("Content-Type: application/json")
+    @GET("api/f1/current/constructorstandings.json")
+    Observable<Feed> getConstructorStandings();
 }
