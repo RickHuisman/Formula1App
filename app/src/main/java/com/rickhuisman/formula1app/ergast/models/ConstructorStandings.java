@@ -2,6 +2,8 @@ package com.rickhuisman.formula1app.ergast.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class ConstructorStandings {
 
     @SerializedName("position")
@@ -18,6 +20,9 @@ public class ConstructorStandings {
 
     @SerializedName("Constructor")
     private Constructor constructor;
+
+    @SerializedName("Drivers")
+    private ArrayList<Driver> drivers;
 
     public String getPosition() {
         return position;
@@ -57,5 +62,13 @@ public class ConstructorStandings {
 
     public void setConstructor(Constructor constructor) {
         this.constructor = constructor;
+    }
+
+    public ArrayList<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(ArrayList<Driver> drivers) {
+        this.drivers = drivers;
     }
 }

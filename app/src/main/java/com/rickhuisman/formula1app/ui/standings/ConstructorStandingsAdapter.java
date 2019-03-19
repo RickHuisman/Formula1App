@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.ConstructorStandings;
+import com.rickhuisman.formula1app.ergast.models.Driver;
 import com.rickhuisman.formula1app.ui.constructor.ConstructorActivity;
 
 import java.util.ArrayList;
@@ -48,14 +49,20 @@ public class ConstructorStandingsAdapter extends RecyclerView.Adapter<RecyclerVi
             final ConstructorStandings constructorStanding = mStandings.get(position - 1);
 
             standingHolder.constructor.setText(mStandings.get(position - 1).getConstructor().getName().toUpperCase());
-
-            standingHolder.driver.setText("Hamilton - Bottas");
-
             standingHolder.pointsTextView.setText(constructorStanding.getPoints());
-
             standingHolder.wins.setText(constructorStanding.getWins());
-
             standingHolder.positionTextView.setText(constructorStanding.getPositionText());
+
+            ArrayList<Driver> driverList = constructorStanding.getDrivers();
+            StringBuilder drivers = new StringBuilder();
+            for (int i = 0; i < driverList.size(); i++) {
+                drivers.append(driverList.get(i).getFamilyName());
+
+                if (i != (driverList.size() - 1)) {
+                    drivers.append(" • ");
+                }
+            }
+            standingHolder.driver.setText(drivers.toString());
 
             String constructorId = mStandings.get(position - 1).getConstructor().getConstructorId();
             DrawableCompat.setTint(standingHolder.teamImageView.getDrawable(), mContext.getColor(getTeamColor(constructorId)));
