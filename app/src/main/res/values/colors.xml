@@ -16,7 +16,7 @@
     <color name="constructor_williams">#ffffff</color>
     <color name="constructor_renault">#FFF500</color>
     <color name="constructor_toro_rosso">#0032FF</color>
-    <color name="constructor_haas">#5A5A5A</color>
+    <color name="constructor_haas">#F0D787</color>
     <color name="constructor_mclaren">#FF8700</color>
     <color name="constructor_sauber">#9B0000</color>
 
@@ -61,7 +61,7 @@
     <color name="constructor_rial">#ff00fb</color>
     <color name="constructor_zakspeed">#ff00fb</color>
     <color name="constructor_ram">#ff00fb</color>
-    <color name="constructor_alfa">#ff00fb</color>
+    <color name="constructor_alfa">#9B0000</color>
     <color name="constructor_spirit">#ff00fb</color>
     <color name="constructor_toleman">#ff00fb</color>
     <color name="constructor_ats">#ff00fb</color>
@@ -219,5 +219,5 @@
     <color name="constructor_caterham">#ff00fb</color>
     <color name="constructor_lotus_f1">#ffb800</color>
     <color name="constructor_manor">#ed1b24</color>
-    <color name="constructor_racing_point">#ff00fb</color>
+    <color name="constructor_racing_point">#F596C8</color>
 </resources>
