@@ -13,6 +13,9 @@ public class Circuit {
     @SerializedName("circuitName")
     private String circuitName;
 
+    @SerializedName("firstGrandPrix")
+    private String firstGrandPrix;
+
     public String getCircuitId() {
         return circuitId;
     }
@@ -35,5 +38,13 @@ public class Circuit {
 
     public void setCircuitName(String circuitName) {
         this.circuitName = circuitName;
+    }
+
+    public String getFirstGrandPrix() {
+        return firstGrandPrix;
+    }
+
+    public void setFirstGrandPrix(String firstGrandPrix) {
+        this.firstGrandPrix = firstGrandPrix;
     }
 }

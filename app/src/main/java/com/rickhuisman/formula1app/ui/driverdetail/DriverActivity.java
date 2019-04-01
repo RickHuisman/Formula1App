@@ -44,7 +44,7 @@ public class DriverActivity extends ColorActivity {
         driverViewModel.getResultForDriver(driverId).observe(this, new Observer<Result>() {
             @Override
             public void onChanged(Result result) {
-                setTopAppBarColorsForTeamId(result.getConstructorId());
+//                setTopAppBarColorsForTeamId(result.getConstructorId());
             }
         });
         setUpPagerAdapter(driverId);

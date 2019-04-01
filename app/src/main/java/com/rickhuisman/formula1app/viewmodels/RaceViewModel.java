@@ -8,62 +8,69 @@ import com.rickhuisman.formula1app.ergast.db.entities.HighestClimb;
 import com.rickhuisman.formula1app.ergast.db.entities.LapRecord;
 import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
 import com.rickhuisman.formula1app.ergast.db.entities.Race;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResultDriver;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceWinner;
+import com.rickhuisman.formula1app.ergast.models.Feed;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class RaceViewModel extends AndroidViewModel {
 
     private ErgastRepository mErgastRepository;
+    private final CompositeDisposable mDisposable = new CompositeDisposable();
+    private LiveData<Feed> mRaceInfo = new MutableLiveData<>();
+    private LiveData<Feed> mResults = new MutableLiveData<>();
 
     public RaceViewModel(@NonNull Application application) {
         super(application);
-        mErgastRepository = new ErgastRepository(application);
+        mErgastRepository = new ErgastRepository();
     }
 
-    public LiveData<List<QualifyingResult>> getQualifyingResult(int raceId) {
-        return mErgastRepository.getQualifyingResult(raceId);
+    public LiveData<Feed> getRaceInfo(int season, int round) {
+        mDisposable.add(mErgastRepository.getRaceInfo(season, round)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Feed>() {
+                    @Override
+                    public void accept(Feed feed) {
+                        ((MutableLiveData<Feed>) mRaceInfo).setValue(feed);
+                    }
+                }));
+        return mRaceInfo;
     }
 
-    public LiveData<List<RaceResult>> getRaceResult(int raceId) {
-        return mErgastRepository.getRaceResult(raceId);
+    public LiveData<Feed> getQualifyingResults(int season, int round) {
+        mDisposable.add(mErgastRepository.getQualifyingResults(season, round)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Feed>() {
+                    @Override
+                    public void accept(Feed feed) {
+                        ((MutableLiveData<Feed>) mResults).setValue(feed);
+                    }
+                }));
+        return mResults;
     }
 
-    public LiveData<RaceWinner> getRaceWinner(int raceId) {
-        return mErgastRepository.getRaceWinner(raceId);
-    }
-
-    public LiveData<QualifyingResult> getPolePosition(int raceId) {
-        return mErgastRepository.getPolePosition(raceId);
-    }
-
-    public LiveData<HighestClimb> getHighestClimb(int raceId) {
-        return mErgastRepository.getHighestClimb(raceId);
-    }
-
-    public LiveData<Race> getRaceDate(int raceId) {
-        return mErgastRepository.getRaceDate(raceId);
-    }
-
-    public LiveData<CircuitAndFirstGP> getCircuitAndFirstGP(int circuitId) {
-        return mErgastRepository.getCircuitAndFirstGP(circuitId);
-    }
-
-    public LiveData<List<RaceResultDriver>> getRaceResultForCircuit(int circuitId) {
-        return mErgastRepository.getRaceResultForCircuit(circuitId);
-    }
-
-    public LiveData<Race> getRace(int raceId) {
-        return mErgastRepository.getRace(raceId);
-    }
-
-    public LiveData<LapRecord> getLapRecordFor(int raceId) {
-        return mErgastRepository.getLapRecordFor(raceId);
+    public LiveData<Feed> getRaceResults(int season, int round) {
+        mDisposable.add(mErgastRepository.getRaceResults(season, round)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Feed>() {
+                    @Override
+                    public void accept(Feed feed) {
+                        ((MutableLiveData<Feed>) mResults).setValue(feed);
+                    }
+                }));
+        return mResults;
     }
 }

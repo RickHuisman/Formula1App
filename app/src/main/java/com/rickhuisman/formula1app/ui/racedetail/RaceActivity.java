@@ -27,32 +27,19 @@ public class RaceActivity extends ColorActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race_detail);
 
-        int raceId = getIntent().getExtras().getInt("raceId");
+        String raceName = getIntent().getExtras().getString("raceName");
+        String constructorId = getIntent().getExtras().getString("constructorId");
+        int season = Integer.parseInt(getIntent().getExtras().getString("season"));
+        int round = Integer.parseInt(getIntent().getExtras().getString("round"));
 
-        RaceViewModel raceViewModel = ViewModelProviders.of(this).get(RaceViewModel.class);
-        raceViewModel.getRaceResult(raceId).observe(this, new Observer<List<RaceResult>>() {
-            @Override
-            public void onChanged(List<RaceResult> raceResults) {
-                if (raceResults.size() == 0) {
-                    setTopAppBarColorsFor(getApplicationContext().getColor(R.color.colorPrimary));
-                } else {
-                    setTopAppBarColorsForTeamId(raceResults.get(0).getResult().getConstructorId());
-                }
-            }
-        });
-
-        final Toolbar toolbar = findViewById(R.id.toolbar);
-        raceViewModel.getRace(raceId).observe(this, new Observer<Race>() {
-            @Override
-            public void onChanged(Race race) {
-                String raceName = race.getName().replaceAll("Grand Prix","GP").toUpperCase();
-                toolbar.setTitle(raceName);
-            }
-        });
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(raceName.replaceAll("Grand Prix","GP").toUpperCase());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), raceId);
+        setTopAppBarColorsForTeamId(constructorId);
+
+        RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), season, round);
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(racePagerAdapter);
 
@@ -70,17 +57,20 @@ public class RaceActivity extends ColorActivity {
     }
 
     public class RacePagerAdapter extends FragmentPagerAdapter {
-        int raceId;
+        private int season;
+        private int round;
 
-        public RacePagerAdapter(FragmentManager fm, int raceId) {
+        public RacePagerAdapter(FragmentManager fm, int season, int round) {
             super(fm);
-            this.raceId = raceId;
+            this.season = season;
+            this.round = round;
         }
 
         @Override
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
-            bundle.putInt("raceId", raceId);
+            bundle.putInt("season", season);
+            bundle.putInt("round", round);
             ResultTabFragment resultTabFragment = new ResultTabFragment();
 
             switch (position) {

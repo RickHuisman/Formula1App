@@ -59,6 +59,18 @@ public class ErgastRepository {
         return mErgastApi.getRaceSchedule(season);
     }
 
+    public Observable<Feed> getRaceInfo(int season, int round) {
+        return mErgastApi.getRaceInfo(season, round);
+    }
+
+    public Observable<Feed> getQualifyingResults(int season, int round) {
+        return mErgastApi.getQualifyingResults(season, round);
+    }
+
+    public Observable<Feed> getRaceResults(int season, int round) {
+        return mErgastApi.getRaceResults(season, round);
+    }
+
     public Observable<Feed> getDriverStandings() {
         return mErgastApi.getDriverStandings();
     }

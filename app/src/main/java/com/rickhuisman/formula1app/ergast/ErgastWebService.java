@@ -14,6 +14,18 @@ public interface ErgastWebService {
     Observable<Feed> getRaceSchedule(@Path("season") int season);
 
     @Headers("Content-Type: application/json")
+    @GET("api/f1/{season}/{round}/info.json")
+    Observable<Feed> getRaceInfo(@Path("season") int season, @Path("round") int round);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/f1/{season}/{round}/qualifying.json")
+    Observable<Feed> getQualifyingResults(@Path("season") int season, @Path("round") int round);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/f1/{season}/{round}/results.json")
+    Observable<Feed> getRaceResults(@Path("season") int season, @Path("round") int round);
+
+    @Headers("Content-Type: application/json")
     @GET("api/f1/current/driverstandings.json")
     Observable<Feed> getDriverStandings();
 

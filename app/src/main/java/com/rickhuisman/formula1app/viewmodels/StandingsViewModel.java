@@ -55,8 +55,4 @@ public class StandingsViewModel extends AndroidViewModel {
                 }));
         return mConstructorStandings;
     }
-
-    public LiveData<List<ConstructorStandingsWithConstructorAndDrivers>> getConstructorStandings(int raceId) {
-        return mErgastRepository.getConstructorStandings(raceId);
-    }
 }

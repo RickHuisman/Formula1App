@@ -8,13 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.CircuitAndFirstGP;
-import com.rickhuisman.formula1app.ergast.db.entities.HighestClimb;
-import com.rickhuisman.formula1app.ergast.db.entities.LapRecord;
-import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
-import com.rickhuisman.formula1app.ergast.db.entities.Race;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceResultDriver;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceWinner;
+import com.rickhuisman.formula1app.ergast.models.Circuit;
+import com.rickhuisman.formula1app.ergast.models.Feed;
+import com.rickhuisman.formula1app.ergast.models.LapRecord;
+import com.rickhuisman.formula1app.ergast.models.Summary;
 import com.rickhuisman.formula1app.viewmodels.RaceViewModel;
 
 import org.joda.time.DateTime;
@@ -40,32 +37,81 @@ public class RaceInfoTabFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        int raceId = getArguments().getInt("raceId");
+        int season = getArguments().getInt("season");
+        int round = getArguments().getInt("round");
 
-        final RaceViewModel raceViewModel = ViewModelProviders.of(this).get(RaceViewModel.class);
-        raceViewModel.getRace(raceId).observe(this, new Observer<Race>() {
+        RaceViewModel raceViewModel = ViewModelProviders.of(this).get(RaceViewModel.class);
+        raceViewModel.getRaceInfo(season, round).observe(this, new Observer<Feed>() {
             @Override
-            public void onChanged(Race race) {
+            public void onChanged(Feed feed) {
 
-                DateTime test = getRaceDate(race);
-                DateTime now = DateTime.now();
+                Summary summary = feed.getMrData().getRaceTable().getRaces().get(0).getSummary();
 
-                if (test.compareTo(now) > 0) {
-                    setRaceSummaryGone();
-                } else {
-                    raceViewModel.getRaceWinner(race.getRaceId()).observe(getViewLifecycleOwner(), raceWinnerObserver);
-                    raceViewModel.getPolePosition(race.getRaceId()).observe(getViewLifecycleOwner(), qualifyingResultObserver);
-                    raceViewModel.getHighestClimb(race.getRaceId()).observe(getViewLifecycleOwner(), highestClimbObserver);
-                }
+                TextView raceWinner = mView.findViewById(R.id.date_of_birth);
+                raceWinner.setText(summary.getRaceWinner());
 
-                int circuitId = race.getCircuitId();
+                TextView polePosition = mView.findViewById(R.id.nationality);
+                polePosition.setText(summary.getPolePosition());
 
-                raceViewModel.getCircuitAndFirstGP(circuitId).observe(getViewLifecycleOwner(), circuitAndFirstGPObserver);
-                raceViewModel.getRaceResultForCircuit(circuitId).observe(getViewLifecycleOwner(), raceResultDriverObserver);
-                raceViewModel.getLapRecordFor(circuitId).observe(getViewLifecycleOwner(), lapRecordObserver);
+                TextView fastestLapDriver = mView.findViewById(R.id.fastest_lap_driver);
+                TextView fastestLapTime = mView.findViewById(R.id.fastest_lap_time);
+
+                fastestLapDriver.setText(summary.getFastestLap().getDriver().getGivenName() + " " + summary.getFastestLap().getDriver().getFamilyName());
+                fastestLapTime.setText(summary.getFastestLap().getLapTime());
+
+                TextView climber = mView.findViewById(R.id.highest_climber);
+                TextView positions = mView.findViewById(R.id.highest_climber_amount);
+
+                climber.setText(summary.getHighestClimber().getDriver().getGivenName() + " " + summary.getHighestClimber().getDriver().getFamilyName());
+                positions.setText(summary.getHighestClimber().getPositions() + " positions");
+
+                LapRecord lapRecord = feed.getMrData().getRaceTable().getRaces().get(0).getLapRecord();
+
+                TextView lapRecordTextView = mView.findViewById(R.id.lap_record);
+                lapRecordTextView.setText(lapRecord.getLapTime());
+
+                TextView recordHolderTextView = mView.findViewById(R.id.record_holder);
+                recordHolderTextView.setText(lapRecord.getDriverName());
+
+                TextView circuitName = mView.findViewById(R.id.circuit_name);
+                TextView firstGrandPrix = mView.findViewById(R.id.first_grand_prix);
+
+                Circuit circuit = feed.getMrData().getRaceTable().getRaces().get(0).getCircuit();
+                circuitName.setText(circuit.getCircuitName());
+                firstGrandPrix.setText(circuit.getFirstGrandPrix());
+
+                RecyclerView list = mView.findViewById(R.id.race_winner_list);
+                list.setLayoutManager(new LinearLayoutManager(getContext()));
+                list.setHasFixedSize(true);
+
+                RaceWinnersAdapter adapter = new RaceWinnersAdapter(getContext());
+                list.setAdapter(adapter);
+                adapter.setResults(feed.getMrData().getRaceTable().getRaces().get(0).getPastWinners());
             }
         });
-        raceViewModel.getRaceDate(raceId).observe(this, raceDateObserver);
+//        raceViewModel.getRace(raceId).observe(this, new Observer<Race>() {
+//            @Override
+//            public void onChanged(Race race) {
+//
+//                DateTime test = getRaceDate(race);
+//                DateTime now = DateTime.now();
+//
+//                if (test.compareTo(now) > 0) {
+//                    setRaceSummaryGone();
+//                } else {
+//                    raceViewModel.getRaceWinner(race.getRaceId()).observe(getViewLifecycleOwner(), raceWinnerObserver);
+//                    raceViewModel.getPolePosition(race.getRaceId()).observe(getViewLifecycleOwner(), qualifyingResultObserver);
+//                    raceViewModel.getHighestClimb(race.getRaceId()).observe(getViewLifecycleOwner(), highestClimbObserver);
+//                }
+//
+//                int circuitId = race.getCircuitId();
+//
+//                raceViewModel.getCircuitAndFirstGP(circuitId).observe(getViewLifecycleOwner(), circuitAndFirstGPObserver);
+//                raceViewModel.getRaceResultForCircuit(circuitId).observe(getViewLifecycleOwner(), raceResultDriverObserver);
+//                raceViewModel.getLapRecordFor(circuitId).observe(getViewLifecycleOwner(), lapRecordObserver);
+//            }
+//        });
+//        raceViewModel.getRaceDate(raceId).observe(this, raceDateObserver);
     }
 
     @Nullable
@@ -76,114 +122,45 @@ public class RaceInfoTabFragment extends Fragment {
         return mView;
     }
 
-    private DateTime getRaceDate(Race race) {
-        if (race.getTime() != null) {
-
-            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-            return format.parseDateTime(race.getDate() + " " + race.getTime());
-        } else {
-
-            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
-            return format.parseDateTime(race.getDate());
-        }
-    }
-
-    private void setRaceSummaryGone() {
-        TextView raceSummaryTextView = mView.findViewById(R.id.race_summary_text_view);
-        raceSummaryTextView.setVisibility(View.GONE);
-
-        LinearLayout raceWinnerLayout = mView.findViewById(R.id.race_winner_layout);
-        raceWinnerLayout.setVisibility(View.GONE);
-
-        LinearLayout polePositionLayout = mView.findViewById(R.id.pole_position_layout);
-        polePositionLayout.setVisibility(View.GONE);
-
-        LinearLayout fastestLapLayout = mView.findViewById(R.id.fastest_lap_layout);
-        fastestLapLayout.setVisibility(View.GONE);
-
-        LinearLayout highestClimberLayout = mView.findViewById(R.id.highest_climber_layout);
-        highestClimberLayout.setVisibility(View.GONE);
-    }
-
-    private Observer<RaceWinner> raceWinnerObserver = new Observer<RaceWinner>() {
-        @Override
-        public void onChanged(RaceWinner result) {
-            TextView raceWinner = mView.findViewById(R.id.date_of_birth);
-
-            String driver = result.getDriver().getForeName() + " " + result.getDriver().getSurName();
-            raceWinner.setText(driver);
-        }
-    };
-
-    private Observer<QualifyingResult> qualifyingResultObserver = new Observer<QualifyingResult>() {
-        @Override
-        public void onChanged(QualifyingResult qualifyingResult) {
-            if (qualifyingResult != null) {
-                TextView polePosition = mView.findViewById(R.id.nationality);
-
-                String driver = qualifyingResult.getDriver().getForeName() + " " + qualifyingResult.getDriver().getSurName();
-
-                polePosition.setText(driver);
-            }
-        }
-    };
-
-    private Observer<HighestClimb> highestClimbObserver = new Observer<HighestClimb>() {
-        @Override
-        public void onChanged(HighestClimb highestClimb) {
-            TextView climber = mView.findViewById(R.id.highest_climber);
-            TextView amount = mView.findViewById(R.id.highest_climber_amount);
-
-            String driver = highestClimb.getDriver().getForeName() + " " + highestClimb.getDriver().getSurName();
-
-            climber.setText(driver);
-            amount.setText(String.valueOf(highestClimb.getClimb() + " positions"));
-        }
-    };
-
-    private Observer<Race> raceDateObserver = new Observer<Race>() {
-        @Override
-        public void onChanged(Race race) {
-            TextView raceDateTime = mView.findViewById(R.id.race_date_time);
-
-            String test = getRaceDate(race).toString("dd MMM, HH:mm", Locale.ENGLISH).toLowerCase();
-
-            raceDateTime.setText(test);
-        }
-    };
-
-    private Observer<CircuitAndFirstGP> circuitAndFirstGPObserver = new Observer<CircuitAndFirstGP>() {
-        @Override
-        public void onChanged(CircuitAndFirstGP circuitAndFirstGP) {
-            TextView circuitName = mView.findViewById(R.id.circuit_name);
-            TextView firstGrandPrix = mView.findViewById(R.id.first_grand_prix);
-
-            circuitName.setText(circuitAndFirstGP.getCircuit().getName());
-            firstGrandPrix.setText(String.valueOf(circuitAndFirstGP.getYear()));
-        }
-    };
-
-    private Observer<List<RaceResultDriver>> raceResultDriverObserver = new Observer<List<RaceResultDriver>>() {
-        @Override
-        public void onChanged(List<RaceResultDriver> results) {
-            RecyclerView list = mView.findViewById(R.id.race_winner_list);
-            list.setLayoutManager(new LinearLayoutManager(getContext()));
-            list.setHasFixedSize(true);
-
-            RaceWinnersAdapter adapter = new RaceWinnersAdapter(getContext());
-            list.setAdapter(adapter);
-            adapter.setResults(results);
-        }
-    };
-
-    private Observer<LapRecord> lapRecordObserver = new Observer<LapRecord>() {
-        @Override
-        public void onChanged(LapRecord lapRecord) {
-            TextView lapRecordTextView = mView.findViewById(R.id.lap_record);
-            lapRecordTextView.setText(lapRecord.getLapTime().getTime());
-
-            TextView recordHolderTextView = mView.findViewById(R.id.record_holder);
-            recordHolderTextView.setText(lapRecord.getDriver().getForeName() + " " + lapRecord.getDriver().getSurName());
-        }
-    };
+//    private DateTime getRaceDate(Race race) {
+//        if (race.getTime() != null) {
+//
+//            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+//            return format.parseDateTime(race.getDate() + " " + race.getTime());
+//        } else {
+//
+//            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
+//            return format.parseDateTime(race.getDate());
+//        }
+//    }
+//
+//    private void setRaceSummaryGone() {
+//        TextView raceSummaryTextView = mView.findViewById(R.id.race_summary_text_view);
+//        raceSummaryTextView.setVisibility(View.GONE);
+//
+//        LinearLayout raceWinnerLayout = mView.findViewById(R.id.race_winner_layout);
+//        raceWinnerLayout.setVisibility(View.GONE);
+//
+//        LinearLayout polePositionLayout = mView.findViewById(R.id.pole_position_layout);
+//        polePositionLayout.setVisibility(View.GONE);
+//
+//        LinearLayout fastestLapLayout = mView.findViewById(R.id.fastest_lap_layout);
+//        fastestLapLayout.setVisibility(View.GONE);
+//
+//        LinearLayout highestClimberLayout = mView.findViewById(R.id.highest_climber_layout);
+//        highestClimberLayout.setVisibility(View.GONE);
+//    }
+//
+//    private Observer<List<RaceResultDriver>> raceResultDriverObserver = new Observer<List<RaceResultDriver>>() {
+//        @Override
+//        public void onChanged(List<RaceResultDriver> results) {
+//            RecyclerView list = mView.findViewById(R.id.race_winner_list);
+//            list.setLayoutManager(new LinearLayoutManager(getContext()));
+//            list.setHasFixedSize(true);
+//
+//            RaceWinnersAdapter adapter = new RaceWinnersAdapter(getContext());
+//            list.setAdapter(adapter);
+//            adapter.setResults(results);
+//        }
+//    };
 }

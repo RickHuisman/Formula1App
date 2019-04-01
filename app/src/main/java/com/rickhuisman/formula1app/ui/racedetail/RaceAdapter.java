@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
-import com.rickhuisman.formula1app.ergast.db.entities.Result;
+import com.rickhuisman.formula1app.ergast.models.Result;
 import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RaceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<RaceResult> mResults = new ArrayList<>();
+    private List<Result> mResults = new ArrayList<>();
 
     public RaceAdapter(Context context) {
         this.mContext = context;
@@ -46,44 +46,42 @@ public class RaceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (position != 0) {
             RaceResultHolder resultHolder = (RaceResultHolder) holder;
-            RaceResult raceResult = mResults.get(position - 1);
-            final Result result = raceResult.getResult();
+            Result result = mResults.get(position - 1);
 
             resultHolder.positionTextView.setText(result.getPositionText());
 
-            String driver = raceResult.getDriver().getSurName();
+            String driver = result.getDriver().getFamilyName();
             resultHolder.driverTextView.setText(driver.substring(0, 3).toUpperCase());
 
-            int points = (int) result.getPoints();
-            resultHolder.pointsTextView.setText(String.valueOf(points));
+            resultHolder.pointsTextView.setText(result.getPoints());
 
-            if (raceResult.getResult().getTime() != null) {
-                resultHolder.timeTextView.setText(result.getTime());
+            if (result.getTime() != null) {
+                resultHolder.timeTextView.setText(result.getTime().getTime());
             } else {
-                resultHolder.timeTextView.setText(raceResult.getStatus().getStatus());
+                resultHolder.timeTextView.setText(result.getStatus());
             }
 
-            int constructorId = result.getConstructorId();
+            String constructorId = result.getConstructor().getConstructorId();
             DrawableCompat.setTint(resultHolder.teamImageView.getDrawable(),
                     ContextCompat.getColor(mContext, getTeamColor(constructorId)));
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext, DriverActivity.class);
-                    intent.putExtra("driverId", result.getDriverId());
-                    mContext.startActivity(intent);
-                }
-            });
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(mContext, DriverActivity.class);
+//                    intent.putExtra("driverId", result.getDriverId());
+//                    mContext.startActivity(intent);
+//                }
+//            });
         }
     }
 
-    private int getTeamColor(int constructorId) {
+    private int getTeamColor(String constructorId) {
         return mContext.getResources().getIdentifier(
                 "constructor_" + constructorId, "color", mContext.getPackageName());
     }
 
-    public void setRaceResult(List<RaceResult> results) {
+    public void setRaceResult(List<Result> results) {
         this.mResults = results;
         notifyDataSetChanged();
     }

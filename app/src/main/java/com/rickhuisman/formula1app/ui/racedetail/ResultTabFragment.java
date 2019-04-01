@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
+import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.viewmodels.RaceViewModel;
 
 import java.util.List;
@@ -35,7 +36,8 @@ public class ResultTabFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         int resultType = getArguments().getInt("resultType");
-        int raceId = getArguments().getInt("raceId");
+        int season = getArguments().getInt("season");
+        int round = getArguments().getInt("round");
 
         RaceViewModel raceViewModel = ViewModelProviders.of(this).get(RaceViewModel.class);
 
@@ -47,13 +49,13 @@ public class ResultTabFragment extends Fragment {
             mQualifyingAdapter = new QualifyingAdapter(getContext());
             resultList.setAdapter(mQualifyingAdapter);
 
-            raceViewModel.getQualifyingResult(raceId).observe(this, QualifyingObserver);
+            raceViewModel.getQualifyingResults(season, round).observe(this, QualifyingObserver);
         }
         else if (resultType == RACE_RESULT_FRAGMENT) {
             mRaceAdapter = new RaceAdapter(getContext());
             resultList.setAdapter(mRaceAdapter);
 
-            raceViewModel.getRaceResult(raceId).observe(this, RaceResultObserver);
+            raceViewModel.getRaceResults(season, round).observe(this, RaceResultsObserver);
         }
     }
 
@@ -65,17 +67,17 @@ public class ResultTabFragment extends Fragment {
         return mView;
     }
 
-    private Observer<List<QualifyingResult>> QualifyingObserver = new Observer<List<QualifyingResult>>() {
+    private Observer<Feed> QualifyingObserver = new Observer<Feed>() {
         @Override
-        public void onChanged(List<QualifyingResult> qualifyingResults) {
-            mQualifyingAdapter.setQualifying(qualifyingResults);
+        public void onChanged(Feed feed) {
+            mQualifyingAdapter.setQualifying(feed.getMrData().getRaceTable().getRaces().get(0).getQualifyingResults());
         }
     };
 
-    private Observer<List<RaceResult>> RaceResultObserver = new Observer<List<RaceResult>>() {
+    private Observer<Feed> RaceResultsObserver = new Observer<Feed>() {
         @Override
-        public void onChanged(List<RaceResult> result) {
-            mRaceAdapter.setRaceResult(result);
+        public void onChanged(Feed feed) {
+            mRaceAdapter.setRaceResult(feed.getMrData().getRaceTable().getRaces().get(0).getResults());
         }
     };
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResultDriver;
+import com.rickhuisman.formula1app.ergast.models.PastWinner;
 import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RaceWinnersAdapter extends RecyclerView.Adapter<RaceWinnersAdapter.RaceWinnerHolder> {
 
     private Context mContext;
-    private List<RaceResultDriver> mResults = new ArrayList<>();
+    private List<PastWinner> mResults = new ArrayList<>();
 
     public RaceWinnersAdapter(Context context) {
         this.mContext = context;
@@ -37,33 +38,33 @@ public class RaceWinnersAdapter extends RecyclerView.Adapter<RaceWinnersAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RaceWinnerHolder holder, int position) {
-        final RaceResultDriver result = mResults.get(position);
+        PastWinner pastWinner = mResults.get(position);
 
-        holder.year.setText(String.valueOf(result.getYear()));
-        holder.driver.setText(result.getDriver().getSurName().substring(0, 3).toUpperCase());
-        holder.grid.setText(String.valueOf(result.getGrid()));
-        holder.time.setText(String.valueOf(result.getTime()));
+        holder.year.setText(pastWinner.getYear());
+        holder.driver.setText(pastWinner.getDriverName().substring(0, 3).toUpperCase());
+        holder.grid.setText(pastWinner.getGrid());
+        holder.time.setText(pastWinner.getTime());
 
-        int constructorId = result.getConstructorId();
+        String constructorId = pastWinner.getConstructorId();
         DrawableCompat.setTint(holder.constructor.getDrawable(), mContext.getColor(getTeamColor(constructorId)));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int driverId = result.getDriver().getDriverId();
-                Intent intent = new Intent(mContext, DriverActivity.class);
-                intent.putExtra("driverId", driverId);
-                mContext.startActivity(intent);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int driverId = result.getDriver().getDriverId();
+//                Intent intent = new Intent(mContext, DriverActivity.class);
+//                intent.putExtra("driverId", driverId);
+//                mContext.startActivity(intent);
+//            }
+//        });
     }
 
-    private int getTeamColor(int constructorId) {
+    private int getTeamColor(String constructorId) {
         return mContext.getResources().getIdentifier(
                 "constructor_" + constructorId, "color", mContext.getPackageName());
     }
 
-    public void setResults(List<RaceResultDriver> results) {
+    public void setResults(List<PastWinner> results) {
         this.mResults = results;
         notifyDataSetChanged();
     }

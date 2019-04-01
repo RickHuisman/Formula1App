@@ -79,14 +79,25 @@ public class RaceScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             futureRaceHolder.imageViewCircuit.setImageDrawable(getCircuitImage(circuit));
         }
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(mContext, RaceActivity.class);
-//                intent.putExtra("raceId", race.getRaceId());
-//                mContext.startActivity(intent);
-//            }
-//        });
+        final String raceName = race.getRaceName();
+        String constructorId = "";
+        if (race.getConstructor() != null) {
+            constructorId = race.getConstructor().getConstructorId();
+        }
+        final String season = race.getSeason();
+        final String round = race.getRound();
+        final String finalConstructorId = constructorId;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, RaceActivity.class);
+                intent.putExtra("raceName", raceName);
+                intent.putExtra("constructorId", finalConstructorId);
+                intent.putExtra("season", season);
+                intent.putExtra("round", round);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     private int getContrastColor(Constructor constructor) {

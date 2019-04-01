@@ -22,7 +22,7 @@ public class ColorActivity extends AppCompatActivity {
         setColors(color);
     }
 
-    public void setTopAppBarColorsForTeamId(int constructorId) {
+    public void setTopAppBarColorsForTeamId(String constructorId) {
         int teamColorId = getResources().getIdentifier("constructor_" + constructorId, "color", getPackageName());
 
         setColors(getColor(teamColorId));

@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Qualifying;
-import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
+import com.rickhuisman.formula1app.ergast.models.QualifyingResult;
 import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;
 
 import java.util.ArrayList;
@@ -47,34 +46,33 @@ public class QualifyingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (position != 0) {
             QualifyingResultHolder qualifyingHolder = (QualifyingResultHolder) holder;
 
-            final QualifyingResult result = mQualifyingResults.get(position - 1);
-            Qualifying qualifying = result.getQualifying();
+            QualifyingResult result = mQualifyingResults.get(position - 1);
 
-            qualifyingHolder.textViewPosition.setText(String.valueOf(qualifying.getPosition()));
+            qualifyingHolder.textViewPosition.setText(result.getPosition());
 
-            String driverName = result.getDriver().getSurName().substring(0, 3).toUpperCase();
+            String driverName = result.getDriver().getFamilyName().substring(0, 3).toUpperCase();
             qualifyingHolder.textViewDriver.setText(driverName);
 
-            qualifyingHolder.textViewTimeQ1.setText(qualifying.getQualifyingOne());
-            qualifyingHolder.textViewTimeQ2.setText(qualifying.getQualifyingTwo());
-            qualifyingHolder.textViewTimeQ3.setText(qualifying.getQualifyingThree());
+            qualifyingHolder.textViewTimeQ1.setText(result.getQualifyingOne());
+            qualifyingHolder.textViewTimeQ2.setText(result.getQualifyingTwo());
+            qualifyingHolder.textViewTimeQ3.setText(result.getQualifyingThree());
 
-            final int constructorId = qualifying.getConstructorId();
+            String constructorId = result.getConstructor().getConstructorId();
             DrawableCompat.setTint(qualifyingHolder.teamImageView.getDrawable(),
                     ContextCompat.getColor(mContext, getTeamColor(constructorId)));
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext, DriverActivity.class);
-                    intent.putExtra("driverId", result.getDriver().getDriverId());
-                    mContext.startActivity(intent);
-                }
-            });
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(mContext, DriverActivity.class);
+//                    intent.putExtra("driverId", result.getDriver().getDriverId());
+//                    mContext.startActivity(intent);
+//                }
+//            });
         }
     }
 
-    private int getTeamColor(int constructorId) {
+    private int getTeamColor(String constructorId) {
         return mContext.getResources().getIdentifier(
                 "constructor_" + constructorId, "color", mContext.getPackageName());
     }
