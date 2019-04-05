@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
+import com.rickhuisman.formula1app.ergast.models.Driver;
 import com.rickhuisman.formula1app.ergast.models.Result;
 import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;
 
@@ -47,11 +48,12 @@ public class RaceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (position != 0) {
             RaceResultHolder resultHolder = (RaceResultHolder) holder;
             Result result = mResults.get(position - 1);
+            Driver driver = mResults.get(position - 1).getDriver();
 
             resultHolder.positionTextView.setText(result.getPositionText());
 
-            String driver = result.getDriver().getFamilyName();
-            resultHolder.driverTextView.setText(driver.substring(0, 3).toUpperCase());
+            String driverFamilyName = driver.getFamilyName().substring(0, 3).toUpperCase();
+            resultHolder.driverTextView.setText(driverFamilyName);
 
             resultHolder.pointsTextView.setText(result.getPoints());
 
@@ -61,18 +63,22 @@ public class RaceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 resultHolder.timeTextView.setText(result.getStatus());
             }
 
-            String constructorId = result.getConstructor().getConstructorId();
+            final String constructorId = result.getConstructor().getConstructorId();
             DrawableCompat.setTint(resultHolder.teamImageView.getDrawable(),
                     ContextCompat.getColor(mContext, getTeamColor(constructorId)));
 
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(mContext, DriverActivity.class);
-//                    intent.putExtra("driverId", result.getDriverId());
-//                    mContext.startActivity(intent);
-//                }
-//            });
+            final String driverId = result.getDriver().getDriverId();
+            final String driverName = driver.getGivenName() + " " + driver.getFamilyName();
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, DriverActivity.class);
+                    intent.putExtra("driverId", driverId);
+                    intent.putExtra("driverName", driverName);
+                    intent.putExtra("constructorId", constructorId);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

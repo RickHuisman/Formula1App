@@ -3,6 +3,8 @@ package com.rickhuisman.formula1app.ergast.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Constructor {
 
     @SerializedName("constructorId")
@@ -20,6 +22,26 @@ public class Constructor {
     @SerializedName("nationality")
     @Expose
     private String nationality;
+
+    @SerializedName("Seasons")
+    @Expose
+    private Seasons seasons;
+
+    @SerializedName("raceWins")
+    @Expose
+    private String raceWins;
+
+    @SerializedName("polePositions")
+    @Expose
+    private String polePositions;
+
+    @SerializedName("grandPrixEntered")
+    @Expose
+    private String grandPrixEntered;
+
+    @SerializedName("CurrentDrivers")
+    @Expose
+    private ArrayList<CurrentDrivers> currentDrivers;
 
     public String getConstructorId() {
         return constructorId;
@@ -53,13 +75,43 @@ public class Constructor {
         this.nationality = nationality;
     }
 
-    @Override
-    public String toString() {
-        return "Constructor{" +
-                "constructorId='" + constructorId + '\'' +
-                ", url='" + url + '\'' +
-                ", name='" + name + '\'' +
-                ", nationality='" + nationality + '\'' +
-                '}';
+    public Seasons getSeasons() {
+        return seasons;
+    }
+
+    public void setSeasons(Seasons seasons) {
+        this.seasons = seasons;
+    }
+
+    public String getRaceWins() {
+        return raceWins;
+    }
+
+    public void setRaceWins(String raceWins) {
+        this.raceWins = raceWins;
+    }
+
+    public String getPolePositions() {
+        return polePositions;
+    }
+
+    public void setPolePositions(String polePositions) {
+        this.polePositions = polePositions;
+    }
+
+    public String getGrandPrixEntered() {
+        return grandPrixEntered;
+    }
+
+    public void setGrandPrixEntered(String grandPrixEntered) {
+        this.grandPrixEntered = grandPrixEntered;
+    }
+
+    public ArrayList<CurrentDrivers> getCurrentDrivers() {
+        return currentDrivers;
+    }
+
+    public void setCurrentDrivers(ArrayList<CurrentDrivers> currentDrivers) {
+        this.currentDrivers = currentDrivers;
     }
 }

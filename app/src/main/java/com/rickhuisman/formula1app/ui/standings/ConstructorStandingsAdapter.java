@@ -67,16 +67,18 @@ public class ConstructorStandingsAdapter extends RecyclerView.Adapter<RecyclerVi
             String constructorId = mStandings.get(position - 1).getConstructor().getConstructorId();
             DrawableCompat.setTint(standingHolder.teamImageView.getDrawable(), mContext.getColor(getTeamColor(constructorId)));
 
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    int constructorId = constructorStanding.getConstructorId();
-//
-//                    Intent intent = new Intent(mContext, ConstructorActivity.class);
-//                    intent.putExtra("constructorId", constructorId);
-//                    mContext.startActivity(intent);
-//                }
-//            });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String constructorId = constructorStanding.getConstructor().getConstructorId();
+                    String constructorName = constructorStanding.getConstructor().getName();
+
+                    Intent intent = new Intent(mContext, ConstructorActivity.class);
+                    intent.putExtra("constructorId", constructorId);
+                    intent.putExtra("constructorName", constructorName);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

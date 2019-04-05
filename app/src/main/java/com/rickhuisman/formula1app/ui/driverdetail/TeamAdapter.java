@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Team;
+import com.rickhuisman.formula1app.ergast.models.Team;
 import com.rickhuisman.formula1app.ui.constructor.ConstructorActivity;
 
 import java.util.ArrayList;
@@ -37,19 +37,19 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamHolder> {
     public void onBindViewHolder(@NonNull TeamHolder holder, int position) {
         final Team team = mTeams.get(position);
 
-        holder.team.setText(team.getConstructor().getName());
-        holder.date.setText(String.valueOf(team.getStart()) + " • " + String.valueOf(team.getEnd()));
+        holder.team.setText(team.getName());
+        holder.date.setText(team.getYearStart() + " • " + team.getYearEnd());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int constructorId = team.getConstructor().getConstructorId();
-
-                Intent intent = new Intent(mContext, ConstructorActivity.class);
-                intent.putExtra("constructorId", constructorId);
-                mContext.startActivity(intent);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int constructorId = team.getConstructor().getConstructorId();
+//
+//                Intent intent = new Intent(mContext, ConstructorActivity.class);
+//                intent.putExtra("constructorId", constructorId);
+//                mContext.startActivity(intent);
+//            }
+//        });
     }
 
     public void setTeams(List<Team> teams) {

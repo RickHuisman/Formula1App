@@ -79,6 +79,14 @@ public class ErgastRepository {
         return mErgastApi.getConstructorStandings();
     }
 
+    public Observable<Feed> getDriverInfo(String driver) {
+        return mErgastApi.getDriverInfo(driver);
+    }
+
+    public Observable<Feed> getConstructorInfo(String constructor) {
+        return mErgastApi.getConstructorInfo(constructor);
+    }
+
     public LiveData<List<RaceResult>> getRaceResult(int raceId) {
         return mErgastDao.getRaceResult(raceId);
     }

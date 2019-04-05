@@ -26,26 +26,21 @@ public class ConstructorActivity extends ColorActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_constructor);
 
-        int constructorId = getIntent().getExtras().getInt("constructorId");
+        String constructorId = getIntent().getExtras().getString("constructorId");
+        String constructorName = getIntent().getExtras().getString("constructorName");
 
-        ConstructorViewModel constructorViewModel = ViewModelProviders.of(this).get(ConstructorViewModel.class);
-        constructorViewModel.getConstructor(constructorId).observe(this, new Observer<Constructor>() {
-            @Override
-            public void onChanged(Constructor constructor) {
-                setToolbarTitle(constructor.getName());
-            }
-        });
+        setToolbarTitle(constructorName);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        setTopAppBarColorsForTeamId(constructorId);
         setUpPagerAdapter(constructorId);
+        setTopAppBarColorsForTeamId(constructorId);
     }
 
-    private void setUpPagerAdapter(int constructorId) {
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+    private void setUpPagerAdapter(String constructorId) {
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), constructorId);
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(pagerAdapter);
 
@@ -65,15 +60,23 @@ public class ConstructorActivity extends ColorActivity {
 
     private class PagerAdapter extends FragmentPagerAdapter {
 
-        private PagerAdapter(FragmentManager fm) {
+        private String mConstructorId;
+
+        private PagerAdapter(FragmentManager fm, String constructorId) {
             super(fm);
+            this.mConstructorId = constructorId;
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
+                    Bundle bundle = new Bundle();
+                    bundle.putString("constructorId", mConstructorId);
+
                     ConstructorInfoFragment constructorInfoFragment = new ConstructorInfoFragment();
+                    constructorInfoFragment.setArguments(bundle);
+
                     return constructorInfoFragment;
                 case 1:
                     DriverResultsFragment fragment = new DriverResultsFragment();

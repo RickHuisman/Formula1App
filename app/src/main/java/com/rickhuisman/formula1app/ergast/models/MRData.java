@@ -10,6 +10,12 @@ public class MRData {
     @SerializedName("StandingsTable")
     private StandingsTable standingsTable;
 
+    @SerializedName("DriverTable")
+    private DriverTable driverTable;
+
+    @SerializedName("ConstructorTable")
+    private ConstructorTable constructorTable;
+
     public RaceTable getRaceTable() {
         return raceTable;
     }
@@ -24,5 +30,21 @@ public class MRData {
 
     public void setStandingsTable(StandingsTable standingsTable) {
         this.standingsTable = standingsTable;
+    }
+
+    public DriverTable getDriverTable() {
+        return driverTable;
+    }
+
+    public void setDriverTable(DriverTable driverTable) {
+        this.driverTable = driverTable;
+    }
+
+    public ConstructorTable getConstructorTable() {
+        return constructorTable;
+    }
+
+    public void setConstructorTable(ConstructorTable constructorTable) {
+        this.constructorTable = constructorTable;
     }
 }

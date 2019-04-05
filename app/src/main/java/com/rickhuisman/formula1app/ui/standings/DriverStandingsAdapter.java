@@ -49,7 +49,7 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             final Driver driver = mStandings.get(position - 1).getDriver();
             DriverStandings driverStanding = mStandings.get(position - 1);
 
-            String driverName = driver.getGivenName() + " " + driver.getFamilyName();
+            final String driverName = driver.getGivenName() + " " + driver.getFamilyName();
             standingsHolder.driver.setText(driverName.toUpperCase());
 
             standingsHolder.position.setText(driverStanding.getPositionText());
@@ -57,7 +57,7 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             standingsHolder.points.setText(driverStanding.getPoints());
 
-            String constructorId = mStandings.get(position - 1).getConstructors().get(0).getConstructorId();
+            final String constructorId = mStandings.get(position - 1).getConstructors().get(0).getConstructorId();
             DrawableCompat.setTint(standingsHolder.constructor.getDrawable(), mContext.getColor(getTeamColor(constructorId)));
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +65,8 @@ public class DriverStandingsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, DriverActivity.class);
                     intent.putExtra("driverId", driver.getDriverId());
+                    intent.putExtra("driverName", driverName);
+                    intent.putExtra("constructorId", constructorId);
                     mContext.startActivity(intent);
                 }
             });

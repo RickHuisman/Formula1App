@@ -3,6 +3,8 @@ package com.rickhuisman.formula1app.ergast.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Driver {
 
     @SerializedName("driverId")
@@ -36,6 +38,30 @@ public class Driver {
     @SerializedName("nationality")
     @Expose
     private String nationality;
+
+    @SerializedName("worldChampionships")
+    @Expose
+    private String worldChampionships;
+
+    @SerializedName("podiums")
+    @Expose
+    private String podiums;
+
+    @SerializedName("grandPrixEntered")
+    @Expose
+    private String grandPrixEntered;
+
+    @SerializedName("HighestRaceFinish")
+    @Expose
+    private HighestRaceFinish highestRaceFinish;
+
+    @SerializedName("HighestGridPosition")
+    @Expose
+    private HighestGridPosition highestGridPosition;
+
+    @SerializedName("Teams")
+    @Expose
+    private ArrayList<Team> teams;
 
     public String getDriverId() {
         return driverId;
@@ -99,5 +125,53 @@ public class Driver {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public String getWorldChampionships() {
+        return worldChampionships;
+    }
+
+    public void setWorldChampionships(String worldChampionships) {
+        this.worldChampionships = worldChampionships;
+    }
+
+    public String getPodiums() {
+        return podiums;
+    }
+
+    public void setPodiums(String podiums) {
+        this.podiums = podiums;
+    }
+
+    public String getGrandPrixEntered() {
+        return grandPrixEntered;
+    }
+
+    public void setGrandPrixEntered(String grandPrixEntered) {
+        this.grandPrixEntered = grandPrixEntered;
+    }
+
+    public HighestRaceFinish getHighestRaceFinish() {
+        return highestRaceFinish;
+    }
+
+    public void setHighestRaceFinish(HighestRaceFinish highestRaceFinish) {
+        this.highestRaceFinish = highestRaceFinish;
+    }
+
+    public HighestGridPosition getHighestGridPosition() {
+        return highestGridPosition;
+    }
+
+    public void setHighestGridPosition(HighestGridPosition highestGridPosition) {
+        this.highestGridPosition = highestGridPosition;
+    }
+
+    public ArrayList<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(ArrayList<Team> teams) {
+        this.teams = teams;
     }
 }

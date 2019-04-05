@@ -8,6 +8,7 @@ import com.rickhuisman.formula1app.ColorActivity;
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.db.entities.Driver;
 import com.rickhuisman.formula1app.ergast.db.entities.Result;
+import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.viewmodels.DriverViewModel;
 
 import androidx.annotation.Nullable;
@@ -26,31 +27,21 @@ public class DriverActivity extends ColorActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver);
 
-        int driverId = getIntent().getExtras().getInt("driverId");
+        String driverId = getIntent().getExtras().getString("driverId");
+        String driverName = getIntent().getExtras().getString("driverName");
+        String constructorId = getIntent().getExtras().getString("constructorId");
 
-        DriverViewModel driverViewModel = ViewModelProviders.of(this).get(DriverViewModel.class);
-        driverViewModel.getDriver(driverId).observe(this, new Observer<Driver>() {
-            @Override
-            public void onChanged(Driver driver) {
-                String driverName = driver.getForeName() + " " + driver.getSurName();
-                setToolbarTitle(driverName);
-            }
-        });
+        setToolbarTitle(driverName);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        driverViewModel.getResultForDriver(driverId).observe(this, new Observer<Result>() {
-            @Override
-            public void onChanged(Result result) {
-//                setTopAppBarColorsForTeamId(result.getConstructorId());
-            }
-        });
         setUpPagerAdapter(driverId);
+        setTopAppBarColorsForTeamId(constructorId);
     }
 
-    private void setUpPagerAdapter(int driverId) {
+    private void setUpPagerAdapter(String driverId) {
         PagerAdapter racePagerAdapter = new PagerAdapter(getSupportFragmentManager(), driverId);
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(racePagerAdapter);
@@ -71,9 +62,9 @@ public class DriverActivity extends ColorActivity {
 
     private class PagerAdapter extends FragmentPagerAdapter {
 
-        int driverId;
+        private String driverId;
 
-        private PagerAdapter(FragmentManager fm, int driverId) {
+        private PagerAdapter(FragmentManager fm, String driverId) {
             super(fm);
             this.driverId = driverId;
         }
@@ -83,16 +74,14 @@ public class DriverActivity extends ColorActivity {
             switch (position) {
                 case 0:
                     Bundle bundle = new Bundle();
-                    bundle.putInt("driverId", driverId);
+                    bundle.putString("driverId", driverId);
 
                     DriverInfoFragment driverInfoFragment = new DriverInfoFragment();
                     driverInfoFragment.setArguments(bundle);
 
                     return driverInfoFragment;
-                case 1:
-                    return new DriverResultsFragment();
                 default:
-                    return null;
+                    return new DriverResultsFragment();
             }
         }
 

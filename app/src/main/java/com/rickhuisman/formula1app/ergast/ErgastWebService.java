@@ -32,4 +32,12 @@ public interface ErgastWebService {
     @Headers("Content-Type: application/json")
     @GET("api/f1/current/constructorstandings.json")
     Observable<Feed> getConstructorStandings();
+
+    @Headers("Content-Type: application/json")
+    @GET("api/f1/driverinfo/{driver}.json")
+    Observable<Feed> getDriverInfo(@Path("driver") String driver);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/f1/constructorinfo/{constructor}.json")
+    Observable<Feed> getConstructorInfo(@Path("constructor") String constructor);
 }

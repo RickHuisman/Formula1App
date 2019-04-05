@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Constructor;
-import com.rickhuisman.formula1app.ergast.db.entities.ConstructorSeason;
-import com.rickhuisman.formula1app.ergast.db.entities.ConstructorWorldChampionship;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceCount;
+import com.rickhuisman.formula1app.ergast.models.Constructor;
+import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.viewmodels.ConstructorViewModel;
 
 import java.util.List;
@@ -29,49 +27,28 @@ public class ConstructorInfoFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        int constructorId = getActivity().getIntent().getExtras().getInt("constructorId");
+        String constructorId = getActivity().getIntent().getExtras().getString("constructorId");
 
         ConstructorViewModel constructorViewModel = ViewModelProviders.of(this).get(ConstructorViewModel.class);
-        constructorViewModel.getConstructor(constructorId).observe(this, new Observer<Constructor>() {
+        constructorViewModel.getConstructorInfo(constructorId).observe(this, new Observer<Feed>() {
             @Override
-            public void onChanged(Constructor constructor) {
+            public void onChanged(Feed feed) {
+                Constructor constructor = feed.getMrData().getConstructorTable().getConstructors().get(0);
+
+                TextView seasons = mView.findViewById(R.id.seasons);
+                seasons.setText(constructor.getSeasons().getSeasonFirst() + " - " + constructor.getSeasons().getSeasonLast());
+
                 TextView nationality = mView.findViewById(R.id.nationality);
                 nationality.setText(constructor.getNationality());
-            }
-        });
-        constructorViewModel.getSeasonsFor(constructorId).observe(this, new Observer<ConstructorSeason>() {
-            @Override
-            public void onChanged(ConstructorSeason constructorSeason) {
-                TextView seasons = mView.findViewById(R.id.seasons);
-                seasons.setText(String.valueOf(constructorSeason.getStart()) + " - " + String.valueOf(constructorSeason.getEnd()));
-            }
-        });
-        constructorViewModel.getWorldChampionshipsFor(constructorId).observe(this, new Observer<List<ConstructorWorldChampionship>>() {
-            @Override
-            public void onChanged(List<ConstructorWorldChampionship> constructorWorldChampionships) {
-                TextView worldChampionships = mView.findViewById(R.id.world_championships);
-                worldChampionships.setText(String.valueOf(constructorWorldChampionships.size()));
-            }
-        });
-        constructorViewModel.getRaceWinsFor(constructorId).observe(this, new Observer<RaceCount>() {
-            @Override
-            public void onChanged(RaceCount raceCount) {
+
                 TextView raceWins = mView.findViewById(R.id.race_wins);
-                raceWins.setText(String.valueOf(raceCount.getCount()));
-            }
-        });
-        constructorViewModel.getPolePositionsFor(constructorId).observe(this, new Observer<RaceCount>() {
-            @Override
-            public void onChanged(RaceCount raceCount) {
+                raceWins.setText(constructor.getRaceWins());
+
                 TextView polePositions = mView.findViewById(R.id.pole_positions);
-                polePositions.setText(String.valueOf(raceCount.getCount()));
-            }
-        });
-        constructorViewModel.getRaceCountFor(constructorId).observe(this, new Observer<RaceCount>() {
-            @Override
-            public void onChanged(RaceCount raceCount) {
+                polePositions.setText(constructor.getPolePositions());
+
                 TextView amountOfRaces = mView.findViewById(R.id.amount_of_races);
-                amountOfRaces.setText(String.valueOf(raceCount.getCount()));
+                amountOfRaces.setText(constructor.getGrandPrixEntered());
             }
         });
     }
