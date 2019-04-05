@@ -1,7 +1,6 @@
 package com.rickhuisman.formula1app.ui.racedetail;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceResultDriver;
 import com.rickhuisman.formula1app.ergast.models.PastWinner;
-import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,14 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Race;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceWithWinner;
 import com.rickhuisman.formula1app.ergast.models.Feed;
-import com.rickhuisman.formula1app.ergast.models.Races;
 import com.rickhuisman.formula1app.viewmodels.RaceScheduleViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

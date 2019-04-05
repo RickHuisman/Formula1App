@@ -3,11 +3,7 @@ package com.rickhuisman.formula1app.viewmodels;
 import android.app.Application;
 
 import com.rickhuisman.formula1app.ergast.ErgastRepository;
-import com.rickhuisman.formula1app.ergast.db.entities.ConstructorStandingsWithConstructorAndDrivers;
-import com.rickhuisman.formula1app.ergast.db.entities.DriverStandings;
 import com.rickhuisman.formula1app.ergast.models.Feed;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

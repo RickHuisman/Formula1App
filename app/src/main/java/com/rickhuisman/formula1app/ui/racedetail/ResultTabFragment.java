@@ -6,12 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.QualifyingResult;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
 import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.viewmodels.RaceViewModel;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

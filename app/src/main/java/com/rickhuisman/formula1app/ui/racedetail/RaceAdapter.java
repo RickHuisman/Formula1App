@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
 import com.rickhuisman.formula1app.ergast.models.Driver;
 import com.rickhuisman.formula1app.ergast.models.Result;
 import com.rickhuisman.formula1app.ui.driverdetail.DriverActivity;

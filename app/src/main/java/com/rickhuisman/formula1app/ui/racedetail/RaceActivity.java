@@ -6,18 +6,11 @@ import android.view.MenuItem;
 import com.google.android.material.tabs.TabLayout;
 import com.rickhuisman.formula1app.ColorActivity;
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Race;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceResult;
-import com.rickhuisman.formula1app.viewmodels.RaceViewModel;
-
-import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 public class RaceActivity extends ColorActivity {

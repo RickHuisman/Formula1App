@@ -3,17 +3,7 @@ package com.rickhuisman.formula1app.viewmodels;
 import android.app.Application;
 
 import com.rickhuisman.formula1app.ergast.ErgastRepository;
-import com.rickhuisman.formula1app.ergast.db.entities.Driver;
-import com.rickhuisman.formula1app.ergast.db.entities.HighestGrid;
-import com.rickhuisman.formula1app.ergast.db.entities.HighestRaceFinish;
-import com.rickhuisman.formula1app.ergast.db.entities.PodiumCount;
-import com.rickhuisman.formula1app.ergast.db.entities.RaceCount;
-import com.rickhuisman.formula1app.ergast.db.entities.Result;
-import com.rickhuisman.formula1app.ergast.db.entities.Team;
-import com.rickhuisman.formula1app.ergast.db.entities.WorldChampionships;
 import com.rickhuisman.formula1app.ergast.models.Feed;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

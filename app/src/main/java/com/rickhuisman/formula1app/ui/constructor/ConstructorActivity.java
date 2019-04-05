@@ -6,17 +6,13 @@ import android.view.MenuItem;
 import com.google.android.material.tabs.TabLayout;
 import com.rickhuisman.formula1app.ColorActivity;
 import com.rickhuisman.formula1app.R;
-import com.rickhuisman.formula1app.ergast.db.entities.Constructor;
 import com.rickhuisman.formula1app.ui.driverdetail.DriverResultsFragment;
-import com.rickhuisman.formula1app.viewmodels.ConstructorViewModel;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 public class ConstructorActivity extends ColorActivity {
