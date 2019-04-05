@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Feed;
@@ -23,6 +24,8 @@ public class StandingsTabFragment extends Fragment {
     private static final int CONSTRUCTOR_STANDINGS = 1;
 
     private View mView;
+    private ProgressBar mProgressBar;
+    private RecyclerView mStandingsList;
 
     private DriverStandingsAdapter mDriversStandingsAdapter;
     private ConstructorStandingsAdapter mConstructorStandingsAdapter;
@@ -33,20 +36,25 @@ public class StandingsTabFragment extends Fragment {
 
         int standingsType = getArguments().getInt("standingsType");
 
-        RecyclerView standingsList = mView.findViewById(R.id.standings);
-        standingsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        standingsList.setHasFixedSize(true);
+        mStandingsList = mView.findViewById(R.id.standings);
+
+        mProgressBar = mView.findViewById(R.id.progressbar);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mStandingsList.setVisibility(View.INVISIBLE);
+
+        mStandingsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mStandingsList.setHasFixedSize(true);
 
         StandingsViewModel standingsViewModel = ViewModelProviders.of(this).get(StandingsViewModel.class);
 
         if (standingsType == DRIVER_STANDINGS) {
             mDriversStandingsAdapter = new DriverStandingsAdapter(getContext());
-            standingsList.setAdapter(mDriversStandingsAdapter);
+            mStandingsList.setAdapter(mDriversStandingsAdapter);
 
             standingsViewModel.getDriverStandings().observe(this, driverStandingsObserver);
         } else if (standingsType == CONSTRUCTOR_STANDINGS) {
             mConstructorStandingsAdapter = new ConstructorStandingsAdapter(getContext());
-            standingsList.setAdapter(mConstructorStandingsAdapter);
+            mStandingsList.setAdapter(mConstructorStandingsAdapter);
 
             standingsViewModel.getConstructorStandings().observe(this, constructorStandingsObserver);
         }
@@ -63,6 +71,8 @@ public class StandingsTabFragment extends Fragment {
     private Observer<Feed> driverStandingsObserver = new Observer<Feed>() {
         @Override
         public void onChanged(Feed feed) {
+            mStandingsList.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.INVISIBLE);
             mDriversStandingsAdapter.setStandings(
                     feed.getMrData().getStandingsTable().getStandingsLists().get(0).getDriverStandings());
         }
@@ -71,6 +81,8 @@ public class StandingsTabFragment extends Fragment {
     private Observer<Feed> constructorStandingsObserver = new Observer<Feed>() {
         @Override
         public void onChanged(Feed feed) {
+            mStandingsList.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.INVISIBLE);
             mConstructorStandingsAdapter.setStandings(
                     feed.getMrData().getStandingsTable().getStandingsLists().get(0).getConstructorStandings());
         }

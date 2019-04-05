@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Feed;
@@ -31,6 +32,8 @@ public class ScheduleFragment extends Fragment {
     private View mView;
     private RaceScheduleAdapter mAdapter;
     private RaceScheduleViewModel mRaceScheduleViewModel;
+    private RecyclerView mRaceSchedule;
+    private ProgressBar mProgressBar;
     private MenuItem oldSelectedItem = null;
 
     @Override
@@ -42,12 +45,14 @@ public class ScheduleFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        RecyclerView raceSchedule = mView.findViewById(R.id.race_schedule);
-        raceSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
-        raceSchedule.setHasFixedSize(true);
+        mProgressBar = mView.findViewById(R.id.progressbar);
+
+        mRaceSchedule = mView.findViewById(R.id.race_schedule);
+        mRaceSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRaceSchedule.setHasFixedSize(true);
 
         mAdapter = new RaceScheduleAdapter(getContext());
-        raceSchedule.setAdapter(mAdapter);
+        mRaceSchedule.setAdapter(mAdapter);
 
         mRaceScheduleViewModel = ViewModelProviders.of(this).get(RaceScheduleViewModel.class);
         mRaceScheduleViewModel.getRaceSchedule(2019).observe(this, raceScheduleObserver);
@@ -65,6 +70,8 @@ public class ScheduleFragment extends Fragment {
     private Observer<Feed> raceScheduleObserver = new Observer<Feed>() {
         @Override
         public void onChanged(@Nullable Feed feed) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mRaceSchedule.setVisibility(View.VISIBLE);
             mAdapter.setSchedule(feed.getMrData().getRaceTable().getRaces());
         }
     };
@@ -97,6 +104,8 @@ public class ScheduleFragment extends Fragment {
             oldSelectedItem = item;
 
             mRaceScheduleViewModel.getRaceSchedule(season).observe(this, raceScheduleObserver);
+            mRaceSchedule.setVisibility(View.INVISIBLE);
+            mProgressBar.setVisibility(View.VISIBLE);
 
             setUpToolbar(season);
         }

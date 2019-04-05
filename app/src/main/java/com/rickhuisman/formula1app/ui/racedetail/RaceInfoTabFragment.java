@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Circuit;
 import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.ergast.models.LapRecord;
+import com.rickhuisman.formula1app.ergast.models.Races;
 import com.rickhuisman.formula1app.ergast.models.Summary;
 import com.rickhuisman.formula1app.viewmodels.RaceViewModel;
 
@@ -23,6 +25,7 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -32,6 +35,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RaceInfoTabFragment extends Fragment {
 
     private View mView;
+    private ProgressBar mProgressBar;
+    private NestedScrollView mContent;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -39,11 +44,20 @@ public class RaceInfoTabFragment extends Fragment {
 
         int season = getArguments().getInt("season");
         int round = getArguments().getInt("round");
+        String constructorId = getArguments().getString("constructorId");
+
+        mProgressBar = mView.findViewById(R.id.progressbar);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setIndeterminateTintList(getContext().getColorStateList(getTeamColor(constructorId)));
+
+        mContent = mView.findViewById(R.id.content);
+        mContent.setVisibility(View.INVISIBLE);
 
         RaceViewModel raceViewModel = ViewModelProviders.of(this).get(RaceViewModel.class);
         raceViewModel.getRaceInfo(season, round).observe(this, new Observer<Feed>() {
             @Override
             public void onChanged(Feed feed) {
+                mProgressBar.setVisibility(View.INVISIBLE);
 
                 Summary summary = feed.getMrData().getRaceTable().getRaces().get(0).getSummary();
 
@@ -80,6 +94,9 @@ public class RaceInfoTabFragment extends Fragment {
                 circuitName.setText(circuit.getCircuitName());
                 firstGrandPrix.setText(circuit.getFirstGrandPrix());
 
+                TextView raceDateTime = mView.findViewById(R.id.race_date_time);
+                raceDateTime.setText(getRaceDate(feed.getMrData().getRaceTable().getRaces().get(0)));
+
                 RecyclerView list = mView.findViewById(R.id.race_winner_list);
                 list.setLayoutManager(new LinearLayoutManager(getContext()));
                 list.setHasFixedSize(true);
@@ -87,31 +104,10 @@ public class RaceInfoTabFragment extends Fragment {
                 RaceWinnersAdapter adapter = new RaceWinnersAdapter(getContext());
                 list.setAdapter(adapter);
                 adapter.setResults(feed.getMrData().getRaceTable().getRaces().get(0).getPastWinners());
+
+                mContent.setVisibility(View.VISIBLE);
             }
         });
-//        raceViewModel.getRace(raceId).observe(this, new Observer<Race>() {
-//            @Override
-//            public void onChanged(Race race) {
-//
-//                DateTime test = getRaceDate(race);
-//                DateTime now = DateTime.now();
-//
-//                if (test.compareTo(now) > 0) {
-//                    setRaceSummaryGone();
-//                } else {
-//                    raceViewModel.getRaceWinner(race.getRaceId()).observe(getViewLifecycleOwner(), raceWinnerObserver);
-//                    raceViewModel.getPolePosition(race.getRaceId()).observe(getViewLifecycleOwner(), qualifyingResultObserver);
-//                    raceViewModel.getHighestClimb(race.getRaceId()).observe(getViewLifecycleOwner(), highestClimbObserver);
-//                }
-//
-//                int circuitId = race.getCircuitId();
-//
-//                raceViewModel.getCircuitAndFirstGP(circuitId).observe(getViewLifecycleOwner(), circuitAndFirstGPObserver);
-//                raceViewModel.getRaceResultForCircuit(circuitId).observe(getViewLifecycleOwner(), raceResultDriverObserver);
-//                raceViewModel.getLapRecordFor(circuitId).observe(getViewLifecycleOwner(), lapRecordObserver);
-//            }
-//        });
-//        raceViewModel.getRaceDate(raceId).observe(this, raceDateObserver);
     }
 
     @Nullable
@@ -122,45 +118,23 @@ public class RaceInfoTabFragment extends Fragment {
         return mView;
     }
 
-//    private DateTime getRaceDate(Race race) {
-//        if (race.getTime() != null) {
-//
-//            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-//            return format.parseDateTime(race.getDate() + " " + race.getTime());
-//        } else {
-//
-//            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
-//            return format.parseDateTime(race.getDate());
-//        }
-//    }
-//
-//    private void setRaceSummaryGone() {
-//        TextView raceSummaryTextView = mView.findViewById(R.id.race_summary_text_view);
-//        raceSummaryTextView.setVisibility(View.GONE);
-//
-//        LinearLayout raceWinnerLayout = mView.findViewById(R.id.race_winner_layout);
-//        raceWinnerLayout.setVisibility(View.GONE);
-//
-//        LinearLayout polePositionLayout = mView.findViewById(R.id.pole_position_layout);
-//        polePositionLayout.setVisibility(View.GONE);
-//
-//        LinearLayout fastestLapLayout = mView.findViewById(R.id.fastest_lap_layout);
-//        fastestLapLayout.setVisibility(View.GONE);
-//
-//        LinearLayout highestClimberLayout = mView.findViewById(R.id.highest_climber_layout);
-//        highestClimberLayout.setVisibility(View.GONE);
-//    }
-//
-//    private Observer<List<RaceResultDriver>> raceResultDriverObserver = new Observer<List<RaceResultDriver>>() {
-//        @Override
-//        public void onChanged(List<RaceResultDriver> results) {
-//            RecyclerView list = mView.findViewById(R.id.race_winner_list);
-//            list.setLayoutManager(new LinearLayoutManager(getContext()));
-//            list.setHasFixedSize(true);
-//
-//            RaceWinnersAdapter adapter = new RaceWinnersAdapter(getContext());
-//            list.setAdapter(adapter);
-//            adapter.setResults(results);
-//        }
-//    };
+    private int getTeamColor(String constructorId) {
+        return getContext().getResources().getIdentifier(
+                "constructor_" + constructorId, "color", getContext().getPackageName());
+    }
+
+    private String getRaceDate(Races race) {
+        if (race.getTime() != null) {
+
+            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ssZ");
+            DateTime formattedDateTime = format.parseDateTime(race.getDate() + " " + race.getTime());
+
+            return formattedDateTime.toString("dd MMM, HH:mm", Locale.ENGLISH).toLowerCase();
+        } else {
+
+            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
+            DateTime formattedDate = format.parseDateTime(race.getDate());
+            return formattedDate.toString("dd MMM", Locale.ENGLISH).toLowerCase();
+        }
+    }
 }

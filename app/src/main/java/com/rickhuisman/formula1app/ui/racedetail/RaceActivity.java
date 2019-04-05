@@ -32,7 +32,7 @@ public class RaceActivity extends ColorActivity {
 
         setTopAppBarColorsForTeamId(constructorId);
 
-        RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), season, round);
+        RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), season, round, constructorId);
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(racePagerAdapter);
 
@@ -52,11 +52,13 @@ public class RaceActivity extends ColorActivity {
     public class RacePagerAdapter extends FragmentPagerAdapter {
         private int season;
         private int round;
+        private String constructorId;
 
-        public RacePagerAdapter(FragmentManager fm, int season, int round) {
+        public RacePagerAdapter(FragmentManager fm, int season, int round, String constructorId) {
             super(fm);
             this.season = season;
             this.round = round;
+            this.constructorId = constructorId;
         }
 
         @Override
@@ -64,6 +66,7 @@ public class RaceActivity extends ColorActivity {
             Bundle bundle = new Bundle();
             bundle.putInt("season", season);
             bundle.putInt("round", round);
+            bundle.putString("constructorId", constructorId);
             ResultTabFragment resultTabFragment = new ResultTabFragment();
 
             switch (position) {

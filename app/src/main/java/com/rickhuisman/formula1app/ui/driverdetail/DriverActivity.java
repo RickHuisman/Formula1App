@@ -31,12 +31,12 @@ public class DriverActivity extends ColorActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setUpPagerAdapter(driverId);
+        setUpPagerAdapter(driverId, constructorId);
         setTopAppBarColorsForTeamId(constructorId);
     }
 
-    private void setUpPagerAdapter(String driverId) {
-        PagerAdapter racePagerAdapter = new PagerAdapter(getSupportFragmentManager(), driverId);
+    private void setUpPagerAdapter(String driverId, String constructorId) {
+        PagerAdapter racePagerAdapter = new PagerAdapter(getSupportFragmentManager(), driverId, constructorId);
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(racePagerAdapter);
 
@@ -57,10 +57,12 @@ public class DriverActivity extends ColorActivity {
     private class PagerAdapter extends FragmentPagerAdapter {
 
         private String driverId;
+        private String constructorId;
 
-        private PagerAdapter(FragmentManager fm, String driverId) {
+        private PagerAdapter(FragmentManager fm, String driverId, String constructorId) {
             super(fm);
             this.driverId = driverId;
+            this.constructorId = constructorId;
         }
 
         @Override
@@ -69,6 +71,7 @@ public class DriverActivity extends ColorActivity {
                 case 0:
                     Bundle bundle = new Bundle();
                     bundle.putString("driverId", driverId);
+                    bundle.putString("constructorId", constructorId);
 
                     DriverInfoFragment driverInfoFragment = new DriverInfoFragment();
                     driverInfoFragment.setArguments(bundle);
