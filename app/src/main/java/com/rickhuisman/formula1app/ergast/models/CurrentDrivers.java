@@ -24,4 +24,44 @@ public class CurrentDrivers {
     @SerializedName("highestFinish")
     @Expose
     private String highestFinish;
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public String getOutQualified() {
+        return outQualified;
+    }
+
+    public void setOutQualified(String outQualified) {
+        this.outQualified = outQualified;
+    }
+
+    public String getRaceCount() {
+        return raceCount;
+    }
+
+    public void setRaceCount(String raceCount) {
+        this.raceCount = raceCount;
+    }
+
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
+    }
+
+    public String getHighestFinish() {
+        return highestFinish;
+    }
+
+    public void setHighestFinish(String highestFinish) {
+        this.highestFinish = highestFinish;
+    }
 }

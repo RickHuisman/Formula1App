@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Constructor;
+import com.rickhuisman.formula1app.ergast.models.CurrentDrivers;
 import com.rickhuisman.formula1app.ergast.models.Feed;
 import com.rickhuisman.formula1app.viewmodels.ConstructorViewModel;
 
@@ -62,6 +63,41 @@ public class ConstructorInfoFragment extends Fragment {
 
                 TextView amountOfRaces = mView.findViewById(R.id.amount_of_races);
                 amountOfRaces.setText(constructor.getGrandPrixEntered());
+
+                CurrentDrivers currentDriverOne = constructor.getCurrentDrivers().get(0);
+                CurrentDrivers currentDriverTwo = constructor.getCurrentDrivers().get(1);
+
+                TextView driverOne = mView.findViewById(R.id.driver_one);
+                String driverOneName = currentDriverOne.getDriver().getGivenName() + " " + currentDriverOne.getDriver().getFamilyName();
+                driverOne.setText(driverOneName);
+
+                TextView driverTwo = mView.findViewById(R.id.driver_two);
+                String driverTwoName = currentDriverTwo.getDriver().getGivenName() + " " + currentDriverTwo.getDriver().getFamilyName();
+                driverTwo.setText(driverTwoName);
+
+                TextView raceCountOne = mView.findViewById(R.id.race_count_one);
+                raceCountOne.setText(currentDriverOne.getRaceCount());
+
+                TextView raceCountTwo = mView.findViewById(R.id.race_count_two);
+                raceCountTwo.setText(currentDriverTwo.getRaceCount());
+
+                TextView pointsOne = mView.findViewById(R.id.points_one);
+                pointsOne.setText(currentDriverOne.getPoints());
+
+                TextView pointsTwo = mView.findViewById(R.id.points_two);
+                pointsTwo.setText(currentDriverTwo.getPoints());
+
+                TextView outQualifiedOne = mView.findViewById(R.id.outqualified_one);
+                outQualifiedOne.setText(currentDriverOne.getOutQualified());
+
+                TextView outQualifiedTwo = mView.findViewById(R.id.outqualified_two);
+                outQualifiedTwo.setText(currentDriverTwo.getOutQualified());
+
+                TextView highestFinishOne = mView.findViewById(R.id.highest_finish_one);
+                highestFinishOne.setText(currentDriverOne.getHighestFinish());
+
+                TextView highestFinishTwo = mView.findViewById(R.id.highest_finish_two);
+                highestFinishTwo.setText(currentDriverTwo.getHighestFinish());
 
                 mContent.setVisibility(View.VISIBLE);
             }
