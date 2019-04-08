@@ -58,6 +58,12 @@ public class ConstructorInfoFragment extends Fragment {
                 TextView raceWins = mView.findViewById(R.id.race_wins);
                 raceWins.setText(constructor.getRaceWins());
 
+                TextView worldChampionships = mView.findViewById(R.id.world_championships);
+                worldChampionships.setText(constructor.getWorldChampionships());
+
+                TextView driverWorldchampionships = mView.findViewById(R.id.driver_worldchampionships);
+                driverWorldchampionships.setText(constructor.getDriverWorldChampionships());
+
                 TextView polePositions = mView.findViewById(R.id.pole_positions);
                 polePositions.setText(constructor.getPolePositions());
 

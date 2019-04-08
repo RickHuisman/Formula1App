@@ -61,6 +61,11 @@ public class RaceViewModel extends AndroidViewModel {
                     public void accept(Feed feed) {
                         ((MutableLiveData<Feed>) mResults).setValue(feed);
                     }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        System.out.println(throwable.getMessage());
+                    }
                 }));
         return mResults;
     }

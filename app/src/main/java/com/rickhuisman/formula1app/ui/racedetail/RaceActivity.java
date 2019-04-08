@@ -30,7 +30,11 @@ public class RaceActivity extends ColorActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setTopAppBarColorsForTeamId(constructorId);
+        if (constructorId.isEmpty()) {
+            setTopAppBarColorsFor(getApplicationContext().getColor(R.color.colorPrimary));
+        } else {
+            setTopAppBarColorsForTeamId(constructorId);
+        }
 
         RacePagerAdapter racePagerAdapter = new RacePagerAdapter(getSupportFragmentManager(), season, round, constructorId);
         ViewPager viewPager = findViewById(R.id.container);

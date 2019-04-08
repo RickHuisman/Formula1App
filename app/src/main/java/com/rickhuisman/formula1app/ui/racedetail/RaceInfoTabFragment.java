@@ -48,7 +48,12 @@ public class RaceInfoTabFragment extends Fragment {
 
         mProgressBar = mView.findViewById(R.id.progressbar);
         mProgressBar.setVisibility(View.VISIBLE);
-        mProgressBar.setIndeterminateTintList(getContext().getColorStateList(getTeamColor(constructorId)));
+
+        if (constructorId.isEmpty()) {
+            mProgressBar.setIndeterminateTintList(getContext().getColorStateList(R.color.colorAccent));
+        } else {
+            mProgressBar.setIndeterminateTintList(getContext().getColorStateList(getTeamColor(constructorId)));
+        }
 
         mContent = mView.findViewById(R.id.content);
         mContent.setVisibility(View.INVISIBLE);

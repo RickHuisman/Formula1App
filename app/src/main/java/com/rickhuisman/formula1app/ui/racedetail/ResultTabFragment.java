@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.rickhuisman.formula1app.R;
 import com.rickhuisman.formula1app.ergast.models.Feed;
@@ -49,7 +50,12 @@ public class ResultTabFragment extends Fragment {
 
         mProgressBar = mView.findViewById(R.id.progressbar);
         mProgressBar.setVisibility(View.VISIBLE);
-        mProgressBar.setIndeterminateTintList(getContext().getColorStateList(getTeamColor(constructorId)));
+
+        if (constructorId.isEmpty()) {
+            mProgressBar.setIndeterminateTintList(getContext().getColorStateList(R.color.colorAccent));
+        } else {
+            mProgressBar.setIndeterminateTintList(getContext().getColorStateList(getTeamColor(constructorId)));
+        }
 
         if (resultType == QUALIFYING_RESULT_FRAGMENT) {
             mQualifyingAdapter = new QualifyingAdapter(getContext());
@@ -81,18 +87,34 @@ public class ResultTabFragment extends Fragment {
     private Observer<Feed> QualifyingObserver = new Observer<Feed>() {
         @Override
         public void onChanged(Feed feed) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mQualifyingAdapter.setQualifying(feed.getMrData().getRaceTable().getRaces().get(0).getQualifyingResults());
-            mResultList.setVisibility(View.VISIBLE);
+            if (feed.getMrData().getRaceTable().getRaces().size() == 0) {
+                TextView errorTextView = mView.findViewById(R.id.error);
+                errorTextView.setText("No qualifying results found");
+
+                mProgressBar.setVisibility(View.INVISIBLE);
+                errorTextView.setVisibility(View.VISIBLE);
+            } else {
+                mProgressBar.setVisibility(View.INVISIBLE);
+                mQualifyingAdapter.setQualifying(feed.getMrData().getRaceTable().getRaces().get(0).getQualifyingResults());
+                mResultList.setVisibility(View.VISIBLE);
+            }
         }
     };
 
     private Observer<Feed> RaceResultsObserver = new Observer<Feed>() {
         @Override
         public void onChanged(Feed feed) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mRaceAdapter.setRaceResult(feed.getMrData().getRaceTable().getRaces().get(0).getResults());
-            mResultList.setVisibility(View.VISIBLE);
+            if (feed.getMrData().getRaceTable().getRaces().size() == 0) {
+                TextView errorTextView = mView.findViewById(R.id.error);
+                errorTextView.setText("No results found");
+
+                mProgressBar.setVisibility(View.INVISIBLE);
+                errorTextView.setVisibility(View.VISIBLE);
+            } else {
+                mProgressBar.setVisibility(View.INVISIBLE);
+                mRaceAdapter.setRaceResult(feed.getMrData().getRaceTable().getRaces().get(0).getResults());
+                mResultList.setVisibility(View.VISIBLE);
+            }
         }
     };
 }

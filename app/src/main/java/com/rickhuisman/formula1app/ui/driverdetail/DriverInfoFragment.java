@@ -72,7 +72,7 @@ public class DriverInfoFragment extends Fragment {
 
                 TextView raceFinish = mView.findViewById(R.id.highest_race_finish);
                 String text = driver.getHighestRaceFinish().getPosition()
-                        + " (x" + driver.getHighestGridPosition().getAmount() + ")";
+                        + " (x" + driver.getHighestRaceFinish().getAmount() + ")";
                 raceFinish.setText(text);
 
                 TextView highestGridCount = mView.findViewById(R.id.highest_grid_position);
