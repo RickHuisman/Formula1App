@@ -31,6 +31,14 @@ public class Constructor {
     @Expose
     private String raceWins;
 
+    @SerializedName("worldChampionships")
+    @Expose
+    private String worldChampionships;
+
+    @SerializedName("driverWorldChampionships")
+    @Expose
+    private String driverWorldChampionships;
+
     @SerializedName("polePositions")
     @Expose
     private String polePositions;
@@ -89,6 +97,22 @@ public class Constructor {
 
     public void setRaceWins(String raceWins) {
         this.raceWins = raceWins;
+    }
+
+    public String getWorldChampionships() {
+        return worldChampionships;
+    }
+
+    public void setWorldChampionships(String worldChampionships) {
+        this.worldChampionships = worldChampionships;
+    }
+
+    public String getDriverWorldChampionships() {
+        return driverWorldChampionships;
+    }
+
+    public void setDriverWorldChampionships(String driverWorldChampionships) {
+        this.driverWorldChampionships = driverWorldChampionships;
     }
 
     public String getPolePositions() {
