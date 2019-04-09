@@ -59,7 +59,11 @@ public class DriverInfoFragment extends Fragment {
                 nationality.setText(driver.getNationality());
 
                 TextView number = mView.findViewById(R.id.number);
-                number.setText(driver.getPermanentNumber());
+                if (driver.getPermanentNumber() == null) {
+                    number.setText("-");
+                } else {
+                    number.setText(driver.getPermanentNumber());
+                }
 
                 TextView podiums = mView.findViewById(R.id.podium_count);
                 podiums.setText(driver.getPodiums());
@@ -76,9 +80,13 @@ public class DriverInfoFragment extends Fragment {
                 raceFinish.setText(text);
 
                 TextView highestGridCount = mView.findViewById(R.id.highest_grid_position);
-                String test = driver.getHighestGridPosition().getPosition()
-                        + " (x" + driver.getHighestGridPosition().getAmount() + ")";
-                highestGridCount.setText(test);
+                if (driver.getHighestGridPosition() == null) {
+                    highestGridCount.setText("-");
+                } else {
+                    String test = driver.getHighestGridPosition().getPosition()
+                            + " (x" + driver.getHighestGridPosition().getAmount() + ")";
+                    highestGridCount.setText(test);
+                }
 
                 RecyclerView list = mView.findViewById(R.id.list);
                 list.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -66,23 +66,28 @@ public class RaceInfoTabFragment extends Fragment {
 
                 Summary summary = feed.getMrData().getRaceTable().getRaces().get(0).getSummary();
 
-                TextView raceWinner = mView.findViewById(R.id.date_of_birth);
-                raceWinner.setText(summary.getRaceWinner());
+                if (!summary.getRaceWinner().equals(" ")) {
+                    TextView raceWinner = mView.findViewById(R.id.date_of_birth);
+                    raceWinner.setText(summary.getRaceWinner());
 
-                TextView polePosition = mView.findViewById(R.id.nationality);
-                polePosition.setText(summary.getPolePosition());
+                    TextView polePosition = mView.findViewById(R.id.nationality);
+                    polePosition.setText(summary.getPolePosition());
 
-                TextView fastestLapDriver = mView.findViewById(R.id.fastest_lap_driver);
-                TextView fastestLapTime = mView.findViewById(R.id.fastest_lap_time);
+                    TextView fastestLapDriver = mView.findViewById(R.id.fastest_lap_driver);
+                    TextView fastestLapTime = mView.findViewById(R.id.fastest_lap_time);
 
-                fastestLapDriver.setText(summary.getFastestLap().getDriver().getGivenName() + " " + summary.getFastestLap().getDriver().getFamilyName());
-                fastestLapTime.setText(summary.getFastestLap().getLapTime());
+                    fastestLapDriver.setText(summary.getFastestLap().getDriver().getGivenName() + " " + summary.getFastestLap().getDriver().getFamilyName());
+                    fastestLapTime.setText(summary.getFastestLap().getLapTime());
 
-                TextView climber = mView.findViewById(R.id.highest_climber);
-                TextView positions = mView.findViewById(R.id.highest_climber_amount);
+                    TextView climber = mView.findViewById(R.id.highest_climber);
+                    TextView positions = mView.findViewById(R.id.highest_climber_amount);
 
-                climber.setText(summary.getHighestClimber().getDriver().getGivenName() + " " + summary.getHighestClimber().getDriver().getFamilyName());
-                positions.setText(summary.getHighestClimber().getPositions() + " positions");
+                    climber.setText(summary.getHighestClimber().getDriver().getGivenName() + " " + summary.getHighestClimber().getDriver().getFamilyName());
+                    positions.setText(summary.getHighestClimber().getPositions() + " positions");
+                } else {
+                    LinearLayout linearLayout = mView.findViewById(R.id.summary_layout);
+                    linearLayout.setVisibility(View.GONE);
+                }
 
                 LapRecord lapRecord = feed.getMrData().getRaceTable().getRaces().get(0).getLapRecord();
 

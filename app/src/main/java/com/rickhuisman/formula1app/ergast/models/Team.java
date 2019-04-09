@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Team {
 
-    @SerializedName("name")
+    @SerializedName("Constructor")
     @Expose
-    private String name;
+    private Constructor constructor;
 
     @SerializedName("yearStart")
     @Expose
@@ -17,12 +17,12 @@ public class Team {
     @Expose
     private String yearEnd;
 
-    public String getName() {
-        return name;
+    public Constructor getConstructor() {
+        return constructor;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setConstructor(Constructor constructor) {
+        this.constructor = constructor;
     }
 
     public String getYearStart() {

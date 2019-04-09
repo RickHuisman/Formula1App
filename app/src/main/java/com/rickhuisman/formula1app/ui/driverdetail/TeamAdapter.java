@@ -37,19 +37,21 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamHolder> {
     public void onBindViewHolder(@NonNull TeamHolder holder, int position) {
         final Team team = mTeams.get(position);
 
-        holder.team.setText(team.getName());
+        final String constructorName = team.getConstructor().getName();
+        holder.team.setText(constructorName);
         holder.date.setText(team.getYearStart() + " • " + team.getYearEnd());
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                int constructorId = team.getConstructor().getConstructorId();
-//
-//                Intent intent = new Intent(mContext, ConstructorActivity.class);
-//                intent.putExtra("constructorId", constructorId);
-//                mContext.startActivity(intent);
-//            }
-//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String constructorId = team.getConstructor().getConstructorId();
+
+                Intent intent = new Intent(mContext, ConstructorActivity.class);
+                intent.putExtra("constructorId", constructorId);
+                intent.putExtra("constructorName", constructorName);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     public void setTeams(List<Team> teams) {
